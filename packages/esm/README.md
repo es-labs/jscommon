@@ -7,40 +7,33 @@ Store JS files used by both frontend and backend
 
 ## Installation
 
-1. from github (better for development)
-
-```
-npm install https://github.com/es-labs/esm#semver:^0.0.14
-```
-
-2. from npm
-
-```
-cd js-node/expressjs
+```bash
 npm i @es-labs/esm
 ```
 
 ## Publishing packages to npm
 
+**IMPORTANT** before publishing bump version using `npm version` command (see npm version --help for explanation)
+
+Use Github actions or...
+
 ```bash
 # need to use --access public as it is scoped package on free plan
-cd @es-labs/esm
 npm publish --access public
 ```
+
+---
 
 ## Useful aliasing for web components
 
 
-browser may already have these useful...
+browser may already have these...
 
 const $ = (selector, el = document) => el.querySelector(selector)
 const $$ = (selector, el = document) => el.querySelectorAll(selector)
 
 Element.prototype.on = Element.prototype.addEventListener
-how to auto unload event listener?
-
-
----
+TBD: how to auto unload event listener?
 
 ## Custom Element (Web Component) Samples
 
@@ -50,9 +43,7 @@ A component for capturing signature using canvas (component name: vcxwc-sign-pad
 
 Component file location [sign-pad.js](sign-pad.js)
 
-Example can be found on js-web/vue-vite DemoSignPad page
-
-Example Usage file location [DemoSignPad.vue](https://github.com/ais-one/cookbook/blob/master/js-web/vue-vite/src/apps/web-demo/views/Demo/DemoSignPad.vue))
+Example Usage file location [DemoSignPad.vue](https://github.com/ais-one/vue-antd-template/blob/develop/src/apps/web-template/views/Demo/DemoSignPad.vue))
 
 Features
 - handle attibutes and properties
@@ -81,9 +72,7 @@ A component for capturing image using webcam (component name: vcxwc-web-cam)
 
 Component file location [web-cam.js](web-cam.js)
 
-Example can be found on js-web/vue-vite DemoWebCam page
-
-Example Usage file location [DemoWebCam.vue]([../js-web/vue-vite/src/pages](https://github.com/ais-one/cookbook/blob/master/js-web/vue-vite/src/apps/web-demo/views/Demo/DemoWebCam.vue)
+Example Usage file location [DemoWebCam.vue](https://github.com/ais-one/vue-antd-template/blob/develop/src/apps/web-template/views/Demo/DemoWebCam.vue)
 
 Features
 - shadowDOM and litDOM

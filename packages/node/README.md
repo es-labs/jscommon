@@ -1,6 +1,6 @@
 ## Description
 
-Node JS only libraries for backend
+Common JS libraries for NodeJS applications
 
 - auth: authorization
 - comms:  for communications
@@ -13,23 +13,10 @@ Node JS only libraries for backend
 - package.json
 - traps.js: error trapping
 
-
 Refer to [https://github.com/ais-one/cookbook/tree/master/js-node/expressjs](https://github.com/ais-one/cookbook/tree/master/js-node/expressjs) folder for usage
 
 
 ## Installation
-
-1. from github (better for development)
-
-```bash
-npm install https://github.com/es-labs/node# # latest default
-
-# or
-
-npm install https://github.com/es-labs/node#0.0.15 # specific tag
-```
-
-2. from npm
 
 ```bash
 npm i @es-labs/node
@@ -37,8 +24,11 @@ npm i @es-labs/node
 
 ## Publishing packages to npm
 
+**IMPORTANT** before publishing bump version using `npm version` command (see npm version --help for explanation)
+
+Use Github actions or...
+
 ```bash
 # need to use --access public as it is scoped package on free plan
-cd @es-labs/node
 npm publish --access public
 ```

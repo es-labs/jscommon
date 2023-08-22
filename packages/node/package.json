@@ -7,14 +7,9 @@
     "type": "git",
     "url": "git+https://github.com/es-labs/jslib.git"
   },
-  "bugs": {
-    "url": "https://github.com/es-labs/jslib/issues"
-  },
+  "bugs": { "url": "https://github.com/es-labs/jslib/issues" },
   "homepage": "https://github.com/es-labs/jslib#readme",
-  "keywords": [
-    "nodejs",
-    "express"
-  ],
+  "keywords": [ "javscript", "commonjs" ],
   "description": "Reusable CJS code",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
