@@ -26,7 +26,7 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           registry-url: 'https://registry.npmjs.org'
-      - run: npm install --production --workspace=packages/${{ github.event.inputs.pkg }}
+      # - run: npm install --production --workspace=packages/${{ github.event.inputs.pkg }} # NOT NEEDED CURRENTLY
       - run: npm publish --workspace=packages/${{ github.event.inputs.pkg }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}

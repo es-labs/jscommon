@@ -5,39 +5,26 @@ Store JS files used by both frontend and backend
 - Use ESM to avoid using webpack for compilation on frontend
 - For backend refer to NodeJS document on how to use ESM in NodeJS (To Elaborate)
 
-## Installation
 
-```bash
-npm i @es-labs/esm
-```
+## HTML Custom Elements / Web Components
 
-## Publishing packages to npm
-
-**IMPORTANT** before publishing bump version using `npm version` command (see npm version --help for explanation)
-
-Use Github actions or...
-
-```bash
-# need to use --access public as it is scoped package on free plan
-npm publish --access public
-```
-
----
-
-## Useful aliasing for web components
+### Useful aliasing for web components
 
 
-browser may already have these...
 
+```js
+// browser may already have these $ / $$...
 const $ = (selector, el = document) => el.querySelector(selector)
 const $$ = (selector, el = document) => el.querySelectorAll(selector)
 
 Element.prototype.on = Element.prototype.addEventListener
-TBD: how to auto unload event listener?
+// TBD: how to auto unload event listener?
+```
 
-## Custom Element (Web Component) Samples
 
-### Signature Pad
+### Custom Element (Web Component) Samples
+
+#### Signature Pad
 
 A component for capturing signature using canvas (component name: vcxwc-sign-pad)
 
@@ -66,7 +53,7 @@ Attributes
 - context2d: 2D drawing context settings
 - value (v-model used here, input event is created)
 
-### Web Cam
+#### Web Cam
 
 A component for capturing image using webcam (component name: vcxwc-web-cam)
 

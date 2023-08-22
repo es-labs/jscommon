@@ -13,8 +13,7 @@
   },
   "homepage": "https://github.com/es-labs/jslib#readme",
   "keywords": [
-    "nodejs",
-    "express"
+    "nodejs", "esm", "common JS"
   ],
   "scripts": {
     "git:hash": "git rev-parse --verify --short HEAD",
