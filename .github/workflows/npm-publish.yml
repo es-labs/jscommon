@@ -1,0 +1,32 @@
+# manual workflow for js-node/expressjs
+name: Publish Package to npmjs
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  workflow_dispatch:
+    # Inputs the workflow accepts.
+    inputs:
+      pkg:
+        description: 'Project To Publish (esm or cjs). Ensure version is updated & tagged'
+        default: 'esm'
+        required: true
+
+jobs:
+  install_and_publish:
+    name: Install production dependencies and publish to npm
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [ '18' ] # lts?
+    steps:
+      - uses: actions/checkout@v3
+      # Setup .npmrc file to publish to npm
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+          registry-url: 'https://registry.npmjs.org'
+      - run: npm install --production --workspace=packages/${{ github.event.inputs.pkg }}
+      - run: npm publish --workspace=packages/${{ github.event.inputs.pkg }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
