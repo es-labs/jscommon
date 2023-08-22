@@ -8,7 +8,7 @@ on:
     # Inputs the workflow accepts.
     inputs:
       pkg:
-        description: 'Project To Publish (esm or cjs). Ensure version is updated & tagged'
+        description: 'Project To Publish (esm or node). Ensure version is updated & tagged'
         default: 'esm'
         required: true
 
