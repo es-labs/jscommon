@@ -13,7 +13,9 @@
   },
   "homepage": "https://github.com/es-labs/jslib#readme",
   "keywords": [
-    "nodejs", "esm", "common JS"
+    "nodejs",
+    "esm",
+    "common JS"
   ],
   "scripts": {
     "git:hash": "git rev-parse --verify --short HEAD",

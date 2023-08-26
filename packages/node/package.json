@@ -1,23 +1,27 @@
 {
   "name": "@es-labs/node",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "author": "Aaron Gong",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/es-labs/jslib.git"
   },
-  "bugs": { "url": "https://github.com/es-labs/jslib/issues" },
+  "bugs": {
+    "url": "https://github.com/es-labs/jslib/issues"
+  },
   "homepage": "https://github.com/es-labs/jslib#readme",
-  "keywords": [ "javscript", "commonjs" ],
+  "keywords": [
+    "javscript",
+    "commonjs"
+  ],
   "description": "Reusable CJS code",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "@google-cloud/storage": "^7.0.1",
-    "@sentry/node": "^7.64.0",
-    "@sentry/tracing": "^7.64.0",
+    "@node-saml/node-saml": "^4.0.5",
     "agenda": "^5.0.0",
     "bcryptjs": "^2.4.3",
     "connect-history-api-fallback": "^2.0.0",

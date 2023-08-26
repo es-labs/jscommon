@@ -9,6 +9,8 @@ Common JS libraries for NodeJS applications
   - db: databases
   - mq: message queue
   - others gcp, keyv, redis, webpush, websocket
+- utils: various utilities
+  - aes: encrypt & decrypt
 - config.js: config loader
 - package.json
 - traps.js: error trapping
