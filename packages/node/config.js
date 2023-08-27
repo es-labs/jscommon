@@ -1,7 +1,7 @@
 'use strict'
 const path = require('path')
 module.exports = async function(app_path) {
-  process.env.NODE_ENV = process.env.NODE_ENV || process.argv[2] || '' // development, uat, production...
+  process.env.NODE_ENV = process.env.NODE_ENV || '' // development, uat, production...
   const { NODE_ENV, VAULT } = process.env
   if (!NODE_ENV) {
     console.log('Exiting No Environment Specified')
@@ -10,9 +10,8 @@ module.exports = async function(app_path) {
 
   const { version, name } = require(path.join(app_path, 'package.json'))
   process.env.APP_VERSION = version
-  process.env.APP_NAME = process.env.APP_NAME || process.argv[3] || 'app-template'
+  process.env.APP_NAME = process.env.APP_NAME || 'app-template'
   process.env.APP_PATH = path.join(app_path)
-  // global.APP_PATH = path.join(app_path)
   
   if (NODE_ENV && process.env.APP_PATH) {
     // load defaults

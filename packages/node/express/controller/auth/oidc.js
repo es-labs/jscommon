@@ -1,4 +1,5 @@
 'use strict'
+const jwt = require('jsonwebtoken')
 const { setTokensToHeader } = require('../../../auth/index')
 
 const { AUTH_ERROR_URL } = process.env
@@ -41,8 +42,14 @@ exports.auth = async (req, res) => { // callback
       body: payload,
     })
     const data = await result.json();
-    const { access_token, refresh_token, ...user_meta } = data
-    // TBD const tokens = await createToken(user)
+    let { access_token, refresh_token, ...user_meta } = data
+    if (OIDC_OPTIONS.REISSUE) {
+      const user = jwt.decode(access_token)
+      user[AUTH_USER_FIELD_ID_FOR_JWT] = user[OIDC_OPTIONS.ID_NAME]
+      const tokens = await createToken(user)
+      access_token = tokens.access_token
+      refresh_token = tokens.refresh_token
+    }
     return res.redirect(OIDC_OPTIONS.CALLBACK + '#' + access_token + ';' + refresh_token + ';' + JSON.stringify(user_meta))
   } catch (e) {
     console.log(e)
