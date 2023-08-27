@@ -9,7 +9,7 @@ on:
     inputs:
       pkg:
         description: 'Project To Publish (esm or node). Ensure version is updated & tagged'
-        default: 'esm'
+        default: 'node'
         required: true
 
 jobs:
