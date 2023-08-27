@@ -1,6 +1,6 @@
 'use strict'
 const jwt = require('jsonwebtoken')
-const { setTokensToHeader } = require('../../../auth/index')
+const { createToken, setTokensToHeader } = require('../../../auth/index')
 
 const { AUTH_ERROR_URL } = process.env
 const OIDC_OPTIONS = JSON.parse(process.env.OIDC_OPTIONS || null) || {}
@@ -45,7 +45,9 @@ exports.auth = async (req, res) => { // callback
     let { access_token, refresh_token, ...user_meta } = data
     if (OIDC_OPTIONS.REISSUE) {
       const user = jwt.decode(access_token)
-      user[AUTH_USER_FIELD_ID_FOR_JWT] = user[OIDC_OPTIONS.ID_NAME]
+      user.id = user[OIDC_OPTIONS.ID_NAME]
+      user.groups = user.resource_access.account.roles.join(',')
+      // TBD able to detect revoked?
       const tokens = await createToken(user)
       access_token = tokens.access_token
       refresh_token = tokens.refresh_token

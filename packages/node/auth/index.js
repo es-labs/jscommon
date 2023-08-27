@@ -92,10 +92,8 @@ const createToken = async (user) => { // Create a tokens & data from user
   const groups = user.groups
 
   const keys = AUTH_USER_FIELDS_JWT_PAYLOAD.split(',')
-  if (keys && keys.length) {
-    for (const key of keys) {
-      if (key && user[key] !== undefined) user_meta[key] = user[key]
-    }
+  for (const key of keys) {
+    if (key && user[key] !== undefined) user_meta[key] = user[key]
   }
 
   options.allowInsecureKeySizes = !!JWT_ALLOW_INSECURE_KEY_SIZES
