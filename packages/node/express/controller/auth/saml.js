@@ -29,12 +29,14 @@ exports.login = async (req, res) => {
 }
 
 // POST /callback
-exports.callback = async (req, res, next) => {
+exports.auth = async (req, res) => {
   try {
     const parsedResponse = await saml?.validatePostResponseAsync(req.body)
+
     // TEST
     // console.log(typeof parsedResponse, parsedResponse)
     // res.json({ message: 'testing node-saml ok', parsedResponse })
+
     // Callback
     try {
       const TO = req.body.RelayState
@@ -59,7 +61,7 @@ exports.callback = async (req, res, next) => {
         return AUTH_ERROR_URL ? res.redirect(AUTH_ERROR_URL) : res.status(401).json({ error: 'NOT Authenticated' })
       }
     } catch (e) {
-      return AUTH_ERROR_URL ? res.redirect(AUTH_ERROR_URL) : res.status(500).json({ error: e.toString() })
+    //   return AUTH_ERROR_URL ? res.redirect(AUTH_ERROR_URL) : res.status(500).json({ error: e.toString() })
     }
   } catch (e) {
     console.log('SAML callback error', e)
@@ -68,4 +70,5 @@ exports.callback = async (req, res, next) => {
       note: 'Currently it always triggers invalid document signature fix is on the way'
     })
   }
+  res.send("ok");
 }
