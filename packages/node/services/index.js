@@ -3,7 +3,9 @@
 let servicesConfig = []
 const services = { }
 
-const start = async (config = JSON.parse(process.env.SERVICES_CONFIG || null) || []) => {
+const start = async (
+  config = JSON.parse(process.env.SERVICES_CONFIG || null) || [], server = null, app = null
+) => {
   const serviceTypesAvailable = process.env.SERVICES_TYPES_AVAILABLE.split(',')
   const StoreKeyV = serviceTypesAvailable.includes('keyv') ? require('./db/keyv') : null
   const StoreKnex = serviceTypesAvailable.includes('knex') ? require('./db/knex') : null
@@ -12,28 +14,35 @@ const start = async (config = JSON.parse(process.env.SERVICES_CONFIG || null) ||
   
   // const agenda = require('./mq/agenda') // TDB new MQ  
   // only one created
-  const websocket = require('./websocket')
+  // const websocket = require('./websocket')
+  const Wss = serviceTypesAvailable.includes('ws') ? require('./websocket') : null
   const auth = require('../auth')
   
   try {
     servicesConfig = config
     servicesConfig.forEach(svc => {
-      const opts = JSON.parse(process.env[svc.options] || null) || {}
-      if (svc.type === 'knex' && StoreKnex) services[svc.name] = new StoreKnex(opts)
-      if (svc.type === 'mongo' && StoreMongo) services[svc.name] = new StoreMongo(opts)
-      if (svc.type === 'redis' && StoreRedis) services[svc.name] = new StoreRedis(opts)
-      if (svc.type === 'keyv' && StoreKeyV) services[svc.name] = new StoreKeyV(opts)
-  
-      if (svc.type === 'ws') services[svc.name] = websocket
+      const opts = JSON.parse(process.env[svc.options] || null)
+      if (opts && svc.type === 'knex' && StoreKnex) services[svc.name] = new StoreKnex(opts)
+      if (opts && svc.type === 'mongo' && StoreMongo) services[svc.name] = new StoreMongo(opts)
+      if (opts && svc.type === 'redis' && StoreRedis) services[svc.name] = new StoreRedis(opts)
+      if (opts && svc.type === 'keyv' && StoreKeyV) services[svc.name] = new StoreKeyV(opts)
+      if (opts && svc.type === 'ws' && Wss) services[svc.name] = new Wss(opts)
+
+      // if (svc.type === 'ws') services[svc.name] = websocket
       if (svc.type === 'auth') services[svc.name] = auth
-  
-      if (svc.type !== 'auth' && svc.type !== 'ws') {
-        services[svc.name].open()
+
+      if (opts) {
+        if (svc.type === 'ws') {
+          services[svc.name].open(null, null) // set server or get app object
+        }
+        if (svc.type !== 'auth' && svc.type !== 'ws') {
+          services[svc.name].open()
+        }  
       }
     })
     // ws and auth pass in functions... 
-    services?.websocket.open(null, null) // or set to null
-    services?.auth.open(services?.keyv.get(), services?.knex1.get()) // setup authorization  
+    // services?.websocket.open(null, null) // or set to null
+    services?.auth.open(services?.keyv.get(), services?.knex1.get()) // setup authorization
   } catch (e) {
     console.log(e)
   }
