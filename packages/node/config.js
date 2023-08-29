@@ -10,10 +10,8 @@ module.exports = async function(app_path) {
 
   const { version, name } = require(path.join(app_path, 'package.json'))
   process.env.APP_VERSION = version
-  process.env.APP_NAME = process.env.APP_NAME || 'app-template'
-  process.env.APP_PATH = path.join(app_path)
   
-  if (NODE_ENV && process.env.APP_PATH) {
+  if (NODE_ENV) {
     // load defaults
     if (VAULT && VAULT !== 'unused') {
       // let base64String = Buffer.from(originalString, 'utf8').toString('base64') // utf8 to base64
