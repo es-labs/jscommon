@@ -31,8 +31,8 @@
 const Redis = require('ioredis')
 
 module.exports = class StoreRedis {
-	constructor() {
-    this.REDIS_CONFIG = process.env.REDIS_CONFIG
+	constructor(options = JSON.parse(process.env.REDIS_CONFIG || null) || {}) {
+    this.REDIS_CONFIG = options
     this.redis = null
   }
 
