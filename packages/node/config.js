@@ -10,7 +10,8 @@ module.exports = async function(app_path) {
 
   const { version, name } = require(path.join(app_path, 'package.json'))
   process.env.APP_VERSION = version
-  
+  process.env.APP_NAME = name
+
   if (NODE_ENV) {
     // load defaults
     if (VAULT && VAULT !== 'unused') {
