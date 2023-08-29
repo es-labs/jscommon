@@ -1,7 +1,7 @@
 'use strict'
 
 module.exports = (app, express) => {
-  let  { APP_PATH, APP_NAME, UPLOAD_STATIC, PROXY_WWW_ORIGIN, WEB_STATIC } = process.env
+  let  { UPLOAD_STATIC, PROXY_WWW_ORIGIN, WEB_STATIC } = process.env
   // app.set('case sensitive routing', true)
 
   // Upload URL, Should use Signed URL and get from cloud storage instead
@@ -10,7 +10,6 @@ module.exports = (app, express) => {
     const serveIndex = require('serve-index') // connect-history-api-fallback causes problems, so do upload first
 
     UPLOAD_STATIC.forEach(item => {
-      item.folder = APP_PATH + '/apps/' + APP_NAME + '/' + item.folder
       if (item.options.fileFilter) {
         const allowedMimeTypes = item.options.fileFilter.allowedMimeTypes.split(',')
         const allowedExtensions = item.options.fileFilter.allowedExtensions.split(',')
