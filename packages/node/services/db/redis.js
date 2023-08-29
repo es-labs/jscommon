@@ -51,5 +51,3 @@ module.exports = class StoreRedis {
     }   
   }
 }
-
-module.exports = redis

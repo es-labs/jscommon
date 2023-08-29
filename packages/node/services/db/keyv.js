@@ -3,9 +3,8 @@
 const Keyv = require('keyv')
 
 module.exports = class StoreKeyV {
-	constructor() {
-    const { KEYV_CACHE } = process.env
-    this.KEYV_CACHE = JSON.parse(KEYV_CACHE || null) || { }
+	constructor(options = JSON.parse(process.env.KEYV_CACHE || null) || {}) {
+    this.KEYV_CACHE = options
     this.keyv = null
   }
   open () {
