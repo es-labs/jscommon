@@ -250,6 +250,7 @@ const otp = async (req, res) => { // need to be authentication, body { id: '', p
 
 module.exports = { setup, userOps,
   // findUser, updateUser,
+  getSecret,
   createToken, setTokensToHeader, authUser, authRefresh, logout, refresh, login, otp, bcrypt, otplib
 }
 
