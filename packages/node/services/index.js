@@ -28,21 +28,14 @@ const start = async (
       if (opts && svc.type === 'keyv' && StoreKeyV) services[svc.name] = new StoreKeyV(opts)
       if (opts && svc.type === 'ws' && Wss) services[svc.name] = new Wss(opts)
 
-      // if (svc.type === 'ws') services[svc.name] = websocket
-      if (svc.type === 'auth') services[svc.name] = auth
-
       if (opts) {
         if (svc.type === 'ws') {
-          services[svc.name].open(null, null) // set server or get app object
-        }
-        if (svc.type !== 'auth' && svc.type !== 'ws') {
+          services[svc.name].open(server, app) // set server or get app object
+        } else {
           services[svc.name].open()
         }  
       }
     })
-    // ws and auth pass in functions... 
-    // services?.websocket.open(null, null) // or set to null
-    services?.auth.open(services?.keyv.get(), services?.knex1.get()) // setup authorization
   } catch (e) {
     console.log(e)
   }
