@@ -137,7 +137,7 @@ exports.setOnClientCLose = function (onClientCloseFn) { //  what to do when clie
 module.exports = class Wss {
   constructor(options = JSON.parse(process.env.WS_OPTIONS || null) || {}) {
     if (!Wss._instance) {
-      Wss._instance = this;
+      Wss._instance = this
       this._port = options.WS_PORT
       this._keepAliveMs = options.WS_KEEEPALIVE_MS
       this._wss = null
@@ -161,7 +161,7 @@ module.exports = class Wss {
         }
       }  
     }
-    return Wss._instance;
+    return Wss._instance
   }
   static getInstance() {
     return this._instance
