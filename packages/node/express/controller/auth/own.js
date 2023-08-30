@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const otplib = require('otplib')
 
-const { getSecret, createToken, setTokensToHeader, userOps } = require('../../../auth')
+const { getSecret, createToken, setTokensToHeader, authFns } = require('../../../auth')
 const {
   COOKIE_HTTPONLY,
   AUTH_USER_FIELD_LOGIN,
@@ -31,7 +31,7 @@ const logout = async (req, res) => {
   }
   try {
     if (id) {
-      await userOps.revokeRefreshToken(id) // clear
+      await authFns.revokeRefreshToken(id) // clear
       if (COOKIE_HTTPONLY) {
         res.clearCookie('refresh_token')
         res.clearCookie('Authorization')
@@ -50,7 +50,7 @@ const refresh = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    const user = await userOps.findUser({
+    const user = await authFns.findUser({
       [AUTH_USER_FIELD_LOGIN]: req.body[AUTH_USER_FIELD_LOGIN]
     })
     const password = req.body[AUTH_USER_FIELD_PASSWORD]
@@ -76,7 +76,7 @@ const login = async (req, res) => {
 const otp = async (req, res) => { // need to be authentication, body { id: '', pin: '123456' }
   try {
     const { id, pin } = req.body
-    const user = await userOps.findUser({ id })
+    const user = await authFns.findUser({ id })
     if (user) {
       const gaKey = user[AUTH_USER_FIELD_GAKEY]
       if (USE_OTP !== 'TEST' ? otplib.authenticator.check(pin, gaKey) : String(pin) === '111111') { // NOTE: expiry will be determined by authenticator itself

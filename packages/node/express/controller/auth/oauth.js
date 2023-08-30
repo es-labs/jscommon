@@ -1,5 +1,5 @@
 'use strict'
-const { userOps, createToken, setTokensToHeader } = require('../../../auth/index')
+const { authFns, createToken, setTokensToHeader } = require('../../../auth/index')
 
 const { AUTH_ERROR_URL } = process.env
 const OAUTH_OPTIONS = JSON.parse(process.env.OAUTH_OPTIONS || null) || {}
@@ -24,7 +24,7 @@ exports.callbackOAuth = async (req, res) => {
       const oauthUser = await resultUser.json();
       const oauthId = oauthUser[OAUTH_OPTIONS.USER_ID] // github id, email
   
-      const user = await userOps.findUser({ [OAUTH_OPTIONS.FIND_ID]: oauthId }) // match github id (or email?) with our user in our application
+      const user = await authFns.findUser({ [OAUTH_OPTIONS.FIND_ID]: oauthId }) // match github id (or email?) with our user in our application
       if (!user) return res.status(401).json({ message: 'Unauthorized' })
   
       const { id, groups } = user

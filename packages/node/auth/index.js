@@ -29,7 +29,7 @@ const {
   JWT_ALLOW_INSECURE_KEY_SIZES
 } = process.env
 
-const userOps = { // rename to authFns
+const authFns = { // rename to authFns
   findUser: null,
   updateUser: null,
   revokeRefreshToken: null
@@ -39,9 +39,9 @@ const setup = (tokenService, userService) => {
   //NOSONAR ({ } = process.env);
   ({ setRefreshToken, getRefreshToken, revokeRefreshToken, setRefreshTokenStoreName, setTokenService } = require('./' + JWT_REFRESH_STORE)); // keyv, redis, mongo, knex
   ({ findUser, updateUser, setAuthUserStoreName, setUserService } = require('./' + AUTH_USER_STORE)); // mongo, knex
-  userOps.findUser = findUser
-  userOps.updateUser = updateUser
-  userOps.revokeRefreshToken = revokeRefreshToken
+  authFns.findUser = findUser
+  authFns.updateUser = updateUser
+  authFns.revokeRefreshToken = revokeRefreshToken
   if (setTokenService) setTokenService(tokenService)
   if (setUserService) setUserService(userService)
   if (setRefreshTokenStoreName) setRefreshTokenStoreName(JWT_REFRESH_STORE_NAME)
@@ -179,7 +179,7 @@ const authRefresh = async (req, res) => { // get refresh token
 
 module.exports = {
   setup,
-  userOps,
+  authFns,
   // findUser, updateUser,
   getSecret,
   createToken,
