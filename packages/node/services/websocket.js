@@ -6,7 +6,6 @@ const WebSocket = require('ws')
 const https = require('https')
 
 /*
-// TOREMOVE
 let wss
 let onClientConnect = (ws) => { 
   // console.log('client connected')
@@ -136,27 +135,31 @@ exports.setOnClientCLose = function (onClientCloseFn) { //  what to do when clie
 */
 
 module.exports = class Wss {
-  constructor() {
-    if (!Wss._instance) Wss._instance = this;
-    this._wss = null
-    this._onClientConnect = (ws) => { }
-    this._onClientClose = (ws) => { }
-    this._onClientMessage = async (data, isBinary, ws, wss) => { // client incoming message
-      const message = isBinary ? data : data.toString()
-      // console.log('message', message)
-      try { // try-catch only detect immediate error, cannot detect if write failure    
-        if (wss) { // send to other clients except self
-          wss.clients.forEach((client) => {
-            if (client !== ws && client.readyState === WebSocket.OPEN) {
-              client.send(message) // send message to others 
-            }
-          })
-          // ws.send('something', function ack(error) { console.log }) // If error !defined, send has been completed, otherwise error object will indicate what failed.
-          ws.send(message) // echo back message...
+  constructor(options = JSON.parse(process.env.WS_OPTIONS || null) || {}) {
+    if (!Wss._instance) {
+      Wss._instance = this;
+      this._port = options.WS_PORT
+      this._keepAliveMs = options.WS_KEEEPALIVE_MS
+      this._wss = null
+      this._onClientConnect = (ws) => { }
+      this._onClientClose = (ws) => { }
+      this._onClientMessage = async (data, isBinary, ws, wss) => { // client incoming message
+        const message = isBinary ? data : data.toString()
+        // console.log('message', message)
+        try { // try-catch only detect immediate error, cannot detect if write failure    
+          if (wss) { // send to other clients except self
+            wss.clients.forEach((client) => {
+              if (client !== ws && client.readyState === WebSocket.OPEN) {
+                client.send(message) // send message to others 
+              }
+            })
+            // ws.send('something', function ack(error) { console.log }) // If error !defined, send has been completed, otherwise error object will indicate what failed.
+            ws.send(message) // echo back message...
+          }
+        } catch (e) {
+          console.log(e.toString())
         }
-      } catch (e) {
-        console.log(e.toString())
-      }
+      }  
     }
     return Wss._instance;
   }
@@ -174,7 +177,7 @@ module.exports = class Wss {
   }
   
   get() {
-    return this._wss
+    return this._instance
   }
 
   send(data) {
@@ -186,23 +189,22 @@ module.exports = class Wss {
   }
   
   open(server=null, app=null) {
-    const { WS_KEEEPALIVE_MS, WS_PORT } = process.env
     const { HTTPS_PRIVATE_KEY, HTTPS_CERTIFICATE } = process.env
     let err
     try {
-      if (!this._wss && WS_PORT) {
+      if (!this._wss && this._port) {
         if (HTTPS_CERTIFICATE) {
           if (!server) server = https.createServer({
             key: HTTPS_PRIVATE_KEY, cert: HTTPS_CERTIFICATE
-          }).listen(WS_PORT) // use same port, create server because of graphql subscriptions
+          }).listen(this._port) // use same port, create server because of graphql subscriptions
           this._wss = new WebSocket.Server({ server })
         } else {
-          if (!server) this._wss = new WebSocket.Server({ port: WS_PORT }) // use seperate port
+          if (!server) this._wss = new WebSocket.Server({ port: this._port }) // use seperate port
           else this._wss = new WebSocket.Server({ server })
         }
         if (app) server.on('request', app)
   
-        console.log('WS API listening on port ' + WS_PORT)
+        console.log('WS API listening on port ' + this._port)
         if (this._wss) {
           this._wss.on('connection', (ws) => {
             // console.log('ws client connected')
@@ -219,7 +221,7 @@ module.exports = class Wss {
               ws.isAlive = false
               return ws.ping(() => {}) // NOSONAR
             })
-          }, WS_KEEEPALIVE_MS)
+          }, this._keepAliveMs)
         }
       } else {
         console.log('NO WS Service To Open')

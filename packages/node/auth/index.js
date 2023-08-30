@@ -34,9 +34,7 @@ const userOps = {
   updateUser: null
 }
 
-const close = () => {}
-
-const open = (tokenService, userService) => {
+const setup = (tokenService, userService) => {
   //NOSONAR ({ } = process.env);
   ({ setRefreshToken, getRefreshToken, revokeRefreshToken, setRefreshTokenStoreName, setTokenService } = require('./' + JWT_REFRESH_STORE)); // keyv, redis, mongo, knex
   ({ findUser, updateUser, setAuthUserStoreName, setUserService } = require('./' + AUTH_USER_STORE)); // mongo, knex
@@ -250,7 +248,7 @@ const otp = async (req, res) => { // need to be authentication, body { id: '', p
   return res.status(401).json({ message: 'Error token revoked' })
 }
 
-module.exports = { open, close, userOps,
+module.exports = { setup, userOps,
   // findUser, updateUser,
   createToken, setTokensToHeader, authUser, authRefresh, logout, refresh, login, otp, bcrypt, otplib
 }

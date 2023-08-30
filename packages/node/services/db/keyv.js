@@ -4,13 +4,13 @@ const Keyv = require('keyv')
 
 module.exports = class StoreKeyV {
 	constructor(options = JSON.parse(process.env.KEYV_CACHE || null) || {}) {
-    this.KEYV_CACHE = options
-    this.keyv = null
+    this._KEYV_CACHE = options
+    this._keyv = null
   }
   open () {
-    this.keyv = this.KEYV_CACHE ? new Keyv(this.KEYV_CACHE) : new Keyv()
-    this.keyv.on('error', err => console.error('keyv Connection Error', err))
+    this._keyv = this._KEYV_CACHE ? new Keyv(this._KEYV_CACHE) : new Keyv()
+    this._keyv.on('error', err => console.error('keyv Connection Error', err))
   }
-  get () { return this.keyv }
-  close () { this.keyv = null }
+  get () { return this._keyv }
+  close () { this._keyv = null }
 }

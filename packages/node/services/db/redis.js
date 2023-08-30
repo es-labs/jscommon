@@ -32,22 +32,22 @@ const Redis = require('ioredis')
 
 module.exports = class StoreRedis {
 	constructor(options = JSON.parse(process.env.REDIS_CONFIG || null) || {}) {
-    this.REDIS_CONFIG = options
-    this.redis = null
+    this._REDIS_CONFIG = options
+    this._redis = null
   }
 
   open () {
-    const redisOpts = this.REDIS_CONFIG.opts
-    if (this.REDIS_CONFIG.retry) redisOpts.retryStrategy = (times) => Math.min(times * this.REDIS_CONFIG.retry.step, this.REDIS_CONFIG.retry.max)
-    if (this.REDIS_CONFIG.reconnect) redisOpts.reconnectOnError = (err) => err.message.includes(this.REDIS_CONFIG.reconnect.targetError) ? true : false
-    this.redis = new Redis(redisOpts)
+    const redisOpts = this._REDIS_CONFIG.opts
+    if (this._REDIS_CONFIG.retry) redisOpts.retryStrategy = (times) => Math.min(times * this._REDIS_CONFIG.retry.step, this._REDIS_CONFIG.retry.max)
+    if (this._REDIS_CONFIG.reconnect) redisOpts.reconnectOnError = (err) => err.message.includes(this._REDIS_CONFIG.reconnect.targetError) ? true : false
+    this._redis = new Redis(redisOpts)
   }
 
-  get () { return this.redis }
+  get () { return this._redis }
   close () {
-    if (this.redis) {
-      this.redis.disconnect()
-      this.redis = null  
+    if (this._redis) {
+      this._redis.disconnect()
+      this._redis = null  
     }   
   }
 }

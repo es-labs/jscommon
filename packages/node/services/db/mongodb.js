@@ -3,28 +3,28 @@ const { MongoClient, ObjectID } = require('mongodb')
 
 module.exports = class StoreMongo {
 	constructor(options = JSON.parse(process.env.MONGO_OPTIONS || null) || {}) {
-    this.DEFAULT_TRANSACTION_OPTIONS = {
+    this._DEFAULT_TRANSACTION_OPTIONS = {
       readConcern: { level: 'local' },
       writeConcern: { w: 'majority' },
       readPreference: 'primary'
     }
-    this.MONGO_URL = options.url
-    this.MONGO_OPTIONS = options.opts
-    this.mongo = {
+    this._MONGO_URL = options.url
+    this._MONGO_OPTIONS = options.opts
+    this._mongo = {
       client: null,
       db: null,
       session: null,
       stream: null,
-      defaultTransactionOptions: this.DEFAULT_TRANSACTION_OPTIONS,
+      defaultTransactionOptions: this._DEFAULT_TRANSACTION_OPTIONS,
       ObjectID: null
     }
   }
 
   async open() {
-    this.mongo.ObjectID = ObjectID
+    this._mongo.ObjectID = ObjectID
     try {
-      if (this.MONGO_URL) {
-        const client = new MongoClient(this.MONGO_URL, this.MONGO_OPTIONS)
+      if (this._MONGO_URL) {
+        const client = new MongoClient(this._MONGO_URL, this._MONGO_OPTIONS)
         // {
         //   useUnifiedTopology: true,
         //   useNewUrlParser: true,
@@ -36,27 +36,27 @@ module.exports = class StoreMongo {
         //   reconnectInterval: 1000, // ms
         //   autoReconnect: true
         // }
-        this.mongo.client = client
+        this._mongo.client = client
         // mongo.client.startSession({ defaultTransactionOptions })
         await client.connect()
-        this.mongo.db = client.db()
+        this._mongo.db = client.db()
         // NOSONAR
         // mongo.stream = db.db('mm').collection('exchangeUsers').watch() //  for streaming data
         // mongo.stream.on('change', (change) => {
         //   console.log(change); // You could parse out the needed info and send only that data.
         //   // use websocket to listen to changes
         // })
-        console.log('mongodb CONNECTED', this.MONGO_URL)  
+        console.log('mongodb CONNECTED', this._MONGO_URL)  
       }
-    } catch (e) { console.log('mongodb CONNECT ERROR', this.MONGO_URL, e.toString()) }
+    } catch (e) { console.log('mongodb CONNECT ERROR', this._MONGO_URL, e.toString()) }
   }
   async close() {
-    if (this.mongo.client) {
-      await this.mongo.client.close()
-      this.mongo.client = null
+    if (this._mongo.client) {
+      await this._mongo.client.close()
+      this._mongo.client = null
       console.log('mongodb closed')
     }
   }
-  get() { return this.mongo }
+  get() { return this._mongo }
   setId(id) { return new ObjectID(id) }
 }

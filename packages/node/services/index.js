@@ -62,6 +62,6 @@ const stop = async () => {
 module.exports = {
   start,
   stop,
-  get: (service) => services[service],
+  get: (service) => services[service].get(),
   list: () => servicesConfig
 }
