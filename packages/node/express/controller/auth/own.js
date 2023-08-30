@@ -18,8 +18,6 @@ const {
 } = process.env
 
 const logout = async (req, res) => {
-  ({ revokeRefreshToken } = require('../../../auth/' + JWT_REFRESH_STORE)); // keyv, redis, mongo, knex
-
   let id = null
   try {
     let access_token = null
@@ -33,7 +31,7 @@ const logout = async (req, res) => {
   }
   try {
     if (id) {
-      await revokeRefreshToken(id) // clear
+      await userOps.revokeRefreshToken(id) // clear
       if (COOKIE_HTTPONLY) {
         res.clearCookie('refresh_token')
         res.clearCookie('Authorization')

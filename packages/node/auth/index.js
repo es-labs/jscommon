@@ -31,7 +31,8 @@ const {
 
 const userOps = {
   findUser: null,
-  updateUser: null
+  updateUser: null,
+  revokeRefreshToken: null
 }
 
 const setup = (tokenService, userService) => {
@@ -40,6 +41,7 @@ const setup = (tokenService, userService) => {
   ({ findUser, updateUser, setAuthUserStoreName, setUserService } = require('./' + AUTH_USER_STORE)); // mongo, knex
   userOps.findUser = findUser
   userOps.updateUser = updateUser
+  userOps.revokeRefreshToken = revokeRefreshToken
   if (setTokenService) setTokenService(tokenService)
   if (setUserService) setUserService(userService)
   if (setRefreshTokenStoreName) setRefreshTokenStoreName(JWT_REFRESH_STORE_NAME)
