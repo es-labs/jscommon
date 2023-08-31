@@ -1,17 +1,17 @@
 {
-  "name": "jslibs",
+  "name": "jscommon",
   "version": "0.0.1",
   "description": "Reusable CJS and ESM code",
   "author": "aaronjxz@gmail.com",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/es-labs/jslib.git"
+    "url": "git+https://github.com/es-labs/jscommon.git"
   },
   "bugs": {
-    "url": "https://github.com/es-labs/jslib/issues"
+    "url": "https://github.com/es-labs/jscommon/issues"
   },
-  "homepage": "https://github.com/es-labs/jslib#readme",
+  "homepage": "https://github.com/es-labs/jscommon#readme",
   "keywords": [
     "nodejs",
     "esm",
@@ -26,7 +26,7 @@
     "npm": ">=9"
   },
   "workspaces": [
-    "packages/*",
+    "libs/*",
     "tools/*"
   ],
   "private": true

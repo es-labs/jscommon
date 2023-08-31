@@ -10,11 +10,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/es-labs/jslib.git"
+    "url": "git+https://github.com/es-labs/jscommon.git"
   },
   "bugs": {
-    "url": "https://github.com/es-labs/jslib/issues"
+    "url": "https://github.com/es-labs/jscommon/issues"
   },
-  "homepage": "https://github.com/es-labs/jslib#readme",
+  "homepage": "https://github.com/es-labs/jscommon#readme",
   "keywords": [ "javascript", "esm", "modules" ]
 }

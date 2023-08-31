@@ -2,9 +2,12 @@
 
 This project contains reusable and shared JS code for use in JS projects.
 
-The following packages are:
-- [node](packages/node/README.md) - Common JS reusables
-- [esm](packages/esm/README.md) - ES Modules reusables
+The following libraries are:
+- [node](libs/node/README.md) - Common JS reusables
+- [esm](libs/esm/README.md) - ES Modules reusables
+
+The common tools are:
+- [dbdeploy](tools/dbdeploy/README.md) - **TBD**
 
 ## Publishing packages to npm
 
@@ -13,7 +16,7 @@ The following packages are:
 **Example** - Updating version for node project
 
 ```bash
-cd projects/node
+cd libs/node
 npm version patch
 ```
 
@@ -26,7 +29,7 @@ or...
 **Example** - Npm publish for esm project
 
 ```bash
-cd projects/esm
+cd libs/esm
 # need to use --access public as it is scoped package on free plan
 npm publish --access public
 ```
