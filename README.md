@@ -7,7 +7,9 @@ The following libraries are:
 - [esm](libs/esm/README.md) - ES Modules reusables
 
 The common tools are:
-- [dbdeploy](tools/dbdeploy/README.md) - **TBD**
+- [tools/dbdeploy/README.md]() - deploying a database using the following suppored clients
+  - Knex (sqlite, mysql, postgres, mssql, snowflake, ...)
+  - Mongo client
 
 ## Publishing packages to npm
 

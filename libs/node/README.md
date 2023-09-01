@@ -15,4 +15,4 @@ Common JS libraries for NodeJS applications
 - package.json
 - traps.js: error trapping
 
-Refer to [https://github.com/ais-one/cookbook/tree/master/js-node/expressjs](https://github.com/ais-one/cookbook/tree/master/js-node/expressjs) folder for usage
+Refer to [https://github.com/es-labs/express-template]() project for usage
