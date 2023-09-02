@@ -5,22 +5,18 @@ Store JS files used by both frontend and backend
 - Use ESM to avoid using webpack for compilation on frontend
 - For backend refer to NodeJS document on how to use ESM in NodeJS (To Elaborate)
 
-
 ## HTML Custom Elements / Web Components
 
 ### Useful aliasing for web components
 
-
-
 ```js
 // browser may already have these $ / $$...
-const $ = (selector, el = document) => el.querySelector(selector)
-const $$ = (selector, el = document) => el.querySelectorAll(selector)
+const $ = (selector, el = document) => el.querySelector(selector);
+const $$ = (selector, el = document) => el.querySelectorAll(selector);
 
-Element.prototype.on = Element.prototype.addEventListener
+Element.prototype.on = Element.prototype.addEventListener;
 // TBD: how to auto unload event listener?
 ```
-
 
 ### Custom Element (Web Component) Samples
 
@@ -30,9 +26,10 @@ A component for capturing signature using canvas (component name: vcxwc-sign-pad
 
 Component file location [sign-pad.js](sign-pad.js)
 
-Example Usage file location [DemoSignPad.vue](https://github.com/ais-one/vue-antd-template/blob/develop/src/apps/web-template/views/Demo/DemoSignPad.vue))
+Example Usage in [https://github.com/es-labs/vue-antd-template]() file location `src/apps/web-sample/views/Demo/DemoSignPad.vue`
 
 Features
+
 - handle attibutes and properties
 - pass in json attributes as string for canvas context settings
 - css variables
@@ -48,6 +45,7 @@ vcxwc-sign-pad {
 ```
 
 Attributes
+
 - width
 - height
 - context2d: 2D drawing context settings
@@ -59,9 +57,10 @@ A component for capturing image using webcam (component name: vcxwc-web-cam)
 
 Component file location [web-cam.js](web-cam.js)
 
-Example Usage file location [DemoWebCam.vue](https://github.com/ais-one/vue-antd-template/blob/develop/src/apps/web-template/views/Demo/DemoWebCam.vue)
+Example Usage in [https://github.com/es-labs/vue-antd-template]() file location `src/apps/web-sample/views/Demo/DemoWebCam.vue`
 
 Features
+
 - shadowDOM and litDOM
   - css variables
 - shadowDOM
@@ -81,16 +80,18 @@ vcxwc-web-cam {
 ```
 
 Attributes
+
 - width
 - height
 
 Slots
+
 - button-snap
 - button-unsnap
 
 Event Emitted
-- snap
 
+- snap
 
 TBD - Using web component inside a web component - its possible
 
