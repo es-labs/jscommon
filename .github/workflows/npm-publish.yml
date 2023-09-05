@@ -10,6 +10,10 @@ on:
         description: 'Project To Publish (esm or node). Ensure version is updated & tagged'
         default: 'node'
         required: true
+      tag:
+        description: 'Branch or tag'
+        default: 'main'
+        required: true
 
 jobs:
   install_and_publish:
@@ -20,7 +24,10 @@ jobs:
         node: [ '18' ] # lts?
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.inputs.tag }}
       # Setup .npmrc file to publish to npm
+        run: echo checking out branch/tag ${GITHUB_REF##*/}
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
