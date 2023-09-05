@@ -14,8 +14,7 @@ export const webpushSubscribe = async (publicKey) => {
 
   // registering a new subscription to our service worker's Push manager
   let subscription = await registration.pushManager.subscribe({
-    // don't worry about the userVisible only atm
-    userVisibleOnly: true,
+    userVisibleOnly: true, // chrome only supports user visible for now
     applicationServerKey: Uint8ArrayPublicKey
   })
   subscription = JSON.stringify(subscription)
