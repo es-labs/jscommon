@@ -5,7 +5,7 @@
 // req.file / req.files[index]
 // {
 //   fieldname: 'kycfile',
-//   originalname: 'tbd.txt',
+//   originalname: 'todo.txt',
 //   encoding: '7bit',
 //   mimetype: 'text/plain',
 //   destination: 'uploads/',

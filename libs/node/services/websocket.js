@@ -1,7 +1,7 @@
 'use strict'
 // https://www.npmjs.com/package/ws
 // NOTE: if --forcedExit --detectOpenHandles in JEST test, will cause error
-// TBD: testing for websockets
+// TODO: automated testing for websockets
 const WebSocket = require('ws')
 const https = require('https')
 

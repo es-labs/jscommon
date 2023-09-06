@@ -7,7 +7,7 @@ Common JS libraries for NodeJS applications
 - express: for express JS
 - services: various services
   - db: databases
-  - mq: TBD
+  - mq: TODO
   - others gcp, keyv, redis, webpush, websocket
 - utils: various utilities
   - aes: encrypt & decrypt

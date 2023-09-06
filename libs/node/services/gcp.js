@@ -13,7 +13,7 @@
 // gsutil cors set [JSON_FILE_NAME].json gs://[BUCKET_NAME]
 // gsutil cors get gs://[BUCKET_NAME]
 
-// TBD use REST API instead for this?
+// TODO use REST API instead for this?
 const { Storage } = require('@google-cloud/storage')
 
 exports.getSignedUrl = async (req,res) => { // test upload/get with cloud opject storage using SignedURLs

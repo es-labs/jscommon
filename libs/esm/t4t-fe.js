@@ -4,11 +4,11 @@ let tableName = ''
 let parentFilter = null
 let config = null
 const http = new Fetch()
-// TBD i18n
+// TODO i18n
 
 function setTableName(name) {
   tableName = name
-  parentFilter = null // TBD find a more sustainable way using prototype
+  parentFilter = null // TODO find a more sustainable way using prototype
 }
 
 function setParentFilter(filter) {
@@ -187,7 +187,7 @@ async function remove(items) {
 
 // uploads a single csv for batch processing
 async function upload(file) { // the file object
-  // TBD add exception handling
+  // TODO add exception handling
   if (file === null) return false
   const formData = new FormData()
   formData.append('csv-file', file) // call it file

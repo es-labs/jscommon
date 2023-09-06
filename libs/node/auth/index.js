@@ -49,7 +49,7 @@ const setup = (tokenService, userService) => {
 }
 
 // SameSite=None; must use with Secure;
-// may need to restart browser, TBD set Max-Age, ALTERNATE use res.cookie, Signed?
+// may need to restart browser, TODO set Max-Age, ALTERNATE use res.cookie, Signed?
 const httpOnlyCookie = () => `HttpOnly;SameSite=${COOKIE_SAMESITE};`
   + (COOKIE_SECURE ? 'Secure;':'')
   + (COOKIE_MAXAGE ? 'MaxAge='+COOKIE_MAXAGE+';':'')

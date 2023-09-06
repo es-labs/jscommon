@@ -24,7 +24,7 @@ module.exports = (app, express) => {
       if (url && folder) {
         app.use(
           url,
-          (req, res, next) => { // TBD add auth here...
+          (req, res, next) => { // TODO add auth here...
             console.log(req.query)
             next() 
           },

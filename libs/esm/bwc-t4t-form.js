@@ -1,4 +1,4 @@
-// TBD fix
+// TODO fix
 // onsubmit --> multi select
 // error messages on submit
 
@@ -69,14 +69,14 @@ const bulma = {
     children: [
       { tag: 'label', className: 'label' },
       { tag: 'div', className: 'control has-icons-left', children: [
-        { tag: 'input-placeholder' }, // tbd className = 'input'
+        { tag: 'input-placeholder' }, // TODO className = 'input'
       ] },
       { tag: 'p', className: 'help is-danger', errorLabel: true }
     ]
   }
 } // end bulma
 
-// Bootstrap - TBD VERIFY
+// Bootstrap - TODO VERIFY
 const bootstrap = {
   input: {
     tag: 'div',
@@ -105,7 +105,7 @@ const bootstrap = {
   }
 }
 
-// Mui CSS - TBD VERIFY
+// Mui CSS - TODO VERIFY
 const muicss = {
   input: {
     tag: 'div',
@@ -264,7 +264,7 @@ class BwcT4tForm extends HTMLElement {
     // DONE: input - text, integer, decimal, date, time, datetime, file(upload)
     // DONE: select (single and multiple, limited options)
     // DONE: textarea
-    // DONE: bwc-combobox (multiple with tags), TBD: need to test more
+    // DONE: bwc-combobox (multiple with tags), TODO: need to test more
 
     if (['input', 'textarea', 'select', 'bwc-combobox'].includes(elementTag)) { // its an input
       if (c.mode === 'readonly') el.setAttribute('disabled', true) // select is disabled, as it applies to more html tags
@@ -295,11 +295,11 @@ class BwcT4tForm extends HTMLElement {
           if (c?.ui?.attrs?.allowCustomTag) el.setAttribute('allow-custom-tag', '')
           if (c?.ui?.attrs?.tagLimit) el.setAttribute('tag-limit', c.ui.attrs.tagLimit)
           // disbled and required already set
-          // TBD set input class
+          // TODO set input class
 
           el.onload = (e) => { // need to wait for component to load before setting the values
             // console.log('bwc loaded')
-            const valueType = c?.ui?.valueType // TBD transform value
+            const valueType = c?.ui?.valueType // TODO transform value
             if (c?.ui?.attrs?.multiple) { // can be array in column or join table
               const val = this.mode === 'add' ? c.default : this.#record[k]
               if (valueType === '') {
@@ -331,7 +331,7 @@ class BwcT4tForm extends HTMLElement {
             el.items = res
           }, 500)
           el.onselect = (e) => { // onselect works (events handled by DOM), onselected need to use addEventListener
-            // TBD reset child value - may cascade down further
+            // TODO reset child value - may cascade down further
             const childColName = c?.options?.childCol
             if (childColName) {
               const col = this.#xcols[childColName]
@@ -365,7 +365,7 @@ class BwcT4tForm extends HTMLElement {
 
     if (className) el.className = className // set classes
 
-    // Bulma Specific Note (TBD tmprove this): if className has 'select' - it is bulma need to set is-multiple here if is multi select
+    // Bulma Specific Note (TODO tmprove this): if className has 'select' - it is bulma need to set is-multiple here if is multi select
     if (node?.className && node.className.includes('select')) {
       if (c?.ui?.attrs?.multiple) {
         el.classList.add('is-multiple')
@@ -447,7 +447,7 @@ class BwcT4tForm extends HTMLElement {
                 }
                 this.#record[col] = selected.join(',')
               } else if (inputEl.tagName.toLowerCase() === 'bwc-combobox') {
-                // TBD set the value
+                // TODO set the value
                 const c = this.#config.cols[col]
                 const val = c?.ui?.attrs?.multiple ? inputEl.tags : inputEl.selected
                 const valueType = c?.ui?.valueType

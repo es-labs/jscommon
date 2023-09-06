@@ -15,7 +15,7 @@ const $ = (selector, el = document) => el.querySelector(selector);
 const $$ = (selector, el = document) => el.querySelectorAll(selector);
 
 Element.prototype.on = Element.prototype.addEventListener;
-// TBD: how to auto unload event listener?
+// TODO: how to auto unload event listener?
 ```
 
 ### Custom Element (Web Component) Samples
@@ -93,7 +93,7 @@ Event Emitted
 
 - snap
 
-TBD - Using web component inside a web component - its possible
+TODO - Using web component inside a web component - its possible
 
 - https://www.udemy.com/course/fundamentals-of-web-components
 - https://github.com/basarbk/web-components-fundamentals.git

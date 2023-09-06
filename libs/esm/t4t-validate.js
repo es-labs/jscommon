@@ -12,7 +12,7 @@
 //   ]
 // }
 
-// TBD i18n
+// TODO i18n
 // for use with
 // - express-template project router/t4t.js
 function validateColumn (rules, type, col, record) {

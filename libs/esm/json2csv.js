@@ -58,7 +58,7 @@ function json2csv(_json) {
       const keys = Object.keys(row).join(',')
       console.log(keys)
     }
-    const vals = Object.values(row).map((col) => { // TBD escaping
+    const vals = Object.values(row).map((col) => { // TODO escaping
       if (typeof col === 'object') return JSON.stringify(col)
       else return `"${col.toString()}"`
     })

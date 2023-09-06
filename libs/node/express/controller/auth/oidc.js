@@ -47,7 +47,7 @@ exports.auth = async (req, res) => { // callback
       const user = jwt.decode(access_token)
       user.id = user[OIDC_OPTIONS.ID_NAME]
       user.groups = user.resource_access.account.roles.join(',')
-      // TBD able to detect revoked?
+      // TODO able to detect revoked?
       const tokens = await createToken(user)
       access_token = tokens.access_token
       refresh_token = tokens.refresh_token

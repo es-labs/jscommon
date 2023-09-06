@@ -1,4 +1,4 @@
-// TBD
+// TODO
 // inline edit?
 
 // FEATURES
@@ -42,7 +42,7 @@
 // style="--bwc-table-height: calc(100vh - 360px);--bwc-table-width: 200%;"
 // class="sticky-header sticky-column"
 
-// TBD change some properties to attributes? handle multiple UI frameworks
+// TODO change some properties to attributes? handle multiple UI frameworks
 
 // EVENTS
 // rowclick { detail: { row, col, data }
@@ -109,7 +109,7 @@ template.innerHTML = /*html*/`
 .sticky-header #table-wrapper th {
   position: -webkit-sticky;
   position: sticky;
-  top: var(--bwc-table-sticky-header-top, 56px); /* nav height - TBD filter height*/
+  top: var(--bwc-table-sticky-header-top, 56px); /* nav height - TODO filter height*/
   z-index: 2;
 }
 .sticky-column #table-wrapper th[scope=row] {
@@ -379,7 +379,7 @@ class Table extends HTMLElement {
   } // DONE ELSEWHERE emit event
 
   get pageSizeList () { return this.#pageSizeList }
-  set pageSizeList (val) { this.#pageSizeList = val } // TBD emit event
+  set pageSizeList (val) { this.#pageSizeList = val } // TODO emit event
   get items() { return this.#items }
   set items(val) {
     // console.log('set items')
@@ -462,7 +462,7 @@ class Table extends HTMLElement {
         const div = document.createElement('div')
         div.classList.add('field', 'has-addons', 'm-0', 'p-1')
 
-        div.appendChild( this._createSelect (this.#filterCols, filter, 'key') ) // TBD set input type and pattern based on column UI change event
+        div.appendChild( this._createSelect (this.#filterCols, filter, 'key') ) // TODO set input type and pattern based on column UI change event
         div.appendChild( this._createSelect (this.#filterOps, filter, 'op') )
 
         const p = document.createElement('p')
@@ -630,7 +630,7 @@ class Table extends HTMLElement {
         thead.appendChild(tr)
         if (this.#checkboxes) { // check all
           const th = document.createElement('th')
-          th.style.width = '50px' // TBD do not hardcode
+          th.style.width = '50px' // TODO do not hardcode
           const checkbox = document.createElement('input')
           checkbox.type = 'checkbox' // value
           th.setAttribute('scope', 'row')
@@ -667,7 +667,7 @@ class Table extends HTMLElement {
         if (this.#items && typeof this.#items === 'object' && this.#items.length) {
           // console.log('render tbody')
           const tbody = document.createElement('tbody')
-          // TBD function to get checked rows...
+          // TODO function to get checked rows...
           tbody.onclick = (e) => {
             let target = e.target
             if (this.#checkboxes && !target.cellIndex) { // checkbox clicked - target.type === 'checkbox' // e.stopPropagation()?
@@ -694,7 +694,7 @@ class Table extends HTMLElement {
               }
               const row = target.rowIndex - 1 // TR 1-index based row
               let data = null
-              if (target) { // TBD - To handle multiple UI frameworks
+              if (target) { // TODO - To handle multiple UI frameworks
                 if (this.#selectedNode) { // clear class is-selected
                   this.#selectedNode.classList.remove('is-selected')
                 }

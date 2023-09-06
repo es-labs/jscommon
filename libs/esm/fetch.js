@@ -1,4 +1,4 @@
-// TBD add retry - https://dev.to/ycmjason/javascript-fetch-retry-upon-failure-3p6g
+// TODO add retry - https://dev.to/ycmjason/javascript-fetch-retry-upon-failure-3p6g
 
 class Fetch {
   constructor(options = {}, tokens = {}) {

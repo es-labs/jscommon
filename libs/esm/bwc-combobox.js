@@ -1,9 +1,9 @@
 // Combobox with autocomplete component using input, datalist and tags
-// TBD fix multi select init in bwc-t4t-form.js
-// TBD Initially if no data for the list, please fetch some
-// TBD allow configurable classnames for tag and tag wrapper, clear icons (for bootstrap, muicss)
-// TBD single select clear value if not found and custom tags not allowed
-// TBD use ul/li instead of datalist (big change)
+// TODO fix multi select init in bwc-t4t-form.js
+// TODO Initially if no data for the list, please fetch some
+// TODO allow configurable classnames for tag and tag wrapper, clear icons (for bootstrap, muicss)
+// TODO single select clear value if not found and custom tags not allowed
+// TODO use ul/li instead of datalist (big change)
 // OR https://stackoverflow.com/questions/30022728/perform-action-when-clicking-html5-datalist-option
 
 /*
@@ -229,7 +229,7 @@ class BwcCombobox extends HTMLElement {
 
   // single-select
   get selected() { return this.#selected }
-  set selected(val) { this.#selected = val } // TBD set it correctly
+  set selected(val) { this.#selected = val } // TODO set it correctly
 
   _isStringType() { // is list item and selected values string ?
     return !(this.#key && this.#text) // console.log('_isStringType', !(this.#key && this.#text))
@@ -244,7 +244,7 @@ class BwcCombobox extends HTMLElement {
     return this._isStringType() ? item1 === item2 : item1[this.#key] === item2[this.#key] || item1[this.#text] === item2[this.#text]
   }
   _makeItemFromValue () {
-    // TBD if all spaces only... return? trim white spaces?
+    // TODO if all spaces only... return? trim white spaces?
     return this._isStringType() ? this.value : { [this.#key]: this.value, [this.#text]: this.value }    
   }
 
