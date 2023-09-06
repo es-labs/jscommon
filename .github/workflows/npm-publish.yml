@@ -26,12 +26,12 @@ jobs:
       - uses: actions/checkout@v3
         with:
           ref: ${{ github.event.inputs.tag }}
-      # Setup .npmrc file to publish to npm
-        run: echo checking out branch/tag ${GITHUB_REF##*/}
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
           registry-url: 'https://registry.npmjs.org'
+      # Setup .npmrc file to publish to npm
+      - run: echo checking out branch/tag ${GITHUB_REF##*/}
       # - run: npm install --production --workspace=libs/${{ github.event.inputs.pkg }} # NOT NEEDED CURRENTLY
       - run: npm publish --workspace=libs/${{ github.event.inputs.pkg }}
         env:
