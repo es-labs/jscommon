@@ -1,5 +1,8 @@
 'use strict'
 
+// Setting up webhook: https://api.telegram.org/bot{my_bot_token}/setWebhook?url={url_to_send_updates_to}
+// Querying webhook: https://api.telegram.org/bot{my_bot_token}/getWebhookInfo
+
 const { TELEGRAM_API_KEY, TELEGRAM_CHANNEL_ID } = process.env
 
 exports.sendMsg = async (text, chatId = '') => {
