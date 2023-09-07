@@ -8,22 +8,22 @@
   message: {
     message_id: 3,
     from: {
-      id: 183535134,
+      id: 123456789,
       is_bot: false,
       first_name: 'A',
-      last_name: 'Gong 💻',
+      last_name: 'G',
       username: 'aaronjxz',
       language_code: 'en'
     },
     chat: {
-      id: 183535134,
+      id: 123456789,
       first_name: 'A',
-      last_name: 'Gong 💻',
+      last_name: 'G',
       username: 'aaronjxz',
       type: 'private'
     },
     date: 1694045266,
-    text: '11'
+    text: 'test'
   }
 }
 */
