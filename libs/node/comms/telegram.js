@@ -2,6 +2,32 @@
 
 // Setting up webhook: https://api.telegram.org/bot{my_bot_token}/setWebhook?url={url_to_send_updates_to}
 // Querying webhook: https://api.telegram.org/bot{my_bot_token}/getWebhookInfo
+/*
+{
+  update_id: 165679876,
+  message: {
+    message_id: 3,
+    from: {
+      id: 183535134,
+      is_bot: false,
+      first_name: 'A',
+      last_name: 'Gong 💻',
+      username: 'aaronjxz',
+      language_code: 'en'
+    },
+    chat: {
+      id: 183535134,
+      first_name: 'A',
+      last_name: 'Gong 💻',
+      username: 'aaronjxz',
+      type: 'private'
+    },
+    date: 1694045266,
+    text: '11'
+  }
+}
+*/
+
 
 const { TELEGRAM_API_KEY, TELEGRAM_CHANNEL_ID } = process.env
 
