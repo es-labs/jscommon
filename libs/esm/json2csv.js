@@ -35,36 +35,44 @@ function csvToArray({ text, delimCol = DELIM_COL }) {
   return ret
 }
 
-function arrayToCsv({ row, delimCol = DELIM_COL, delimRow = DELIM_ROW }) {
+function arrayToCsv({ row, delimCol = DELIM_COL }) {
   for (let i in row) {
     row[i] = row[i].replace(/"/g, '""')
   }
-  return '"' + row.join('","') + '"'
+  console.log(row)
+  return '"' + row.join(`"${delimCol}"`) + '"'
 }
 
-function json2csv({ delimCol = DELIM_COL, delimRow = DELIM_ROW }) {
-  let csvHeader = ''
+function json2csv({ _json, delimCol = DELIM_COL, delimRow = DELIM_ROW }) {
   let csv = ''
-  let colCount = 0
+  let headers = []
+  // let colCount = 0 // check column counts match if not throw error?
   if (Array.isArray(_json)) _json.forEach((row, index) => {
     if (index === 0) {
-      const keys = Object.keys(row).join(',')
-      console.log(keys)
+      headers = Object.keys(row)
+      csv += (arrayToCsv({ row: headers, delimCol }) + delimRow)
     }
     const vals = Object.values(row).map((col) => {
-      if (typeof col === 'object') {
-        return `"${JSON.stringify(col).replace(/"/g, '""')}"`
-      }
-      else return `"${col.toString().replace(/"/g, '""')}"`
+      return (typeof col === 'object') ? JSON.stringify(col) : col.toString()
     })
-    // console.log('row count', vals.length)
-    // if (vals.length > colCount) { // create header
-    // }
-    const valStr = vals.join(delimCol)
-    csv += (valStr + delimRow)
-    console.log(valStr)
+    // if (headers.length != vals.length) throw new Error(`mismatch on columns headers count ${headers.length} != values count ${vals.length}`)
+    csv += (arrayToCsv({ row: vals, delimCol }) + delimRow)
   })
   return csv
+}
+
+function csv2json({ _text, delimCol = DELIM_COL}) {
+  // converting csv to json...
+  const arr = csvToArray({ text: _text, delimCol })
+  // TBD form JSON from array, 1st row being the best
+  const headers = arr.shift()
+  return arr.map((row) => {
+    const rv = {}
+    headers.forEach((_, index) => {
+      rv[headers[index]] = row[index]
+    })
+    return rv
+  })
 }
 
 // export default json2csv
@@ -78,7 +86,7 @@ const testString = [
   {
     a: 2, b: "k1,k2", d: new Date(), c: false,
     e: { e3: () => [1, 2, "4"] },
-    f: "bl,aba,\"h = 24\"", h: () => '2', k: "\"2 [\\\\\]2\"",
+    f: "bl,aba,\"h = 24\"", h: () => '2', k: "\"2 [\n\\\\\]2\"", m: "dvs\r\n444\"55"
     // m: undefined // this will throw an error which is good
   }
 ]
@@ -102,39 +110,36 @@ const testString = [
 
 // [
 //   { "a": "asd", "b": "123", "c": "11" },
-//   {
-//     "a": "a", "b": "sd\"", "c": "12,,\"3", "__parsed_extra": [ "\"\\\"=\".\\\"3" ]
-//   }
+//   { "a": "a", "b": "sd\"", "c": "12,,\"3", "__parsed_extra": [ "\"\\\"=\".\\\"3" ] }
 // ]
 
-// json2csv(testString)
+function testJsonCsv () {
+  const _csv = json2csv({ _json: testString })
+  console.log(_csv)
 
-
-// let test = '"one","two with escaped """" double quotes""","three, with, commas",four with no quotes,"five with CRLF\r\n"\r\n"2nd line one","two with escaped """" double quotes""","three, with, commas",four with no quotes,"five with CRLF\r\n"';
-// console.log(csvToArray({ text: test }))
-
-let rows = [
-  [ "one", "two with escaped \" double quote", "three, with, commas", "four with no quotes (now has)", "five for fun", "six\r\nhas multiple\r\nlines" ],
-  [ "one", "two with escaped \" double quote", "three, with, commas", "four with no quotes (now has)", "five for fun", "six\r\nhas multiple\r\nlines" ]
-]
-
-let csvStr = ''
-const result = rows.forEach((row) => csvStr += (arrayToCsv({ row }) + DELIM_ROW))
-// console.log(csvStr)
-
-console.log(
-  csvToArray({ text: csvStr })
-)
-
-
-/*
-{
-  "abc": "11,22,33,\",\"44",
-  "def": 456,
-  "ghi": "hello, world"
+  const _json = csv2json({ _text: _csv })
+  console.log(_json)
 }
 
+function testArrayCsv () {
+  let rows = [
+    [ "one", "two with escaped \" double quote", "three, with, commas", "four with no quotes (now has)", "five for fun", "six\r\nhas multiple\r\nlines" ],
+    [ "one", "two with escaped \" double quote", "three, with, commas", "four with no quotes (now has)", "five for fun", "six\r\nhas multiple\r\nlines" ]
+  ]
 
-abc,def,ghi
-"11,22,33,"",""44",456,"hello, world" // now how to parse field delimiter
-*/
+  let csvStr = ''
+  rows.forEach((row) => csvStr += (arrayToCsv({row}) + DELIM_ROW))
+  console.log(csvStr)
+
+  console.log(
+    csvToArray({ text: csvStr })
+  )
+}
+
+// testJsonCsv()
+// testArrayCsv()
+
+// { "abc": "11,22,33,\",\"44", "def": 456, "ghi": "hello, world" }
+//
+// abc,def,ghi
+// "11,22,33,"",""44",456,"hello, world" // now how to parse field delimiter
