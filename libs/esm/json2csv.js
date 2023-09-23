@@ -75,8 +75,6 @@ function csv2json({ _text, delimCol = DELIM_COL}) {
   })
 }
 
-// export default json2csv
-
 const testString = [
   {
     a: 1, b: "n1,n2", c: true, d: new Date(),
@@ -143,3 +141,8 @@ function testArrayCsv () {
 //
 // abc,def,ghi
 // "11,22,33,"",""44",456,"hello, world" // now how to parse field delimiter
+
+export {
+  json2csv,
+  csv2json
+}
