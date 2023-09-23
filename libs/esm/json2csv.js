@@ -1,73 +1,140 @@
+'use strict'
+// PROBLEMS
+// 1. what if columns are not same (use less or use more) ?
+// 2. what if row is missing
+
+
+// RFC 4180
+// https://stackoverflow.com/a/41563966
+// https://www.convertcsv.com/json-to-csv.htm
+// double quote only required if field contains newline characters
+const DELIM_ROW = "\n" // unix end of line \r\n for windows
+const DELIM_COL = ','
+
+function csvToArray({ text, delimCol = DELIM_COL }) {
+  let p = '', row = [''], ret = [row], i = 0, r = 0, s = !0, l
+  for (l of text) {
+    if ('"' === l) {
+      if (s && l === p) row[i] += l
+      s = !s
+    } else if (delimCol === l && s) l = row[++i] = ''
+    else if ('\n' === l && s) {
+      if ('\r' === p) row[i] = row[i].slice(0, -1)
+      row = ret[++r] = [l = '']
+      i = 0
+    } else row[i] += l
+    p = l
+  }
+  if (
+    ret?.length
+    && ret[ret.length - 1]?.length === 1
+    && ret[ret.length - 1][0] === ''
+  ) {
+    ret.pop() // remove last element of ret
+  }
+  return ret
+}
+
+function arrayToCsv({ row, delimCol = DELIM_COL, delimRow = DELIM_ROW }) {
+  for (let i in row) {
+    row[i] = row[i].replace(/"/g, '""')
+  }
+  return '"' + row.join('","') + '"'
+}
+
+function json2csv({ delimCol = DELIM_COL, delimRow = DELIM_ROW }) {
+  let csvHeader = ''
+  let csv = ''
+  let colCount = 0
+  if (Array.isArray(_json)) _json.forEach((row, index) => {
+    if (index === 0) {
+      const keys = Object.keys(row).join(',')
+      console.log(keys)
+    }
+    const vals = Object.values(row).map((col) => {
+      if (typeof col === 'object') {
+        return `"${JSON.stringify(col).replace(/"/g, '""')}"`
+      }
+      else return `"${col.toString().replace(/"/g, '""')}"`
+    })
+    // console.log('row count', vals.length)
+    // if (vals.length > colCount) { // create header
+    // }
+    const valStr = vals.join(delimCol)
+    csv += (valStr + delimRow)
+    console.log(valStr)
+  })
+  return csv
+}
+
+// export default json2csv
+
 const testString = [
   {
-    a: 1,
-    b: "n1,n2",
-    c: true,
-    d: new Date(),
-    e: {
-      e1: "Hello \"World\" 1",
-      e2: [1, 2, "4"]
-    },
-    f: "bl,ah = 24\""
+    a: 1, b: "n1,n2", c: true, d: new Date(),
+    e: { e1: "Hello \"World\" 1", e2: [1, 2, "4"], tt: () => "22" },
+    f: "bl,ah = 24\"", g: null
   },
   {
-    a: 2,
-    b: "k1,k2",
-    d: new Date(),
-    c: false,
-    e: {
-      e3: () => [1, 2, "4"]
-    },
-    f: "bl,aba,\"h = 24\""
+    a: 2, b: "k1,k2", d: new Date(), c: false,
+    e: { e3: () => [1, 2, "4"] },
+    f: "bl,aba,\"h = 24\"", h: () => '2', k: "\"2 [\\\\\]2\"",
+    // m: undefined // this will throw an error which is good
   }
 ]
-
-// a,b,c,d,e,f
-// "1","n1,n2","true","2023-04-06T23:43:13.325Z",{"e1":"Hello \"World\" 1","e2":[1,2,"4"]},"bl,ah = 24""
-// "2","k1,k2","2023-04-06T23:43:13.325Z","false",{},"bl,aba,"h = 24""
-
 
 // causing problems ( ", )
 // a,b,c
 // "asd","123",11
 // "a",sd","12,,"3",""\"=".\""3"
 
+// INPUT
+// {
+//   "aa": "123 456",
+//   "bb": "dvs\r\n444\"55",
+//   "cc": "aa\"b,b"
+// }
+
+// OUTPUT
+// aa,bb,cc
+// 123 456,"dvs
+// 444""55","aa""b,b"
+
 // [
+//   { "a": "asd", "b": "123", "c": "11" },
 //   {
-//     "a": "asd",
-//     "b": "123",
-//     "c": "11"
-//   },
-//   {
-//     "a": "a",
-//     "b": "sd\"",
-//     "c": "12,,\"3",
-//     "__parsed_extra": [
-//       "\"\\\"=\".\\\"3"
-//     ]
+//     "a": "a", "b": "sd\"", "c": "12,,\"3", "__parsed_extra": [ "\"\\\"=\".\\\"3" ]
 //   }
 // ]
 
+// json2csv(testString)
 
-// string.replace(/\"/g, "\"\"")
 
-function json2csv(_json) {
-  let csv = ''
-  if (Array.isArray(_json)) _json.forEach((row, index) => {
-    if (index === 0) {
-      const keys = Object.keys(row).join(',')
-      console.log(keys)
-    }
-    const vals = Object.values(row).map((col) => { // TODO escaping
-      if (typeof col === 'object') return JSON.stringify(col)
-      else return `"${col.toString()}"`
-    })
-    const valStr = vals.join(',')
-    console.log(valStr)
-  })
-  return csv
+// let test = '"one","two with escaped """" double quotes""","three, with, commas",four with no quotes,"five with CRLF\r\n"\r\n"2nd line one","two with escaped """" double quotes""","three, with, commas",four with no quotes,"five with CRLF\r\n"';
+// console.log(csvToArray({ text: test }))
+
+let rows = [
+  [ "one", "two with escaped \" double quote", "three, with, commas", "four with no quotes (now has)", "five for fun", "six\r\nhas multiple\r\nlines" ],
+  [ "one", "two with escaped \" double quote", "three, with, commas", "four with no quotes (now has)", "five for fun", "six\r\nhas multiple\r\nlines" ]
+]
+
+let csvStr = ''
+const result = rows.forEach((row) => csvStr += (arrayToCsv({ row }) + DELIM_ROW))
+// console.log(csvStr)
+
+console.log(
+  csvToArray({ text: csvStr })
+)
+
+
+/*
+{
+  "abc": "11,22,33,\",\"44",
+  "def": 456,
+  "ghi": "hello, world"
 }
 
-json2csv(testString)
 
-// export default json2csv
+abc,def,ghi
+"11,22,33,"",""44",456,"hello, world" // now how to parse field delimiter
+*/
