@@ -3,12 +3,13 @@
 // 1. what if columns are not same (use less or use more) ?
 // 2. what if row is missing
 
-
 // RFC 4180
 // https://stackoverflow.com/a/41563966
 // https://www.convertcsv.com/json-to-csv.htm
 // double quote only required if field contains newline characters
-const DELIM_ROW = "\n" // unix end of line \r\n for windows
+// check if valid json key syntax
+
+const DELIM_ROW = "\n" // end of line \r\n for Windows \n for Linux
 const DELIM_COL = ','
 
 function csvToArray({ text, delimCol = DELIM_COL }) {
