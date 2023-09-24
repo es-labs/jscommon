@@ -43,20 +43,19 @@ function arrayToCsv({ row, delimCol = DELIM_COL }) {
   console.log(row)
   return '"' + row.join(`"${delimCol}"`) + '"'
 }
-
 function json2csv({ _json, delimCol = DELIM_COL, delimRow = DELIM_ROW }) {
   let csv = ''
   let headers = []
   // let colCount = 0 // check column counts match if not throw error?
   if (Array.isArray(_json)) _json.forEach((row, index) => {
-    if (index === 0) {
+    if (index === 0) { // create 1st row as header
       headers = Object.keys(row)
       csv += (arrayToCsv({ row: headers, delimCol }) + delimRow)
     }
     const vals = Object.values(row).map((col) => {
       return (typeof col === 'object') ? JSON.stringify(col) : col.toString()
     })
-    // if (headers.length != vals.length) throw new Error(`mismatch on columns headers count ${headers.length} != values count ${vals.length}`)
+    if (headers.length != vals.length) throw new Error(`Mismatch headers(${headers.length}) != columns (${vals.length})`)
     csv += (arrayToCsv({ row: vals, delimCol }) + delimRow)
   })
   return csv
@@ -65,10 +64,11 @@ function json2csv({ _json, delimCol = DELIM_COL, delimRow = DELIM_ROW }) {
 function csv2json({ _text, delimCol = DELIM_COL}) {
   // converting csv to json...
   const arr = csvToArray({ text: _text, delimCol })
-  // TBD form JSON from array, 1st row being the best
-  const headers = arr.shift()
+  const headers = arr.shift() // 1st row is the headers
   return arr.map((row) => {
     const rv = {}
+    if (headers.length != row.length) throw new Error(`Mismatch headers(${headers.length}) != columns (${row.length})`)
+
     headers.forEach((_, index) => {
       rv[headers[index]] = row[index]
     })
