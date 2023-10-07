@@ -12,7 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@es-labs/node": "^0.0.30",
-    "knex": "^2.5.1",
+    "knex": "^3.0.1",
     "sqlite3": "^5.1.6"
   }
 }
