@@ -43,7 +43,8 @@ function arrayToCsv({ row, delimCol = DELIM_COL }) {
   console.log(row)
   return '"' + row.join(`"${delimCol}"`) + '"'
 }
-function json2csv({ _json, delimCol = DELIM_COL, delimRow = DELIM_ROW }) {
+
+function jsonToCsv({ _json, delimCol = DELIM_COL, delimRow = DELIM_ROW }) {
   let csv = ''
   let headers = []
   // let colCount = 0 // check column counts match if not throw error?
@@ -61,7 +62,7 @@ function json2csv({ _json, delimCol = DELIM_COL, delimRow = DELIM_ROW }) {
   return csv
 }
 
-function csv2json({ _text, delimCol = DELIM_COL}) {
+function csvToJson({ _text, delimCol = DELIM_COL}) {
   // converting csv to json...
   const arr = csvToArray({ text: _text, delimCol })
   const headers = arr.shift() // 1st row is the headers
@@ -113,10 +114,10 @@ const testString = [
 // ]
 
 function testJsonCsv () {
-  const _csv = json2csv({ _json: testString })
+  const _csv = jsonToCsv({ _json: testString })
   console.log(_csv)
 
-  const _json = csv2json({ _text: _csv })
+  const _json = csvToJson({ _text: _csv })
   console.log(_json)
 }
 
@@ -144,6 +145,8 @@ function testArrayCsv () {
 // "11,22,33,"",""44",456,"hello, world" // now how to parse field delimiter
 
 export {
-  json2csv,
-  csv2json
+  jsonToCsv,
+  csvToJson,
+  csvToArray,
+  arrayToCsv
 }
