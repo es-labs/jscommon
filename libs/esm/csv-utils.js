@@ -27,12 +27,13 @@ function csvToArray({ text, delimCol = DELIM_COL }) {
     p = l
   }
   if (
-    ret?.length
-    && ret[ret.length - 1]?.length === 1
+    ret.length
+    && ret[ret.length - 1].length === 1
     && ret[ret.length - 1][0] === ''
   ) {
     ret.pop() // remove last element of ret
   }
+  let x = { ss: true }
   return ret
 }
 
@@ -44,7 +45,7 @@ function arrayToCsv({ row, delimCol = DELIM_COL }) {
   return '"' + row.join(`"${delimCol}"`) + '"'
 }
 
-function jsonToCsv({ _json, delimCol = DELIM_COL, delimRow = DELIM_ROW }) {
+function jsonToCsv({ _json, delimCol = DELIM_COL, delimRow = DELIM_ROW, ignoreColumnMismatch = false }) {
   let csv = ''
   let headers = []
   // let colCount = 0 // check column counts match if not throw error?
@@ -56,19 +57,19 @@ function jsonToCsv({ _json, delimCol = DELIM_COL, delimRow = DELIM_ROW }) {
     const vals = Object.values(row).map((col) => {
       return (typeof col === 'object') ? JSON.stringify(col) : col.toString()
     })
-    if (headers.length != vals.length) throw new Error(`Mismatch headers(${headers.length}) != columns (${vals.length})`)
+    if (headers.length != vals.length && !ignoreColumnMismatch) throw new Error(`Mismatch headers(${headers.length}) != columns (${vals.length})`)
     csv += (arrayToCsv({ row: vals, delimCol }) + delimRow)
   })
   return csv
 }
 
-function csvToJson({ _text, delimCol = DELIM_COL}) {
+function csvToJson({ _text, delimCol = DELIM_COL, ignoreColumnMismatch = false}) {
   // converting csv to json...
   const arr = csvToArray({ text: _text, delimCol })
   const headers = arr.shift() // 1st row is the headers
   return arr.map((row) => {
     const rv = {}
-    if (headers.length != row.length) throw new Error(`Mismatch headers(${headers.length}) != columns (${row.length})`)
+    if (headers.length != row.length && !ignoreColumnMismatch) throw new Error(`Mismatch headers(${headers.length}) != columns (${row.length})`)
 
     headers.forEach((_, index) => {
       rv[headers[index]] = row[index]
@@ -114,10 +115,10 @@ const testString = [
 // ]
 
 function testJsonCsv () {
-  const _csv = jsonToCsv({ _json: testString })
+  const _csv = jsonToCsv({ _json: testString, ignoreColumnMismatch: true })
   console.log(_csv)
 
-  const _json = csvToJson({ _text: _csv })
+  const _json = csvToJson({ _text: _csv, ignoreColumnMismatch: true })
   console.log(_json)
 }
 
