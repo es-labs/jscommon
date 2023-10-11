@@ -1,11 +1,10 @@
 {
   "name": "@es-labs/esm",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "description": "reusable esm code",
   "main": "index.js",
   "author": "Aaron Gong",
   "license": "MIT",
-  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
