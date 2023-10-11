@@ -1,4 +1,6 @@
 'use strict'
+// use csv-parse and @json2csv/plainjs instead
+
 // PROBLEMS
 // 1. what if columns are not same (use less or use more) ?
 // 2. what if row is missing
@@ -41,7 +43,7 @@ function arrayToCsv({ row, delimCol = DELIM_COL }) {
   for (let i in row) {
     row[i] = row[i].replace(/"/g, '""')
   }
-  console.log(row)
+  // console.log(row)
   return '"' + row.join(`"${delimCol}"`) + '"'
 }
 
