@@ -18,6 +18,7 @@ module.exports = (app, express) => {
   const helmet = require('helmet')
   console.log('helmet setting up')
   try {
+    console.log('HELMET_OPTIONS', HELMET_OPTIONS)
     const helmetOptions = JSON.parse(HELMET_OPTIONS || null)
     if (helmetOptions) {
       if (helmetOptions.nosniff) app.use(helmet.noSniff())
@@ -40,28 +41,12 @@ module.exports = (app, express) => {
   const cors = require('cors')
   console.log('cors setting up')
   try {
+    console.log('CORS_OPTIONS', CORS_OPTIONS)
     const corsOptions = JSON.parse(CORS_OPTIONS || null)
-    // if (corsOptions) { // maybe not needed
-    //   let { origin } = corsOptions // origin = ['http://example1.com', 'http://example2.com']
-    //   if (CORS_ORIGINS) origin = CORS_ORIGINS  
-    //   let allowList = origin.split(',')
-    //   if (allowList.length === 1) origin = allowList[0]
-    //   else if (allowList.length > 1) {
-    //     origin = function (_origin, callback) {
-    //       if(!_origin || _origin === 'null') return callback(null, true) // allow requests with no origin (like mobile apps or curl requests)
-    //       if (allowList.indexOf(_origin) !== -1) {
-    //         return callback(null, true)
-    //       } else {
-    //         return callback(new Error('Not allowed by CORS'), false)
-    //       }
-    //     }
-    //   }
-    //   if (origin) corsOptions.origin = origin  
-    // }
     app.use(corsOptions ? cors(corsOptions) : cors()) // default { origin: '*' }
     console.info('cors setup done')
   } catch (e) {
-    console.error('[cors setup error]', e.toString());
+    console.error('[cors setup error]', e.toString())
     throw(new Error())
   }
 
@@ -72,6 +57,8 @@ module.exports = (app, express) => {
   // look out for... Unexpected token n in JSON at position 0 ... client request body must match request content-type, if applicaion/json, body cannot be null/undefined
   console.log('bodyparser setting up')
   try {
+    console.log('BODYPARSER_JSON', BODYPARSER_JSON)
+    console.log('BODYPARSER_URLENCODED', BODYPARSER_URLENCODED)
     app.use(express.json( JSON.parse(BODYPARSER_JSON || null) || { limit: '2mb' }))
     app.use(express.urlencoded( JSON.parse(BODYPARSER_URLENCODED || null) || { extended: true, limit: '2mb' })) // https://stackoverflow.com/questions/29175465/body-parser-extended-option-qs-vs-querystring/29177740#29177740
     console.info('bodyparser setup done')
@@ -81,12 +68,8 @@ module.exports = (app, express) => {
   }
 
   const cookieParser = require('cookie-parser')
+  console.log('COOKIE_SECRET', COOKIE_SECRET)
   app.use(cookieParser(COOKIE_SECRET))
 
-  // TODELETE const passport = require('passport')
-  // app.use(passport.initialize())
-  // passport.serializeUser((user, done) => { done(null, user) })
-  // passport.deserializeUser((user, done) => { done(null, user) })
-  
   return this // this is undefined...
 }
