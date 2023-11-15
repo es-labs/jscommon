@@ -12,8 +12,11 @@ export const dateStrAddDayISO = (isoString, days = 0) => {
   return d.toISOString()
 }
 
-export const getLocaleDateTimeTzISO = (isoString) => {
-  return (new Date(isoString)).toLocaleString('sv', {
+// Input: Date object or ISO datetime string
+// Return Format: 2023-10-24 11:40:15 GMT+8
+export const getLocaleDateTimeTzISO = (dt) => {
+  if (!(dt instanceof Date)) dt = new Date(dt)
+  return dt.toLocaleString('sv', {
       timeZoneName: 'short',
       hour12: false,
       year: 'numeric',
