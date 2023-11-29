@@ -1,13 +1,38 @@
 'use strict'
 
 const crypto = require('crypto')
-const {
-  SENDGRID_KEY,
-  SENDGRID_SENDER_NAME,
-  SENDGRID_SENDER_EMAIL,
-  SENDGRID_TEMPLATE_ID,
-  SENDGRID_URL = 'https://api.sendgrid.com/v3/mail/send'
-} = process.env
+const { SENDGRID_KEY, SENDGRID_SENDER_NAME, SENDGRID_SENDER_EMAIL, SENDGRID_TEMPLATE_ID, SENDGRID_URL = 'https://api.sendgrid.com/v3/mail/send' } = process.env
+
+// generate random hash to prevent duplicate emails
+const generateRandomHash = () => {
+  return crypto.createHash('sha256').update(new Date().toString()).digest('hex').slice(0, 15)
+}
+
+/**
+ * Hit SendGrid API to send email
+ * 
+ * Full documentation: https://docs.sendgrid.com/api-reference/mail-send/mail-send#body
+ * 
+ * @param {Object} body needed parameters to send email
+ */
+const sendMail = async (body) => {
+  try {
+    const headers = {
+      Authorization: `Bearer ${SENDGRID_KEY}`,
+      'Content-Type': 'application/json'
+    }
+
+    const response = await fetch(SENDGRID_URL, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(body)
+    })
+
+    return response
+  } catch (error) {
+    throw error
+  }
+}
 
 /**
  * Send html email using SendGrid
@@ -25,12 +50,9 @@ exports.sendEmail = async (to, subject, content) => {
     if (!SENDGRID_SENDER_EMAIL) throw new Error('SENDGRID_SENDER_EMAIL is not defined')
 
     // generate random hash to prevent duplicate emails
-    const hash = crypto
-      .createHash('sha256')
-      .update(new Date().toString())
-      .digest('hex')
-      .slice(0, 15)
+    const hash = generateRandomHash()
 
+    // request body
     const body = {
       personalizations: [{ to: [{ email: to }] }],
       from: {
@@ -49,17 +71,7 @@ exports.sendEmail = async (to, subject, content) => {
       }
     }
 
-    const headers = {
-      Authorization: `Bearer ${SENDGRID_KEY}`,
-      'Content-Type': 'application/json'
-    }
-
-    const response = await fetch(SENDGRID_URL, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify(body)
-    })
-
+    const response = await sendMail(body)
     return response
   } catch (error) {
     throw error
@@ -81,12 +93,9 @@ exports.sendDynamicEmail = async (to, subject, content) => {
     if (!SENDGRID_TEMPLATE_ID) throw new Error('SENDGRID_TEMPLATE_ID is not defined')
 
     // generate random hash to prevent duplicate emails
-    const hash = crypto
-      .createHash('sha256')
-      .update(new Date().toString())
-      .digest('hex')
-      .slice(0, 15)
+    const hash = generateRandomHash()
 
+    // request body
     const body = {
       personalizations: [
         {
@@ -107,17 +116,7 @@ exports.sendDynamicEmail = async (to, subject, content) => {
       }
     }
 
-    const headers = {
-      Authorization: `Bearer ${SENDGRID_KEY}`,
-      'Content-Type': 'application/json'
-    }
-
-    const response = await fetch(SENDGRID_URL, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify(body)
-    })
-
+    const response = await sendMail(body)
     return response
   } catch (error) {
     throw error
