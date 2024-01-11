@@ -62,7 +62,7 @@ module.exports = (app, express) => {
       if (BODYPARSER_RAW_ROUTES?.split(',').includes(req.originalUrl)) { // raw routes - ignore bodyparser json
         next()
       } else {
-        express.json( JSON.parse(BODYPARSER_JSON || null) || { limit: '2mb' })
+        express.json( JSON.parse(BODYPARSER_JSON || null) || { limit: '2mb' })(req, res, next)
       }
     })
     app.use(express.urlencoded( JSON.parse(BODYPARSER_URLENCODED || null) || { extended: true, limit: '2mb' })) // https://stackoverflow.com/questions/29175465/body-parser-extended-option-qs-vs-querystring/29177740#29177740
