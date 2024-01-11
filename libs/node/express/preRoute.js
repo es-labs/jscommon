@@ -18,7 +18,7 @@ module.exports = (app, express) => {
   const helmet = require('helmet')
   console.log('helmet setting up')
   try {
-    console.log('HELMET_OPTIONS', HELMET_OPTIONS)
+    console.log({ HELMET_OPTIONS })
     const helmetOptions = JSON.parse(HELMET_OPTIONS || null)
     if (helmetOptions) {
       if (helmetOptions.nosniff) app.use(helmet.noSniff())
@@ -41,7 +41,7 @@ module.exports = (app, express) => {
   const cors = require('cors')
   console.log('cors setting up')
   try {
-    console.log('CORS_OPTIONS', CORS_OPTIONS)
+    console.log({ CORS_OPTIONS })
     const corsOptions = JSON.parse(CORS_OPTIONS || null)
     app.use(corsOptions ? cors(corsOptions) : cors()) // default { origin: '*' }
     console.info('cors setup done')
@@ -53,13 +53,18 @@ module.exports = (app, express) => {
   // express-limiter, compression, use reverse proxy
 
   // ------ body-parser and-cookie parser ------
-  const { BODYPARSER_JSON, BODYPARSER_URLENCODED } = process.env
+  const { BODYPARSER_JSON, BODYPARSER_URLENCODED, BODYPARSER_RAW_ROUTES = '' } = process.env
   // look out for... Unexpected token n in JSON at position 0 ... client request body must match request content-type, if applicaion/json, body cannot be null/undefined
   console.log('bodyparser setting up')
   try {
-    console.log('BODYPARSER_JSON', BODYPARSER_JSON)
-    console.log('BODYPARSER_URLENCODED', BODYPARSER_URLENCODED)
-    app.use(express.json( JSON.parse(BODYPARSER_JSON || null) || { limit: '2mb' }))
+    console.table({ BODYPARSER_RAW_ROUTES, BODYPARSER_JSON, BODYPARSER_URLENCODED })
+    app.use((req, res, next) => {
+      if (BODYPARSER_RAW_ROUTES?.split(',').includes(req.originalUrl)) { // raw routes - ignore bodyparser json
+        next()
+      } else {
+        express.json( JSON.parse(BODYPARSER_JSON || null) || { limit: '2mb' })
+      }
+    })
     app.use(express.urlencoded( JSON.parse(BODYPARSER_URLENCODED || null) || { extended: true, limit: '2mb' })) // https://stackoverflow.com/questions/29175465/body-parser-extended-option-qs-vs-querystring/29177740#29177740
     console.info('bodyparser setup done')
   } catch (e) {
@@ -68,7 +73,7 @@ module.exports = (app, express) => {
   }
 
   const cookieParser = require('cookie-parser')
-  console.log('COOKIE_SECRET', COOKIE_SECRET)
+  console.log({ COOKIE_SECRET })
   app.use(cookieParser(COOKIE_SECRET))
 
   return this // this is undefined...
