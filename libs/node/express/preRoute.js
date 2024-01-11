@@ -59,7 +59,9 @@ module.exports = (app, express) => {
   try {
     console.table({ BODYPARSER_RAW_ROUTES, BODYPARSER_JSON, BODYPARSER_URLENCODED })
     app.use((req, res, next) => {
-      if (BODYPARSER_RAW_ROUTES?.split(',').includes(req.originalUrl)) { // raw routes - ignore bodyparser json
+      const p2r = require('path-to-regexp')
+      const rawMatch = BODYPARSER_RAW_ROUTES?.split(',').find(route => p2r(route).test(req.originalUrl))
+      if (rawMatch) { // raw routes - ignore bodyparser json
         next()
       } else {
         express.json( JSON.parse(BODYPARSER_JSON || null) || { limit: '2mb' })(req, res, next)
