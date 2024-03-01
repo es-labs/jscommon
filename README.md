@@ -11,6 +11,12 @@ The common tools are:
   - Knex (sqlite, mysql, postgres, mssql, snowflake, ...)
   - Mongo client
 
+## Workspace
+
+1. listing workspaces `npm query .workspace | grep "location"`
+
+2. Updating major version by workspace `npm i @node-saml/node-saml@latest --workspace=libs/node`
+
 ## Publishing packages to npm
 
 **IMPORTANT** before publish, bump version in each project using `npm version` command (see npm version --help for explanation)
@@ -24,14 +30,14 @@ npm version patch
 
 Publish using Github actions (add AUTH TOKEN from npm to Github Secrets)
 
-or...
-
-`npm publish` command
+or...use `npm publish` command
 
 **Example** - Npm publish for esm project
 
 ```bash
 cd libs/esm
+npm version patch
+
 # need to use --access public as it is scoped package on free plan
 npm publish --access public
 ```
