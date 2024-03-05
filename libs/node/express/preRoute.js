@@ -1,8 +1,10 @@
-module.exports = (app, express) => {
+'use strict'
+
+const preRoute = (app, express) => {
   const {
     ENABLE_LOGGER,
-    CORS_OPTIONS,
-    // CORS_ORIGINS,
+    CORS_OPTIONS, // CORS_ORIGINS no longer in use
+    CORS_DEFAULTS,
     HELMET_OPTIONS,
     COOKIE_SECRET = (parseInt(Date.now() / 28800000) * 28800000).toString()
   } = process.env
@@ -34,19 +36,36 @@ module.exports = (app, express) => {
     throw(new Error())
   }
 
+    // -------- CORS --------
   // Set CORS headers so client is able to communicate with this server
   // Access-Control-Allow-Origin=*
   // Access-Control-Allow-Methods=GET,POST,PUT,PATCH,DELETE,OPTIONS
-  // Access-Control-Allow-Headers=Content-Type
+  // Access-Control-Allow-Headers=Content-Type, Authorization
   const cors = require('cors')
   console.log('cors setting up')
   try {
     console.log({ CORS_OPTIONS })
     const corsOptions = JSON.parse(CORS_OPTIONS || null)
     app.use(corsOptions ? cors(corsOptions) : cors()) // default { origin: '*' }
-    console.info('cors setup done')
+    console.info('cors options done')
   } catch (e) {
-    console.error('[cors setup error]', e.toString())
+    console.error('[cors options error]', e.toString())
+    throw(new Error())
+  }
+  // Set CORS defaults if certain CORS headers are missing
+  try {
+    console.log({ CORS_DEFAULTS })
+    const corsDefaults = JSON.parse(CORS_DEFAULTS || null)
+    if (corsDefaults) {
+      app.use((req, res, next) => {
+        for (const key in corsDefaults) {
+          if (!res.get(key)) res.set(key, corsDefaults[key])
+        }
+        next()
+      })
+    }
+  } catch (e) {
+    console.error('[cors defaults error]', e.toString())
     throw(new Error())
   }
 
@@ -80,3 +99,5 @@ module.exports = (app, express) => {
 
   return this // this is undefined...
 }
+
+module.exports = preRoute

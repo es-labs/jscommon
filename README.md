@@ -13,7 +13,7 @@ The common tools are:
 
 ## Workspace
 
-1. listing workspaces `npm query .workspace | grep "location"`
+1. listing workspaces `npm ls -ws`
 
 2. Updating major version by workspace `npm i @node-saml/node-saml@latest --workspace=libs/node`
 

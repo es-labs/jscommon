@@ -1,6 +1,6 @@
 'use strict'
 
-module.exports = (app, express) => {
+const postRoute = (app, express) => {
   let  { UPLOAD_STATIC, PROXY_WWW_ORIGIN, WEB_STATIC } = process.env
   // app.set('case sensitive routing', true)
 
@@ -59,3 +59,5 @@ module.exports = (app, express) => {
 
   return this
 }
+
+module.exports = postRoute
