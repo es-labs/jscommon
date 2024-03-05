@@ -30,8 +30,9 @@ jobs:
       - run: npm version patch --workspace=libs/${{ github.event.inputs.pkg }}
       - run: git push
   install_and_publish:
-    needs: inc_patch_ver
     name: Install production dependencies and publish to npm
+    if: ${{ !always() }}
+    needs: inc_patch_ver
     runs-on: ubuntu-latest
     strategy:
       matrix:
