@@ -24,8 +24,7 @@ The common tools are:
 **Example** - Updating version for node project
 
 ```bash
-cd libs/node
-npm version patch
+npm run patch:node
 ```
 
 Publish using Github actions (add AUTH TOKEN from npm to Github Secrets)
@@ -35,8 +34,7 @@ or...use `npm publish` command
 **Example** - Npm publish for esm project
 
 ```bash
-cd libs/esm
-npm version patch
+npm run patch:esm
 
 # need to use --access public as it is scoped package on free plan
 npm publish --access public
