@@ -19,7 +19,9 @@
   ],
   "scripts": {
     "git:hash": "git rev-parse --verify --short HEAD",
-    "git:branch": "git rev-parse --abbrev-ref HEAD"
+    "git:branch": "git rev-parse --abbrev-ref HEAD",
+    "patch:node": "npm version patch --workspace=libs/node",
+    "patch:esm": "npm version patch --workspace=libs/node"
   },
   "engines": {
     "node": ">=18",

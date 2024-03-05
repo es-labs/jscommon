@@ -15,27 +15,25 @@ on:
         default: 'main'
         required: true
 jobs:
-  inc_patch_ver:
-    name: Increment patch version
-    runs-on: ubuntu-latest
-    # if: "!startsWith(github.event.head_commit.message, '[RELEASE]')"
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          ref: ${{ github.event.inputs.tag }}
-          # token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-      - run: git config --global user.name 'ais-one'
-      - run: git config --global user.email 'aaronjxz@gmail.com'
-      # - run: npm version patch -m "[RELEASE] %s"
-      - run: npm version patch --workspace=libs/${{ github.event.inputs.pkg }}
-      - run: |
-          git add .
-          git commit -m "inc patch ver"
-          git push
+  # COMMENTED BECAUSE: cannot push to protected branch
+  # inc_patch_ver:
+  #   name: Increment patch version
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #       with:
+  #         ref: ${{ github.event.inputs.tag }}
+  #     - run: git config --global user.name 'ais-one'
+  #     - run: git config --global user.email 'aaronjxz@gmail.com'
+  #     - run: npm version patch --workspace=libs/${{ github.event.inputs.pkg }}
+  #     - run: |
+  #         git add .
+  #         git commit -m "inc patch ver"
+  #         git push
   install_and_publish:
     name: Install production dependencies and publish to npm
-    if: ${{ !always() }}
-    needs: inc_patch_ver
+    # if: ${{ !always() }}
+    # needs: inc_patch_ver
     runs-on: ubuntu-latest
     strategy:
       matrix:
