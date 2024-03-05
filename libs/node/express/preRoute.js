@@ -19,8 +19,8 @@ const preRoute = (app, express) => {
   // ------ SECURITY ------
   const helmet = require('helmet')
   console.log('helmet setting up')
+  console.table({ HELMET_OPTIONS })
   try {
-    console.log({ HELMET_OPTIONS })
     const helmetOptions = JSON.parse(HELMET_OPTIONS || null)
     if (helmetOptions) {
       if (helmetOptions.nosniff) app.use(helmet.noSniff())
@@ -43,8 +43,8 @@ const preRoute = (app, express) => {
   // Access-Control-Allow-Headers=Content-Type, Authorization
   const cors = require('cors')
   console.log('cors setting up')
+  console.table({ CORS_OPTIONS, CORS_DEFAULTS })
   try {
-    console.log({ CORS_OPTIONS })
     const corsOptions = JSON.parse(CORS_OPTIONS || null)
     app.use(corsOptions ? cors(corsOptions) : cors()) // default { origin: '*' }
     console.info('cors options done')
@@ -54,7 +54,6 @@ const preRoute = (app, express) => {
   }
   // Set CORS defaults if certain CORS headers are missing
   try {
-    console.log({ CORS_DEFAULTS })
     const corsDefaults = JSON.parse(CORS_DEFAULTS || null)
     if (corsDefaults) {
       app.use((req, res, next) => {
@@ -75,8 +74,8 @@ const preRoute = (app, express) => {
   const { BODYPARSER_JSON, BODYPARSER_URLENCODED, BODYPARSER_RAW_ROUTES = '' } = process.env
   // look out for... Unexpected token n in JSON at position 0 ... client request body must match request content-type, if applicaion/json, body cannot be null/undefined
   console.log('bodyparser setting up')
+  console.table({ BODYPARSER_RAW_ROUTES, BODYPARSER_JSON, BODYPARSER_URLENCODED })
   try {
-    console.table({ BODYPARSER_RAW_ROUTES, BODYPARSER_JSON, BODYPARSER_URLENCODED })
     app.use((req, res, next) => {
       const p2r = require('path-to-regexp')
       const rawMatch = BODYPARSER_RAW_ROUTES?.split(',').find(route => p2r(route).test(req.originalUrl))
