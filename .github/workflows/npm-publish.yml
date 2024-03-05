@@ -31,7 +31,7 @@ jobs:
       - run: |
           git add .
           git commit -m "inc patch ver"
-          git push origin ${{ github.event.inputs.tag }}
+          git push
   install_and_publish:
     name: Install production dependencies and publish to npm
     if: ${{ !always() }}
