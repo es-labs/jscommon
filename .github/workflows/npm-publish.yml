@@ -28,7 +28,10 @@ jobs:
       - run: git config --global user.email 'aaronjxz@gmail.com'
       # - run: npm version patch -m "[RELEASE] %s"
       - run: npm version patch --workspace=libs/${{ github.event.inputs.pkg }}
-      - run: git push
+      - run: |
+          git add .
+          git commit -m "inc patch ver"
+          git push origin ${{ github.event.inputs.tag }}
   install_and_publish:
     name: Install production dependencies and publish to npm
     if: ${{ !always() }}
