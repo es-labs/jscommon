@@ -23,7 +23,10 @@
     "patch:node": "npm version patch --workspace=libs/node",
     "patch:esm": "npm version patch --workspace=libs/node",
     "pub:node": "npm publish --access public --workspace=libs/node",
-    "pub:esm": "npm publish --access public --workspace=libs/esm"
+    "pub:esm": "npm publish --access public --workspace=libs/esm",
+    "lint": "eslint . --ext .js",
+    "lint:fix": "eslint --fix --no-fix-warnings --no-report-warnings .",
+    "update-commit-hash": "git rev-parse --verify --short HEAD > commit-hash"
   },
   "engines": {
     "node": ">=18",
