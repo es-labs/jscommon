@@ -10,7 +10,6 @@ const start = async (
   const StoreKeyV = serviceTypesAvailable.includes('keyv') ? require('./db/keyv') : null
   const StoreKnex = serviceTypesAvailable.includes('knex') ? require('./db/knex') : null
   const StoreRedis = serviceTypesAvailable.includes('redis') ? require('./db/redis') : null
-  const StoreMongo = serviceTypesAvailable.includes('mongo') ? require('./db/mongodb') : null
   
   // const agenda = require('./mq/agenda') // TDB new MQ  
   // only one created
@@ -23,7 +22,6 @@ const start = async (
     servicesConfig.forEach(svc => {
       const opts = JSON.parse(process.env[svc.options] || null)
       if (opts && svc.type === 'knex' && StoreKnex) services[svc.name] = new StoreKnex(opts)
-      if (opts && svc.type === 'mongo' && StoreMongo) services[svc.name] = new StoreMongo(opts)
       if (opts && svc.type === 'redis' && StoreRedis) services[svc.name] = new StoreRedis(opts)
       if (opts && svc.type === 'keyv' && StoreKeyV) services[svc.name] = new StoreKeyV(opts)
       if (opts && svc.type === 'ws' && Wss) services[svc.name] = new Wss(opts)

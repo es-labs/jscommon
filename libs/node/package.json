@@ -1,6 +1,6 @@
 {
   "name": "@es-labs/node",
-  "version": "0.0.38",
+  "version": "0.0.39",
   "author": "Aaron Gong",
   "license": "MIT",
   "repository": {
@@ -28,7 +28,6 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "helmet": "^7.1.0",
-    "http-proxy-middleware": "^2.0.6",
     "ioredis": "^5.3.2",
     "jsonwebtoken": "^9.0.2",
     "keyv": "^4.5.4",

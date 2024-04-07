@@ -63,27 +63,3 @@ npx knex --knexfile knex-sample/knexfile.js seed:make initial
 ## TODO
 
 How should the knexfile information be handled in the case where database secrets are in a vault or parameters are passed in as environment variables
-
-
-## MongoDB
-
-We have a folder called mongo-sample with the mongodb seed/update scripts
-
-Need a .env file in the `mongo-sample` folder
-
-```json
-MONGO_OPTIONS='{
-  "url": "mongodb://127.0.0.1:27017/testdb-development",
-  "opts": {
-    "useUnifiedTopology": true,
-    "useNewUrlParser": true,
-    "connectTimeoutMS": 30000,
-    "serverSelectionTimeoutMS": 30000
-  }
-}'
-```
-
-```bash
-NODE_ENV=development node mongo-sample/index.js seed
-NODE_ENV=development node mongo-sample/index.js update
-```

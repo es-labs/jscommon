@@ -9,7 +9,6 @@ The following libraries are:
 The common tools are:
 - [tools/dbdeploy/README.md]() - deploying a database using the following suppored clients
   - Knex (sqlite, mysql, postgres, mssql, snowflake, ...)
-  - Mongo client
 
 
 ## Workspace

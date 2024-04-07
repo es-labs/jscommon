@@ -5,3 +5,8 @@
   - https://github.com/node-saml/node-saml/blob/master/CHANGELOG.md#-major-changes
 - include follow up middleware after using cors to set default headers if there is none
 - added packageInfo.js to get package information - name, version, dependencies
+
+### 0.0.38
+
+- remove mongodb support
+- remove http-proxy-middleware support
