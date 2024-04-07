@@ -19,7 +19,7 @@ Common JS libraries for NodeJS applications
 
 Refer to [https://github.com/es-labs/express-template]() project for usage
 
-## TDOD
+## TODO
 
 - setup github actions to auto increment package json version for `libs/node` & `libs/esm` when deploying to npm
   - https://aboutbits.it/blog/2021-03-11-using-github-actions-to-perfom-npm-version-increment
