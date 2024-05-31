@@ -10,3 +10,8 @@
 
 - remove mongodb support
 - remove http-proxy-middleware support
+
+### 0.0.49
+
+- add testing to...
+- add s3 handling, to deprecate gcp
