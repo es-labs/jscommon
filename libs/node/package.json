@@ -1,6 +1,6 @@
 {
   "name": "@es-labs/node",
-  "version": "0.0.39",
+  "version": "0.0.40",
   "author": "Aaron Gong",
   "license": "MIT",
   "repository": {
@@ -20,7 +20,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@google-cloud/storage": "^7.12.1",
+    "@google-cloud/storage": "^7.13.0",
     "@node-saml/node-saml": "^5.0.0",
     "bcryptjs": "^2.4.3",
     "connect-history-api-fallback": "^2.0.0",
@@ -30,7 +30,7 @@
     "helmet": "^7.1.0",
     "ioredis": "^5.4.1",
     "jsonwebtoken": "^9.0.2",
-    "keyv": "^4.5.4",
+    "keyv": "^5.0.3",
     "knex": "^3.1.0",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
