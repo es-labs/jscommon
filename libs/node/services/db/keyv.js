@@ -1,6 +1,6 @@
 'use strict'
 
-const Keyv = require('keyv')
+const { Keyv } = require('keyv')
 
 module.exports = class StoreKeyV {
 	constructor(options = JSON.parse(process.env.KEYV_CACHE || null) || {}) {
