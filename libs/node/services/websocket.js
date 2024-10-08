@@ -107,7 +107,7 @@ module.exports = class Wss {
           })
           setInterval(() => { // set keep-alive
             // console.log('WS Clients: ', this._wss.clients.size)
-            this._wss.clients.forEach((ws) => {
+            this._wss && this._wss.clients.forEach((ws) => {
               if (!ws.isAlive) return ws.terminate() // force close
               ws.isAlive = false
               return ws.ping(() => {}) // NOSONAR
