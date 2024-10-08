@@ -17,6 +17,7 @@ The common tools are:
 
 2. Updating major version by workspace `npm i @node-saml/node-saml@latest --workspace=libs/node`
 
+3. Updating dbdeploy workspace `npm i @es-labs/node@latest --workspace=tools/dbdeploy`
 
 ## Updating
 

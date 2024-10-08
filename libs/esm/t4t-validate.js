@@ -15,9 +15,11 @@
 // TODO i18n
 // for use with
 // - express-template project router/t4t.js
-function validateColumn (rules, type, col, record) {
+// mode = POST or PATCH
+function validateColumn (rules, type, col, record, required) {
   let invalid = ''
   try {
+    if (record[col] === undefined && !required) return ''
     for (let rule in rules) {
       if (type === 'string') {
         if (rule === 'min' && record[col].length < rules[rule]) invalid = `need at least ${rules[rule]} characters`

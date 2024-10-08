@@ -211,8 +211,8 @@ async function upload(file) { // the file object
 async function autocomplete (search, col, record, parentColVal) {
   let res = []
   try {
-    const { dbName, tableName, limit, key, text, parentTableColName, parentCol } = config.cols[col].options
-    const query = { dbName, tableName, limit, key, text, search }
+    const { tableName, limit, key, text, parentTableColName, parentCol } = config.cols[col].options
+    const query = { tableName, limit, key, text, search }
     if (parentTableColName) {
       query.parentTableColName = parentTableColName
       query.parentTableColVal = parentColVal || record[parentCol]

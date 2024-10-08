@@ -1,6 +1,6 @@
 {
   "name": "@es-labs/esm",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "description": "reusable esm code",
   "main": "index.js",
   "author": "Aaron Gong",
