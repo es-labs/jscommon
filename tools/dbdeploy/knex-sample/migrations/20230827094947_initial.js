@@ -38,13 +38,12 @@ exports.up = async function(knex) {
     table.string('telegramUsername')
     // table.timestamps() // createdAt, updatedAt
   })
-  .createTable('categories', (table) => {
+  await knex.schema.createTable('categories', (table) => {
     table.increments('id').primary()
     table.string('name').unique()
     table.timestamps(true, true)
   })
-  await knex.schema
-  .createTable('books', (table) => {
+  await knex.schema.createTable('books', (table) => {
     table.increments('id').primary()
     table.string('name').unique()
     table.integer('rating')
@@ -52,22 +51,19 @@ exports.up = async function(knex) {
     table.integer('categoryId').references('categories.id')
     table.timestamps(true, true)
   })
-  await knex.schema
-  .createTable('pages', (table) => { // one book, many pages
+  await knex.schema.createTable('pages', (table) => { // one book, many pages
     table.increments('id').primary()
     table.string('content')
     table.integer('bookId').references('books.id')
     table.timestamps(true, true)
   })
-  await knex.schema
-  .createTable('authors', (table) => {
+  await knex.schema.createTable('authors', (table) => {
     table.increments('id').primary()
     table.string('name')
     table.string('avatar').defaultsTo('')
     table.timestamps(true, true)
   })
-  await knex.schema
-  .createTable('books_authors', (table) => { // many books, many authors
+  await knex.schema.createTable('books_authors', (table) => { // many books, many authors
     table.integer('bookId').unsigned().references('books.id')
     table.integer('authorId').unsigned().references('authors.id')
     table.unique(['bookId', 'authorId']) // remove this and you will have duplicates
@@ -87,7 +83,7 @@ exports.up = async function(knex) {
     table.string('name')
     table.unique(['country_name', 'code'])
   })
-  await knex.schema.createTable('person', (table) => {
+  await knex.schema.createTable('student', (table) => {
     table.string('firstName')
     table.string('lastName')
     table.string('sex')
@@ -104,6 +100,25 @@ exports.up = async function(knex) {
     table.datetime('updated_at')      
     table.unique(['firstName', 'lastName'])
   })
+  await knex.schema.createTable('subject', (table) => {
+    table.increments('id').primary()
+    table.string('code')
+    table.string('name')
+    table.integer('passing')
+  })
+
+  .createTable('student_subject', (table) => {
+    table.integer('studentId').unsigned().references('student.id')
+    table.integer('subjectId').unsigned().references('subject.id')
+    table.decimal('score')
+    table.datetime('taken_on')
+    table.unique(['studentId', 'subjectId']) // remove this and you will have duplicates
+    // table.index([
+    //   { column: "location" },
+    //   { column: "time", order: "DESC" },
+    // ]); // TBD indexing
+  })
+
   await knex.schema.createTable('grade', (table) => {
     table.increments('id').primary()
     table.string('personId')
