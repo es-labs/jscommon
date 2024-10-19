@@ -15,10 +15,9 @@ exports.seed = async function(knex) {
   await knex('books').del()
   await knex('authors').del()
   await knex('categories').del()
-  await knex('person').del()
+  await knex('student').del()
   await knex('country').del()
   await knex('state').del()
-  await knex('grade').del()
 
   await knex('authors').insert([
     {id: 1, name: 'author1', avatar: '', created_at: mkDt() },
@@ -57,9 +56,9 @@ exports.seed = async function(knex) {
     {id: 7, content: 'page7', bookId: 4, created_at: mkDt()},
     {id: 8, content: 'page8', bookId: 5, created_at: mkDt()}
   ])
-  await knex('country').insert( require('../../icc.json') )
-  await knex('state').insert( require('../../state.json') )
-  await knex('person').insert( [
+  await knex('country').insert( require('./icc.json') )
+  await knex('state').insert( require('./state.json') )
+  await knex('student').insert( [
     {
       firstName: 'first',
       lastName: 'last',
@@ -77,9 +76,17 @@ exports.seed = async function(knex) {
       updated_at: new Date()  
     }
   ])
-  await knex('grade').insert( [ // personId from insert above...
-    { personId: 1, subject: 'EM', grade: '80' },
-    { personId: 1, subject: 'AM', grade: '90' },
-    { personId: 1, subject: 'PHY', grade: '70' }
+  await knex('subject').insert( [
+    { code: 'EL1', name: 'English', passingGrade: 'D' },
+    { code: 'EM', name: 'E Math', passingGrade: 'C' },
+    { code: 'AM', name: 'A Math', passingGrade: 'C' },
+    { code: 'PHY', name: 'Physics', passingGrade: 'D' },
+    { code: 'CHEM', name: 'Chemistry', passingGrade: 'D' },
+  ])
+
+  await knex('student_subject').insert( [ // studentId from insert above...
+    { studentId: 1, subjectCode: 'EM', gradeFinal: 'A', gradeDate: '2024-10-01' },
+    { studentId: 1, subjectCode: 'AM', gradeFinal: 'B', gradeDate: '2024-10-01' },
+    { studentId: 1, subjectCode: 'PHY', gradeFinal: 'D', gradeDate: '2024-10-01' }
   ])
 }

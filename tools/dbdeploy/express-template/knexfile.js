@@ -12,7 +12,7 @@ module.exports = {
     }
   },
 
-  uat: {
+  dev: {
     client: 'mysql', // postgresql
     connection: {
       database: 'my_db',
@@ -27,7 +27,7 @@ module.exports = {
       tableName: 'knex_migrations'
     }
   },
-  production: {
+  prd: {
     // information for this should be from a secrets file or env
   }
 

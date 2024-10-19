@@ -101,30 +101,21 @@ exports.up = async function(knex) {
     table.unique(['firstName', 'lastName'])
   })
   await knex.schema.createTable('subject', (table) => {
-    table.increments('id').primary()
-    table.string('code')
+    table.string('code').primary()
     table.string('name')
-    table.integer('passing')
+    table.string('passingGrade')
   })
-
-  .createTable('student_subject', (table) => {
+  await knex.schema.createTable('student_subject', (table) => {
     table.integer('studentId').unsigned().references('student.id')
-    table.integer('subjectId').unsigned().references('subject.id')
-    table.decimal('score')
-    table.datetime('taken_on')
-    table.unique(['studentId', 'subjectId']) // remove this and you will have duplicates
+    table.integer('subjectCode').unsigned().references('subject.code')
+    table.string('gradeFinal')
+    table.datetime('gradeDate')
+    table.unique(['studentId', 'subjectCode']) // remove this and you will have duplicates
+    table.index('studentId')
     // table.index([
     //   { column: "location" },
     //   { column: "time", order: "DESC" },
     // ]); // TBD indexing
-  })
-
-  await knex.schema.createTable('grade', (table) => {
-    table.increments('id').primary()
-    table.string('personId')
-    table.string('subject')
-    table.string('grade')
-    table.index('personId')
   })
 }
 
@@ -140,7 +131,7 @@ exports.down = async function(knex) {
   await knex.schema.dropTableIfExists('categories')
   await knex.schema.dropTableIfExists('country')
   await knex.schema.dropTableIfExists('state')
-  await knex.schema.dropTableIfExists('person')
-  await knex.schema.dropTableIfExists('grade')
+  await knex.schema.dropTableIfExists('student')
+  await knex.schema.dropTableIfExists('student_subject')
   await knex.schema.dropTableIfExists('users')
 }
