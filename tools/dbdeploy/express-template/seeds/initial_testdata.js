@@ -60,8 +60,8 @@ exports.seed = async function(knex) {
   await knex('state').insert( require('./state.json') )
   const students = [...new Array(30)].map( (_, idx) => {
     return {
-      firstName: 'first ' + idx,
-      lastName: 'last',
+      firstName: 'first',
+      lastName: 'last' + idx,
       sex: idx % 2 === 0 ? 'M' : 'F',
       subjects: 'EM,PHY',
       age: idx + 15,

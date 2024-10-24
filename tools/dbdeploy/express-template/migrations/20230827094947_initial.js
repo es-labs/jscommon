@@ -84,6 +84,7 @@ exports.up = async function(knex) {
     table.unique(['country_name', 'code'])
   })
   await knex.schema.createTable('student', (table) => {
+    table.increments('id').primary()
     table.string('firstName')
     table.string('lastName')
     table.string('sex')
@@ -108,7 +109,7 @@ exports.up = async function(knex) {
   })
   await knex.schema.createTable('student_subject', (table) => {
     table.integer('studentId').unsigned().references('student.id')
-    table.integer('subjectCode').unsigned().references('subject.code')
+    table.string('subjectCode').references('subject.code')
     table.string('gradeFinal')
     table.datetime('gradeDate')
     table.unique(['studentId', 'subjectCode']) // remove this and you will have duplicates
