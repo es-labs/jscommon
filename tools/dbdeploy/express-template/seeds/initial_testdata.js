@@ -62,7 +62,7 @@ exports.seed = async function(knex) {
     return {
       firstName: 'first ' + idx,
       lastName: 'last',
-      sex: 'M',
+      sex: idx % 2 === 0 ? 'M' : 'F',
       subjects: 'EM,PHY',
       age: idx + 15,
       gpa: 0,
