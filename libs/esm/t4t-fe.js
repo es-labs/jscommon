@@ -74,12 +74,11 @@ async function find(filters, sorter, page, limit) {
     // cursor: '' // props.infinite
   }
   if (parentFilter) {
-    filters.push({key: parentFilter.col, op: "=", val: parentFilter.id, andOr: "and"})
+    filters.push({col: parentFilter.col, op: "=", val: parentFilter.id, andOr: "and"})
   }
   try {
     filters = filters ? JSON.stringify(filters) : '' // [{col, op, val, andOr}, ...]
     sorter = sorter ? JSON.stringify(sorter) : '' // [{ column: '<col_name>', order: 'asc|desc' }, ...]
-    console.log('F&S', filters, sorter)
     const { data } = await http.get('/api/t4t/find/' + tableName, {
       page, limit, filters, sorter 
     })
@@ -171,11 +170,11 @@ async function create(record) {
   // const { data } = await http.patch(`/api/authors/${id}`, formData,
   //   { onUploadProgress: progressEvent => console.log(Math.round(progressEvent.loaded / progressEvent.total * 100) + '%') } // axios only
   // )
-  await http.post(`/api/t4t/create/${tableName}`, record)
+  return await http.post(`/api/t4t/create/${tableName}`, record)
 }
 
 async function update(__key, record) {
-  await http.patch(`/api/t4t/update/${tableName}`, record, { __key })
+  return await http.patch(`/api/t4t/update/${tableName}`, record, { __key })
 }
 
 // Handle file removals seperately
@@ -187,7 +186,7 @@ async function remove(items) {
   } else {
     ids = items.map((item) => item.__key)
   }
-  await http.post('/api/t4t/remove/' + tableName, { ids })  
+  return await http.post('/api/t4t/remove/' + tableName, { ids })  
 }
 
 // uploads a single csv for batch processing

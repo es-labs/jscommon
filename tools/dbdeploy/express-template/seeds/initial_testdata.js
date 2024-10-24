@@ -58,24 +58,26 @@ exports.seed = async function(knex) {
   ])
   await knex('country').insert( require('./icc.json') )
   await knex('state').insert( require('./state.json') )
-  await knex('student').insert( [
-    {
-      firstName: 'first',
+  const students = [...new Array(30)].map( (_, idx) => {
+    return {
+      firstName: 'first ' + idx,
       lastName: 'last',
       sex: 'M',
       subjects: 'EM,PHY',
-      age: 1,
+      age: idx + 15,
       gpa: 0,
-      birthDate: '',
-      birthTime: '',
+      birthDate: '1976-04-19',
+      birthTime: '0600',
       country: 'SG',
-      birthDateTimeTz: null,
+      state: '',
+      dateTimeTz: (new Date()).toISOString(), // sqlite stores as integer...
       website: '',
       remarks: '',
       updated_by: 'someone',
-      updated_at: new Date()  
+      updated_at: (new Date()).toISOString() 
     }
-  ])
+  })
+  await knex('student').insert(students)
   await knex('subject').insert( [
     { code: 'EL1', name: 'English', passingGrade: 'D' },
     { code: 'EM', name: 'E Math', passingGrade: 'C' },
