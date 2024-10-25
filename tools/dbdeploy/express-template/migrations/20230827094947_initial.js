@@ -88,7 +88,6 @@ exports.up = async function(knex) {
     table.string('firstName')
     table.string('lastName')
     table.string('sex')
-    table.string('subjects')
     table.integer('age')
     table.decimal('gpa')
     table.date('birthDate')
