@@ -3,22 +3,20 @@ import { validateColumn } from './t4t-validate.js'
 let tableName = ''
 let parentFilter = null
 let config = null
+let urlPrefix = '/api'
 let http = new Fetch()
 // TODO i18n
 
-
+// this might change
 function setTableName(name) { // set table name
   tableName = name
   parentFilter = null // TODO: find a more sustainable way using prototype
 }
 
-function setFetch(_fetch) { // set the fetch function
-  http = _fetch
-}
-
-function setParentFilter(filter) {
-  parentFilter = filter
-}
+// this might change
+const setFetch = (_fetch) => http = _fetch // set the fetch function
+const setParentFilter = (_filter) => parentFilter = _filter
+const setUrlPrefix = (_urlPrefix) => urlPrefix = _urlPrefix
 
 // type: string, date, datetime, time, integer, float
 // {
@@ -51,7 +49,7 @@ function validate(record) {
 
 async function getConfig() {
   try {
-    const { data } = await http.get('/api/t4t/config/' + tableName)
+    const { data } = await http.get(urlPrefix + '/t4t/config/' + tableName)
     if (data) {
       config = data
       // for (const col in config.cols) {
@@ -79,7 +77,7 @@ async function find(filters, sorter, page, limit) {
   try {
     filters = filters ? JSON.stringify(filters) : '' // [{col, op, val, andOr}, ...]
     sorter = sorter ? JSON.stringify(sorter) : '' // [{ column: '<col_name>', order: 'asc|desc' }, ...]
-    const { data } = await http.get('/api/t4t/find/' + tableName, {
+    const { data } = await http.get(urlPrefix + '/t4t/find/' + tableName, {
       page, limit, filters, sorter 
     })
     rv.results = data.results
@@ -92,7 +90,7 @@ async function find(filters, sorter, page, limit) {
 
 async function download(filters, sorter) {
   try {
-    const { data } = await http.get('/api/t4t/find/' + tableName, {
+    const { data } = await http.get(urlPrefix + '/t4t/find/' + tableName, {
       page: 0,
       limit: 0,
       csv: 1, // it is a csv
@@ -109,7 +107,7 @@ async function download(filters, sorter) {
 async function findOne(__key) {
   let rv = {}
   try {
-    const { data } = await http.get('/api/t4t/find-one/' + tableName, { __key }) // if multiKey, then seperate values by |, column is implied by order  
+    const { data } = await http.get(urlPrefix + '/t4t/find-one/' + tableName, { __key }) // if multiKey, then seperate values by |, column is implied by order  
     rv.__key = __key
     Object.entries(config.cols).forEach((kv) => {
       const [key, val] = kv
@@ -167,14 +165,14 @@ function processData(record, { signedUrl = false } = { }) {
 }
 
 async function create(record) {
-  // const { data } = await http.patch(`/api/authors/${id}`, formData,
+  // const { data } = await http.patch(`/authors/${id}`, formData,
   //   { onUploadProgress: progressEvent => console.log(Math.round(progressEvent.loaded / progressEvent.total * 100) + '%') } // axios only
   // )
-  return await http.post(`/api/t4t/create/${tableName}`, record)
+  return await http.post(urlPrefix + `/t4t/create/${tableName}`, record)
 }
 
 async function update(__key, record) {
-  return await http.patch(`/api/t4t/update/${tableName}`, record, { __key })
+  return await http.patch(urlPrefix + `/t4t/update/${tableName}`, record, { __key })
 }
 
 // Handle file removals seperately
@@ -186,7 +184,7 @@ async function remove(items) {
   } else {
     ids = items.map((item) => item.__key)
   }
-  return await http.post('/api/t4t/remove/' + tableName, { ids })  
+  return await http.post(urlPrefix + '/t4t/remove/' + tableName, { ids })  
 }
 
 // uploads a single csv for batch processing
@@ -197,7 +195,7 @@ async function upload(file) { // the file object
   formData.append('csv-file', file) // call it file
   // console.log('zzz', formData instanceof FormData)
   // for(const pair of formData.entries()) console.log(pair[0], pair[1])
-  return await http.post('/api/t4t/upload/' + tableName, formData)
+  return await http.post(urlPrefix + '/t4t/upload/' + tableName, formData)
   // formData.append('textdata', JSON.stringify({ name: 'name', age: 25 }))
   // const res = await fetch('/api/upload', { method: 'POST', body: formData })
   // const { id, name, avatar } = record
@@ -221,7 +219,7 @@ async function autocomplete (search, col, record, parentColVal) {
       query.parentTableColName = parentTableColName
       query.parentTableColVal = parentColVal || record[parentCol]
     }
-    const { data } = await http.get('/api/t4t/autocomplete', query)
+    const { data } = await http.get(urlPrefix + '/t4t/autocomplete', query)
     res = data
   } catch (err) {
     console.log('autocomplete', err.message)
@@ -230,7 +228,7 @@ async function autocomplete (search, col, record, parentColVal) {
 }
 
 export {
-  setFetch, setTableName, setParentFilter,
+  setFetch, setTableName, setParentFilter, setUrlPrefix,
   getConfig, validate, validateColumn,
   find, findOne, initItem, create, update, remove, upload, download, autocomplete, processData,
 }

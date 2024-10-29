@@ -87,6 +87,7 @@ exports.up = async function(knex) {
     table.increments('id').primary()
     table.string('firstName')
     table.string('lastName')
+    table.string('avatar').defaultsTo('')
     table.string('sex')
     table.integer('age')
     table.decimal('gpa')
