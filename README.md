@@ -3,8 +3,8 @@
 This project contains reusable and shared JS code for use in JS projects.
 
 The following libraries are:
-- [node](libs/node/README.md) - Common JS reusables ![NPM Version](https://img.shields.io/npm/v/:es-labs/node)
-- [esm](libs/esm/README.md) - ES Modules reusables ![NPM Version](https://img.shields.io/npm/v/:es-labs/esm)
+- [node](libs/node/README.md) - Common JS reusables ![NPM Version](https://img.shields.io/npm/v/%40es-labs%2Fnode)
+- [esm](libs/esm/README.md) - ES Modules reusables ![NPM Version](https://img.shields.io/npm/v/%40es-labs%2Fesm)
 
 The common tools are:
 - [tools/dbdeploy/README.md]() - deploying a database using the following suppored clients
