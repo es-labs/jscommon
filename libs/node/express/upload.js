@@ -24,8 +24,8 @@ const memoryUpload = (options) => multer( Object.assign({
 const storageUpload = ({ folder, options }) => {
   return multer(Object.assign({
     storage: multer.diskStorage({
-      destination: function (req, file, cb) { cb(null, folder) },
-      filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname) // file.fieldname
+      destination: (req, file, cb) => cb(null, folder),
+      filename: (req, file, cb) => cb(null, file.originalname) // file.fieldname, file.originalname
     }),
     limits: { files: 2, fileSize: 8000000 }
   }, options))
