@@ -171,8 +171,8 @@ async function create(record) {
   return await http.post(urlPrefix + `/t4t/create/${tableName}`, record)
 }
 
-async function update(__key, record) {
-  return await http.patch(urlPrefix + `/t4t/update/${tableName}`, record, { __key })
+async function update(__key, record, headers = null) {
+  return await http.patch(urlPrefix + `/t4t/update/${tableName}`, record, { __key }, headers)
 }
 
 // Handle file removals seperately

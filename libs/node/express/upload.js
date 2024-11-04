@@ -21,13 +21,25 @@ const memoryUpload = (options) => multer( Object.assign({
   limits: { files: 1, fileSize: 500000 }
 }, options) )
 
+// TBD
+
 const storageUpload = ({ folder, options }) => {
+  // validate binary file type... using npm file-type?
+  // https://dev.to/ayanabilothman/file-type-validation-in-multer-is-not-safe-3h8l
+  // const fileFilter = (req, file, cb) => {
+  //   if (['image/png', 'image/jpeg'].includes(file.mimetype)) {
+  //     cb(null, true);
+  //   } else {
+  //     cb(new Error('Invalid file type!'), false)
+  //   }
+  // }
   return multer(Object.assign({
     storage: multer.diskStorage({
+      // fileFilter
       destination: (req, file, cb) => cb(null, folder),
       filename: (req, file, cb) => cb(null, file.originalname) // file.fieldname, file.originalname
     }),
-    limits: { files: 2, fileSize: 8000000 }
+    limits: { files: 1, fileSize: 8000000 }
   }, options))
 }
 
