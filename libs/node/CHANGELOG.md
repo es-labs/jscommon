@@ -11,7 +11,11 @@
 - remove mongodb support
 - remove http-proxy-middleware support
 
-### 0.0.49
+### 0.0.45
 
+- standardize `authUser()` error returns in `auth/index.js`
+- remove fileFilter options from multer configs in `express/postRoute.js`, let user roll this out
+
+### TODO
 - add testing to...
-- add s3 handling, to deprecate gcp
+- add s3/oss handling

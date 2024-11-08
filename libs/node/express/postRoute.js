@@ -10,17 +10,6 @@ const postRoute = (app, express) => {
     const serveIndex = require('serve-index') // connect-history-api-fallback causes problems, so do upload first
 
     UPLOAD_STATIC.forEach(item => {
-      // TOREMOVE
-      // if (item.options.fileFilter) {
-      //   const allowedMimeTypes = item.options.fileFilter.allowedMimeTypes.split(',')
-      //   const allowedExtensions = item.options.fileFilter.allowedExtensions.split(',')
-      //   item.options.fileFilter = (req, file, cb) => { // better to also filter at frontend
-      //     const fileExtension = file.originalname.split(".").pop();
-      //     if (allowedExtensions.includes(fileExtension)) return cb(null, true)
-      //     if ( allowedMimeTypes.find((mimeType) => file.mimetype.includes(mimeType)) ) return cb(null, true) // accept image or text
-      //     return cb(null, false, new Error("Only text/plain or images are allowed"))
-      //   }
-      // }
       const { url, folder, list, listOptions } = item
       if (url && folder) {
         const authPlaceHolder = (req, res, next) => next() // TODO add auth here...

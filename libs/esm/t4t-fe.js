@@ -1,16 +1,14 @@
 import Fetch from './fetch.js'
-import { validateColumn } from './t4t-validate.js'
 let tableName = ''
 let parentFilter = null
 let config = null
 let urlPrefix = '/api'
 let http = new Fetch()
-// TODO i18n
+// Do Not Catch Errors - let it be caught by caller
 
-// this might change
 function setTableName(name) { // set table name
   tableName = name
-  parentFilter = null // TODO: find a more sustainable way using prototype
+  parentFilter = null // TBD: find a more sustainable way using prototype or let caller handle this part
 }
 
 // this might change
@@ -18,110 +16,54 @@ const setFetch = (_fetch) => http = _fetch // set the fetch function
 const setParentFilter = (_filter) => parentFilter = _filter
 const setUrlPrefix = (_urlPrefix) => urlPrefix = _urlPrefix
 
-// type: string, date, datetime, time, integer, float
-// {
-//   rules: {
-//     min: 0, // string, date, datetime, time, integer, float
-//     max: 10, // string, date, datetime, time, integer, float
-//     regex: 10, // string
-//     gt: 'field', // date, datetime, time, integer, float
-//     gte: 'field', // date, datetime, time, integer, float
-//     lt: 'field', // date, datetime, time, integer, float
-//     lte: 'field', // date, datetime, time, integer, float
-//     dec: 2 // float
-//   ]
-// }
-
-function validate(record) {
-  for (const col in record) {
-    if (config.cols[col]) {
-      const { rules, type } = config.cols[col]
-      if (rules) {
-        const msg = validateColumn(rules, type, col, record)
-        if (msg) {
-          return { col, msg }
-        }
-      }
-    }
-  }
-  return null
-}
-
 async function getConfig() {
-  try {
-    const { data } = await http.get(urlPrefix + '/t4t/config/' + tableName)
-    if (data) {
-      config = data
-      // for (const col in config.cols) {
-      //   const obj = config.cols[col]
-      //   if (obj.table !== 'hide') headerCols.push({ path: col, header: obj.label }) // process table columns
-      //   if (obj.filter !== 'hide') filterCols.push(col) // process filters
-      // }
-      // Object.entries(config.cols) => [ [key, obj], ... ]
-    }
-    return config
-  } catch (e) {
-  }
-  return null
+  const { data } = await http.get(urlPrefix + '/t4t/config/' + tableName)
+  return data
 }
 
 async function find(filters, sorter, page, limit) {
   let rv = {
     results: [],
     total: 0
-    // cursor: '' // props.infinite
   }
   if (parentFilter) {
     filters.push({col: parentFilter.col, op: "=", val: parentFilter.id, andOr: "and"})
   }
-  try {
-    filters = filters ? JSON.stringify(filters) : '' // [{col, op, val, andOr}, ...]
-    sorter = sorter ? JSON.stringify(sorter) : '' // [{ column: '<col_name>', order: 'asc|desc' }, ...]
-    const { data } = await http.get(urlPrefix + '/t4t/find/' + tableName, {
-      page, limit, filters, sorter 
-    })
-    rv.results = data.results
-    rv.total = data.total
-    // rv.cursor = data.cursor
-  } catch (e) {
-  }
+  filters = filters ? JSON.stringify(filters) : '' // [{col, op, val, andOr}, ...]
+  sorter = sorter ? JSON.stringify(sorter) : '' // [{ column: '<col_name>', order: 'asc|desc' }, ...]
+  const { data } = await http.get(urlPrefix + '/t4t/find/' + tableName, {
+    page, limit, filters, sorter 
+  })
+  rv.results = data.results
+  rv.total = data.total
   return rv
 }
 
 async function download(filters, sorter) {
-  try {
-    const { data } = await http.get(urlPrefix + '/t4t/find/' + tableName, {
-      page: 0,
-      limit: 0,
-      csv: 1, // it is a csv
-      filters: JSON.stringify(filters),
-      sorter: JSON.stringify(sorter)
-    })
-    return data
-  } catch (e) {
-    console.log('eee', e.toString())
-    return null
-  }
+  const { data } = await http.get(urlPrefix + '/t4t/find/' + tableName, {
+    page: 0,
+    limit: 0,
+    filters: filters ? JSON.stringify(filters) : '',
+    sorter: sorter ? JSON.stringify(sorter) : '',
+    csv: 1 // it is a csv
+  })
+  return data
 }
 
 async function findOne(__key) {
   let rv = {}
-  try {
-    const { data } = await http.get(urlPrefix + '/t4t/find-one/' + tableName, { __key }) // if multiKey, then seperate values by |, column is implied by order  
-    rv.__key = __key
-    Object.entries(config.cols).forEach((kv) => {
-      const [key, val] = kv
-      if (val.edit !== 'hide') {
-        rv[key] = data[key]
-      }
-    })
-    return rv
-  } catch (e) {
-    return null
-  }
+  const { data } = await http.get(urlPrefix + '/t4t/find-one/' + tableName, { __key }) // if multiKey, then seperate values by |, column is implied by order  
+  rv.__key = __key
+  Object.entries(config.cols).forEach((kv) => {
+    const [key, val] = kv
+    if (val.edit !== 'hide') {
+      rv[key] = data[key]
+    }
+  })
+  return rv
 }
 
-function initItem() {
+function initItem() { // TOREMOVE
   let rv = {}
   try {
     Object.entries(config.cols).forEach((kv) => {
@@ -179,11 +121,7 @@ async function update(__key, record, headers = null) {
 async function remove(items) {
   let ids = []
   const { pk } = config
-  if (pk) {
-    ids = items.map((item) => item[pk])
-  } else {
-    ids = items.map((item) => item.__key)
-  }
+  ids = pk ? items.map((item) => item[pk]) : items.map((item) => item.__key)
   return await http.post(urlPrefix + '/t4t/remove/' + tableName, { ids })  
 }
 
@@ -228,7 +166,6 @@ async function autocomplete (search, col, record, parentColVal) {
 }
 
 export {
-  setFetch, setTableName, setParentFilter, setUrlPrefix,
-  getConfig, validate, validateColumn,
+  setFetch, setTableName, setParentFilter, setUrlPrefix, getConfig,
   find, findOne, initItem, create, update, remove, upload, download, autocomplete, processData,
 }

@@ -142,7 +142,7 @@ const authUser = async (req, res, next) => {
         req.decoded = access_result
         return next()
       } else {
-        return res.status(401).json({error: 'Access Error' })
+        return res.status(401).json({ message: 'Access Error' })
       }  
     } catch (e) {
       if (e.name === 'TokenExpiredError') {
@@ -153,7 +153,7 @@ const authUser = async (req, res, next) => {
       }
     }
   } else {
-    return res.status(401).json({error: 'Token Missing' })
+    return res.status(401).json({ message: 'Token Missing' })
   }
 }
 
