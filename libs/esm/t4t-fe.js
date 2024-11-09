@@ -18,6 +18,7 @@ const setUrlPrefix = (_urlPrefix) => urlPrefix = _urlPrefix
 
 async function getConfig() {
   const { data } = await http.get(urlPrefix + '/t4t/config/' + tableName)
+  if (data) config = data
   return data
 }
 
@@ -52,30 +53,12 @@ async function download(filters, sorter) {
 
 async function findOne(__key) {
   let rv = {}
-  const { data } = await http.get(urlPrefix + '/t4t/find-one/' + tableName, { __key }) // if multiKey, then seperate values by |, column is implied by order  
-  rv.__key = __key
-  Object.entries(config.cols).forEach((kv) => {
-    const [key, val] = kv
-    if (val.edit !== 'hide') {
-      rv[key] = data[key]
-    }
-  })
-  return rv
-}
-
-function initItem() { // TOREMOVE
-  let rv = {}
-  try {
-    Object.entries(config.cols).forEach((kv) => {
-      const [key, val] = kv
-      if (val.edit !== 'hide') {
-        rv[key] = val.default || ''
-      }
-    })
-    return rv  
-  } catch (e) {
-    return null
+  const { data } = await http.get(urlPrefix + '/t4t/find-one/' + tableName, { __key }) // if multiKey, then seperate values by |, column is implied by order
+  if (data) {
+    rv = data
+    rv.__key = __key
   }
+  return rv
 }
 
 // process data for use with
@@ -119,9 +102,12 @@ async function update(__key, record, headers = null) {
 
 // Handle file removals seperately
 async function remove(items) {
+  // console.log(items)
   let ids = []
-  const { pk } = config
-  ids = pk ? items.map((item) => item[pk]) : items.map((item) => item.__key)
+  // const { pk } = config
+  // ids = pk ? items.map((item) => item[pk]) : items.map((item) => item.__key)
+  // console.log(ids)
+  ids = items
   return await http.post(urlPrefix + '/t4t/remove/' + tableName, { ids })  
 }
 
@@ -167,5 +153,5 @@ async function autocomplete (search, col, record, parentColVal) {
 
 export {
   setFetch, setTableName, setParentFilter, setUrlPrefix, getConfig,
-  find, findOne, initItem, create, update, remove, upload, download, autocomplete, processData,
+  find, findOne, create, update, remove, upload, download, autocomplete, processData,
 }
