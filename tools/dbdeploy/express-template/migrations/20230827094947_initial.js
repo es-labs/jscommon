@@ -120,6 +120,15 @@ exports.up = async function(knex) {
     //   { column: "time", order: "DESC" },
     // ]); // TBD indexing
   })
+  await knex.schema.createTable('audit_logs', (table) => {
+    table.string('user')
+	table.string('timestamp')
+	table.string('database')
+	table.string('tableAffected')
+	table.string('operation')
+	table.string('recordSelectionKey')
+	table.string('valuesChanged')
+  })
 }
 
 /**
@@ -137,4 +146,5 @@ exports.down = async function(knex) {
   await knex.schema.dropTableIfExists('student')
   await knex.schema.dropTableIfExists('student_subject')
   await knex.schema.dropTableIfExists('users')
+  await knex.schema.dropTableIfExists('audit_logs')
 }
