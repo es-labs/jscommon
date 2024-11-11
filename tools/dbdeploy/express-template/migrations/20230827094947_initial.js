@@ -122,17 +122,17 @@ exports.up = async function(knex) {
   })
   await knex.schema.createTable('audit_logs', (table) => {
 	table.increments('id').primary()
-    table.string('user')
+  table.string('user')
 	table.datetime('timestamp')
 	table.string('db_name')
 	table.string('table_name')
 	table.string('operation')
 	table.string('record_selection_key')
 	table.string('values_changed')
-	table.index('user')
+	table.index(['timestamp', 'db_name']);
+	table.index('timestamp')
 	table.index('db_name')
-	table.index('table_name')
-	table.index('values_changed')
+	table.index('operation')
   })
 }
 
