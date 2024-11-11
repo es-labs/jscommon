@@ -16,6 +16,10 @@
 - standardize `authUser()` error returns in `auth/index.js`
 - remove fileFilter options from multer configs in `express/postRoute.js`, let user roll this out
 
+### 0.0.46
+- add aliyun OSS service
+- add aws S3 service
+
 ### TODO
 - add testing to...
 - add s3/oss handling
