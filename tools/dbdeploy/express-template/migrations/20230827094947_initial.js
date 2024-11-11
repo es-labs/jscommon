@@ -121,13 +121,18 @@ exports.up = async function(knex) {
     // ]); // TBD indexing
   })
   await knex.schema.createTable('audit_logs', (table) => {
+	table.increments('id').primary()
     table.string('user')
-	table.string('timestamp')
-	table.string('database')
-	table.string('tableAffected')
+	table.datetime('timestamp')
+	table.string('db_name')
+	table.string('table_name')
 	table.string('operation')
-	table.string('recordSelectionKey')
-	table.string('valuesChanged')
+	table.string('record_selection_key')
+	table.string('values_changed')
+	table.index('user')
+	table.index('db_name')
+	table.index('table_name')
+	table.index('values_changed')
   })
 }
 
