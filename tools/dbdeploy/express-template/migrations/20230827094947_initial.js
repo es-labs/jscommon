@@ -126,13 +126,13 @@ exports.up = async function(knex) {
 	table.datetime('timestamp')
 	table.string('db_name')
 	table.string('table_name')
-	table.string('operation')
-	table.string('record_selection_key')
-	table.string('values_changed')
-	table.index(['timestamp', 'db_name']);
-	table.index('timestamp')
-	table.index('db_name')
-	table.index('operation')
+	table.string('op').comment('READ, UPDATE, DELETE, INSERT')
+	table.string('key_cols')
+	table.string('key_vals')
+	table.string('cols_changed')
+	table.text('prev_values')
+	table.text('new_values')
+	table.index(['timestamp', 'db_name', 'op'])
   })
 }
 
