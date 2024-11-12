@@ -1,3 +1,37 @@
+## Read Me FIRST! - Requires NodeJS Version 18 or higher
+
+> Do NOT edit this README.
+>
+> Built from [https://github.com/es-labs/jscommon]().
+>
+> For template design principles, see [https://github.com/ais-one/cookbook#important---read-me-first]()
+
+## Template Maintenance
+
+1 - Setup to allow incoming merge from upstream template update
+
+```bash
+# run once only after you `clone`, or `fork` or `delete .git and run git init`
+./setup-upstream.sh
+```
+
+2 - Setup for your custom code
+
+**Important notes**
+- DO NOT develop custom code in `tools/dbdeploy/dbs/express-template`. Rename it or copy it to another folder name
+- userland changes ONLY in the `tools/dbdeploy/dbs` folder, NEVER outside the folder. Contact template maintainer if you need something outside `dbs`
+- do note any conflicts to resolve when merging from upstream
+
+3 - Updating the template
+
+```bash
+# Commit and push to remote before running commands below
+git fetch upstream # includes tags
+git pull upstream <branch or tag> --no-rebase
+# NO MORE IN USE git merge upstream/<branch or tag> --allow-unrelated-histories
+# There may be some template related merge conflicts to resolve.
+```
+
 ## Description
 
 This project contains reusable and shared JS code for use in JS projects.
