@@ -13,6 +13,8 @@
   "dependencies": {
     "@es-labs/node": "^0.0.45",
     "knex": "^3.1.0",
+    "mysql": "^2.18.1",
+    "pg": "^8.13.1",
     "sqlite3": "^5.1.7"
   }
 }
