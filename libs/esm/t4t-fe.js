@@ -143,7 +143,7 @@ async function autocomplete (search, col, record, parentColVal) {
       query.parentTableColName = parentTableColName
       query.parentTableColVal = parentColVal || record[parentCol]
     }
-    const { data } = await http.get(urlPrefix + '/t4t/autocomplete', query)
+    const { data } = await http.get(urlPrefix + '/t4t/autocomplete/' + tableName, query)
     res = data
   } catch (err) {
     console.log('autocomplete', err.message)
