@@ -15,8 +15,8 @@ when DB could be shared between packages
 For [express-template](https://github.com/es-labs/express-template) app-sample
 
 ```bash
-npx knex --knexfile express-template/knexfile.js migrate:up
-npx knex --knexfile express-template/knexfile.js seed:run
+npx knex --knexfile dbs/express-template/knexfile.js migrate:up
+npx knex --knexfile dbs/express-template/knexfile.js seed:run
 ```
 
 Then copy the created file for sqlite DB over to the project `apps\app-sample` folders
