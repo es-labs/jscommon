@@ -1,6 +1,6 @@
 {
   "name": "@es-labs/esm",
-  "version": "0.0.30",
+  "version": "0.0.31",
   "description": "Reusable esm code",
   "main": "index.js",
   "author": "Aaron Gong",
@@ -16,5 +16,9 @@
     "url": "https://github.com/es-labs/jscommon/issues"
   },
   "homepage": "https://github.com/es-labs/jscommon#readme",
-  "keywords": [ "javascript", "esm", "modules" ]
+  "keywords": [
+    "javascript",
+    "esm",
+    "modules"
+  ]
 }
