@@ -38,36 +38,6 @@ exports.up = async function(knex) {
     table.string('telegramUsername')
     // table.timestamps() // createdAt, updatedAt
   })
-  await knex.schema.createTable('categories', (table) => {
-    table.increments('id').primary()
-    table.string('name').unique()
-    table.timestamps(true, true)
-  })
-  await knex.schema.createTable('books', (table) => {
-    table.increments('id').primary()
-    table.string('name').unique()
-    table.integer('rating')
-    table.string('yearPublished')
-    table.integer('categoryId').references('categories.id')
-    table.timestamps(true, true)
-  })
-  await knex.schema.createTable('pages', (table) => { // one book, many pages
-    table.increments('id').primary()
-    table.string('content')
-    table.integer('bookId').references('books.id')
-    table.timestamps(true, true)
-  })
-  await knex.schema.createTable('authors', (table) => {
-    table.increments('id').primary()
-    table.string('name')
-    table.string('avatar').defaultsTo('')
-    table.timestamps(true, true)
-  })
-  await knex.schema.createTable('books_authors', (table) => { // many books, many authors
-    table.integer('bookId').unsigned().references('books.id')
-    table.integer('authorId').unsigned().references('authors.id')
-    table.unique(['bookId', 'authorId']) // remove this and you will have duplicates
-  })
   await knex.schema.createTable('country', (table) => {
     table.increments('id').primary()
     table.string('name')
@@ -120,21 +90,6 @@ exports.up = async function(knex) {
     //   { column: "time", order: "DESC" },
     // ]); // TBD indexing
   })
-
-  await knex.schema.createTable('audit_logs', (table) => {
-    table.increments('id').primary()
-    table.string('user')
-    table.datetime('timestamp')
-    table.string('db_name')
-    table.string('table_name')
-    table.string('op').comment('READ, UPDATE, DELETE, INSERT')
-    table.string('where_cols')
-    table.string('where_vals')
-    table.string('cols_changed')
-    table.text('prev_values')
-    table.text('new_values')
-    table.index(['timestamp', 'db_name', 'op'])
-  })
 }
 
 /**
@@ -142,15 +97,10 @@ exports.up = async function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = async function(knex) {
-  await knex.schema.dropTableIfExists('book_authors')
-  await knex.schema.dropTableIfExists('pages')
-  await knex.schema.dropTableIfExists('books')
-  await knex.schema.dropTableIfExists('authors')
-  await knex.schema.dropTableIfExists('categories')
-  await knex.schema.dropTableIfExists('country')
-  await knex.schema.dropTableIfExists('state')
-  await knex.schema.dropTableIfExists('student')
   await knex.schema.dropTableIfExists('student_subject')
-  await knex.schema.dropTableIfExists('audit_logs')
+  await knex.schema.dropTableIfExists('student')
+  await knex.schema.dropTableIfExists('state')
+  await knex.schema.dropTableIfExists('country')
+  await knex.schema.dropTableIfExists('subject')
   await knex.schema.dropTableIfExists('users')
 }

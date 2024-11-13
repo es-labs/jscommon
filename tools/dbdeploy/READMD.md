@@ -5,6 +5,12 @@
 
 https://knexjs.org/guide/migrations.html#migration-cli
 
+For migration:up command, each command will execute a single file starting with first.
+
+So if you have 3 files (.js) in the `migrations` folder, you need to run it 3 times
+
+For seed:run command, it will run all seed files (.js) in the `seeds` folder
+
 ## Why a seperate node package
 
 when DB could be shared between packages
