@@ -3,7 +3,7 @@
  * @returns { Promise<void> }
  */
 exports.up = async function(knex) {
-  await knex.schema.createTable('users', table => {
+  await knex.schema.createTable('users', table => { // for user login
     table.increments('id').primary()
     table.string('groups')
     table.integer('orgId')
@@ -38,7 +38,7 @@ exports.up = async function(knex) {
     table.string('telegramUsername')
     // table.timestamps() // createdAt, updatedAt
   })
-  await knex.schema.createTable('country', (table) => {
+  await knex.schema.createTable('country', (table) => { // for testing autocomplete, single select
     table.increments('id').primary()
     table.string('name')
     table.string('code')
@@ -46,14 +46,14 @@ exports.up = async function(knex) {
     table.unique('code')
     table.unique('name')
   })
-  await knex.schema.createTable('state', (table) => {
+  await knex.schema.createTable('state', (table) => { // dependent table (parent is country), testing autocomplete, single select with dependency on parent
     table.increments('id').primary()
     table.string('country_name')
     table.string('code')
     table.string('name')
     table.unique(['country_name', 'code'])
   })
-  await knex.schema.createTable('student', (table) => {
+  await knex.schema.createTable('student', (table) => { // main table with most samples, also part of composite table
     table.increments('id').primary()
     table.string('firstName')
     table.string('lastName')
@@ -73,12 +73,12 @@ exports.up = async function(knex) {
     table.datetime('updated_at')      
     table.unique(['firstName', 'lastName'])
   })
-  await knex.schema.createTable('subject', (table) => {
+  await knex.schema.createTable('subject', (table) => { // part of composite table
     table.string('code').primary()
     table.string('name')
     table.string('passingGrade')
   })
-  await knex.schema.createTable('student_subject', (table) => {
+  await knex.schema.createTable('student_subject', (table) => { // test multy-key table as well as composite table
     table.integer('studentId').unsigned().references('student.id')
     table.string('subjectCode').references('subject.code')
     table.string('gradeFinal')
@@ -90,6 +90,10 @@ exports.up = async function(knex) {
     //   { column: "time", order: "DESC" },
     // ]); // TBD indexing
   })
+  await knex.schema.createTable('award', (table) => { // multi-tags (no repeat), test multi-select & multi-select autocomplete
+    table.string('code').primary()
+    table.string('name')
+  })
 }
 
 /**
@@ -100,6 +104,7 @@ exports.down = async function(knex) {
   await knex.schema.dropTableIfExists('student_subject')
   await knex.schema.dropTableIfExists('student')
   await knex.schema.dropTableIfExists('state')
+  await knex.schema.dropTableIfExists('award')
   await knex.schema.dropTableIfExists('country')
   await knex.schema.dropTableIfExists('subject')
   await knex.schema.dropTableIfExists('users')

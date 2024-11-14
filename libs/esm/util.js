@@ -17,24 +17,35 @@ function downloadData(content, filename, type = 'text/csv;charset=utf-8;') {
   }
 }
 
-// call only after X ms has passed
-// Sample Usage
-// searchIdDom.addEventListener('input', debounce(makeApiFetch, 1000))
-// Application - Debouncing an input type event handler. (like our search input example), a scroll event handler.
+/**
+ * call function only after a delay ms has passed
+ * @param {function} fn - function to debounce
+ * @param {Number} delay - milliseconds to delay
+ * @returns {function} -  return debounced function
+ *
+ * Sample Usage
+ * searchIdDom.addEventListener('input', debounce(makeApiFetch, 1000))
+ * Application - Debouncing an input type event handler. (like our search input example), a scroll event handler.
+*/
 const debounce = (fn, delay) => {
-  let timeout = null
-  return (...args) => {
-    const next = () => fn(...args)
-    clearTimeout(timeout)
-    timeout = setTimeout(next, delay)
+  let timeoutTimerId = null // Declare a variable called 'timeoutTimerId' to store the timer ID
+  return (...args) => {  // Return an anonymous function that takes in any number of arguments
+    clearTimeout(timeoutTimerId) // Clear the previous timer to prevent the execution of 'fn'
+    timeoutTimerId = setTimeout(() => fn(...args), delay) // Set a new timer that will execute 'fn' after the specified delay
   }
 }
 
-// call only X times in Y ms
-// Sample Usage
-// const myHandler = (event) => {...do some stuf...}
-// myMouseDomElement.addEventListener("mousemove", throttle(myHandler, 1000));
-// Application - Throttling an API call, button click so we can’t spam click, touch/move mouse event handler.
+/**
+ * call function only X times in Y ms
+ * @param {function} fn - function to throttle
+ * @param {Number} wait - time to measure the number of calls
+ * @returns {function} -  return throttled function/s
+ *
+ * Sample Usage
+ * const myHandler = (event) => {...do some stuf...}
+ * myMouseDomElement.addEventListener("mousemove", throttle(myHandler, 1000));
+ * Application - Throttling an API call, button click so we can’t spam click, touch/move mouse event handler.
+*/
 function throttle(fn, wait) {
   let time = Date.now()
   return function () {

@@ -1,19 +1,32 @@
-
-// returns an array or YYYY, MM, DD - not so useful...
+/**
+ * Get array of strings with datetime elements after offseting input date by X days
+ * @param {string} isoString - ISO datetime string
+ * @param {Number} days - ISO datetime string
+ * @returns {string[]}} -  return array or YYYY, MM, DD strings - not so useful...
+ */
 export function dateStrAddDay(dateStr, days = 0) {
   const d = new Date(Date.parse(dateStr) - new Date().getTimezoneOffset());
   d.setDate(d.getDate() + days); // add the days
   return [d.getFullYear().toString(), (d.getMonth() + 1).toString().padStart(2, 0), d.getDate().toString().padStart(2, 0)];
 }
 
+/**
+ * Get new ISO datetime string date after offseting input date by X days
+ * @param {string} isoString - ISO datetime string
+ * @param {Number} days - ISO datetime string
+ * @returns {string} -  return ISO datetime string
+ */
 export const dateStrAddDayISO = (isoString, days = 0) => {
   const d = new Date(isoString);
   d.setDate(d.getDate() + days);
   return d.toISOString();
 }
 
-// Input: Date object or ISO datetime string
-// Return Format: 2023-10-24 11:40:15 GMT+8
+/**
+ * Get local,date time and TZ in ISO format
+ * @param {Date|string} date - Date object or ISO datetime string
+ * @returns {string} -  return string format: 2023-10-24 11:40:15 GMT+8
+ */
 export const getLocaleDateTimeTzISO = (dt) => {
   if (!(dt instanceof Date)) dt = new Date(dt);
   return dt.toLocaleString('sv', {
@@ -28,10 +41,32 @@ export const getLocaleDateTimeTzISO = (dt) => {
   });
 }
 
+/**
+ * Get local date in ISO format
+ * @param {Date} date
+ * @returns {string}
+ */
 export const getLocaleDateISO = (isoString) => getLocaleDateTimeTzISO(isoString).substring(0, 10);
+
+/**
+ * Get local date in ISO format
+ * @param {Date} date
+ * @returns {string}
+ */
 export const getLocaleTimeISO = (isoString) => getLocaleDateTimeTzISO(isoString).substring(11, 19);
 
+/**
+ * Get UTC TZ date in ISO format
+ * @param {Date} date
+ * @returns {string}
+ */
 export const dateISO = (date) => new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().substring(0, 10);
+
+/**
+ * Get UTC TZ time in ISO format
+ * @param {Date} date
+ * @returns {string}
+ */
 export const timeISO = (date) => new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().substring(11, 19);
 
 

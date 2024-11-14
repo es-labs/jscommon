@@ -94,4 +94,10 @@ exports.seed = async function(knex) {
     { studentId: 2, subjectCode: 'EM', gradeFinal: 'C', gradeDate: '2024-10-02' },
     { studentId: 2, subjectCode: 'CHEM', gradeFinal: 'B', gradeDate: '2024-10-02' },
   ])
+
+  await knex('award').insert( [ // studentId from insert above...
+    { code: 'ac', name: 'Academic' },
+    { code: 'sp', name: 'Sports' },
+    { code: 'cv', name: 'Civics' },
+ ])
 }
