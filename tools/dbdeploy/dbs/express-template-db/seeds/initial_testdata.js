@@ -10,52 +10,13 @@ new Intl.DateTimeFormat('default', {
  * @returns { Promise<void> } 
  */
 exports.seed = async function(knex) {
-  await knex('books_authors').del()
-  await knex('pages').del()
-  await knex('books').del()
-  await knex('authors').del()
-  await knex('categories').del()
+  await knex('student_subject').del()
+  await knex('subject').del()
   await knex('student').del()
+  await knex('award').del()
   await knex('country').del()
   await knex('state').del()
 
-  await knex('authors').insert([
-    {id: 1, name: 'author1', avatar: '', created_at: mkDt() },
-    {id: 2, name: 'author2', avatar: '', created_at: mkDt() },
-    {id: 3, name: 'author3', avatar: '', created_at: mkDt() },
-    {id: 4, name: 'author4', avatar: '', created_at: mkDt() },
-    {id: 5, name: 'author5', avatar: '', created_at: mkDt() }
-  ])
-  await knex('categories').insert([
-    {id: 1, name: 'cat1', created_at: mkDt() },
-    {id: 2, name: 'cat2', created_at: mkDt() },
-    {id: 3, name: 'cat3', created_at: mkDt() }
-  ])
-  await knex('books').insert([
-    {id: 1, name: 'book1', categoryId: 1, rating: 5, yearPublished: '2004', created_at: mkDt() },
-    {id: 2, name: 'book2', categoryId: 2, rating: 4, yearPublished: '2003', created_at: mkDt() },
-    {id: 3, name: 'book3', categoryId: 1, rating: 3, yearPublished: '2010', created_at: mkDt() },
-    {id: 4, name: 'book4', categoryId: 1, rating: 2, yearPublished: '2009', created_at: mkDt() },
-    {id: 5, name: 'book5', categoryId: 2, rating: 1, yearPublished: '2007', created_at: mkDt() }
-  ])
-  await knex('books_authors').insert([
-    {authorId: 1, bookId: 1},
-    {authorId: 2, bookId: 2},
-    {authorId: 3, bookId: 3},
-    {authorId: 1, bookId: 4},
-    {authorId: 2, bookId: 4},
-    {authorId: 2, bookId: 5}
-  ])
-  await knex('pages').insert([
-    {id: 1, content: 'page1', bookId: 1, created_at: mkDt()},
-    {id: 2, content: 'page2', bookId: 1, created_at: mkDt()},
-    {id: 3, content: 'page3', bookId: 1, created_at: mkDt()},
-    {id: 4, content: 'page4', bookId: 2, created_at: mkDt()},
-    {id: 5, content: 'page5', bookId: 3, created_at: mkDt()},
-    {id: 6, content: 'page6', bookId: 4, created_at: mkDt()},
-    {id: 7, content: 'page7', bookId: 4, created_at: mkDt()},
-    {id: 8, content: 'page8', bookId: 5, created_at: mkDt()}
-  ])
   await knex('country').insert( require('./icc.json') )
   await knex('state').insert( require('./state.json') )
   const students = [...new Array(30)].map( (_, idx) => {
@@ -86,7 +47,6 @@ exports.seed = async function(knex) {
     { code: 'PHY', name: 'Physics', passingGrade: 'D' },
     { code: 'CHEM', name: 'Chemistry', passingGrade: 'D' },
   ])
-
   await knex('student_subject').insert( [ // studentId from insert above...
     { studentId: 1, subjectCode: 'EM', gradeFinal: 'A', gradeDate: '2024-10-01' },
     { studentId: 1, subjectCode: 'AM', gradeFinal: 'B', gradeDate: '2024-10-01' },
@@ -94,7 +54,6 @@ exports.seed = async function(knex) {
     { studentId: 2, subjectCode: 'EM', gradeFinal: 'C', gradeDate: '2024-10-02' },
     { studentId: 2, subjectCode: 'CHEM', gradeFinal: 'B', gradeDate: '2024-10-02' },
   ])
-
   await knex('award').insert( [ // studentId from insert above...
     { code: 'ac', name: 'Academic' },
     { code: 'sp', name: 'Sports' },

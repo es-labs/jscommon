@@ -22,6 +22,7 @@ For [express-template](https://github.com/es-labs/express-template) app-sample
 
 ```bash
 npx knex --knexfile dbs/express-template-db/knexfile.js migrate:up
+npx knex --knexfile dbs/express-template-db/knexfile.js migrate:up # run a second time as there are 2 files to migrate in the folder...
 npx knex --knexfile dbs/express-template-db/knexfile.js seed:run
 ```
 
