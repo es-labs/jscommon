@@ -205,7 +205,7 @@ const test = async () => {
   */
 }
 
-test()
+// test()
 
 // async function listBucketInventory() {
 //   const bucket = 'Your Bucket Name'
