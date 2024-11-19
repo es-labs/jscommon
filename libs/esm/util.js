@@ -1,5 +1,5 @@
 // improved download function
-function downloadData(content, filename, type = 'text/csv;charset=utf-8;') {
+const downloadData = (content, filename, type = 'text/csv;charset=utf-8;') => {
   const blob = new Blob([content], { type })
   // IE11 & Edge
   if (navigator.msSaveBlob) {
@@ -46,7 +46,7 @@ const debounce = (fn, delay) => {
  * myMouseDomElement.addEventListener("mousemove", throttle(myHandler, 1000));
  * Application - Throttling an API call, button click so we can’t spam click, touch/move mouse event handler.
 */
-function throttle(fn, wait) {
+const throttle = (fn, wait) => {
   let time = Date.now()
   return function () {
     if (time + wait - Date.now() < 0) {
@@ -57,9 +57,14 @@ function throttle(fn, wait) {
 }
 
 // https://www.samanthaming.com/tidbits/94-how-to-check-if-object-is-empty/
-const emptyObject = value => value && Object.keys(value).length === 0 && value.constructor === Object // check if object is empty, also false if not object
+/**
+ * check if object is empty, also false if not object
+ * @param {any} value - time to measure the number of calls
+ * @returns {boolean} -  true if empty object, false otherwise
+*/
+const emptyObject = (value) => value && Object.keys(value).length === 0 && value.constructor === Object 
 
-function isEmail(email) {
+const isEmail = (email) => {
   // return /[\w\d\.-]+@[\w\d\.-]+\.[\w\d\.-]+/.test(email)
   return /[\w\d-]+@[\w\d-]+\.[\w\d-]+/.test(email)
 }
@@ -68,7 +73,7 @@ function isEmail(email) {
 // .split(/\r?\n/)
 
 // https://stackoverflow.com/questions/8847766/how-to-convert-json-to-csv-format-and-store-in-a-variable
-function jsonToCsv (items) {
+const jsonToCsv = (items) => {
   const replacer = (key, value) => value === null ? '' : value // specify how you want to handle null values here
   const header = Object.keys(items[0])
   return [
