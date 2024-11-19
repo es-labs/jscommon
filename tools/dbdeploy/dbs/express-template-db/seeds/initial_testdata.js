@@ -19,27 +19,6 @@ exports.seed = async function(knex) {
 
   await knex('country').insert( require('./icc.json') )
   await knex('state').insert( require('./state.json') )
-  const students = [...new Array(30)].map( (_, idx) => {
-    return {
-      firstName: 'first',
-      lastName: 'last' + idx,
-      avatar: '',
-      kyc: '',
-      sex: idx % 2 === 0 ? 'M' : 'F',
-      age: idx + 15,
-      gpa: (idx + 1) % 5,
-      birthDate: '1976-04-19',
-      birthTime: '0600',
-      country: 'SG',
-      state: '',
-      dateTimeTz: (new Date()).toISOString(), // sqlite stores as integer...
-      website: '',
-      remarks: '',
-      updated_by: 'someone',
-      updated_at: (new Date()).toISOString() 
-    }
-  })
-  await knex('student').insert(students)
   await knex('subject').insert( [
     { code: 'EL1', name: 'English', passingGrade: 'D' },
     { code: 'EM', name: 'E Math', passingGrade: 'C' },
@@ -59,4 +38,26 @@ exports.seed = async function(knex) {
     { code: 'sp', name: 'Sports' },
     { code: 'cv', name: 'Civics' },
  ])
+  const students = [...new Array(30)].map( (_, idx) => {
+    return {
+      firstName: 'first',
+      lastName: 'last' + idx,
+      avatar: '',
+      kyc: '',
+      awards: '',
+      sex: idx % 2 === 0 ? 'M' : 'F',
+      age: idx + 15,
+      gpa: (idx + 1) % 5,
+      birthDate: '1976-04-19',
+      birthTime: '0600',
+      country: 'SG',
+      state: '',
+      dateTimeTz: (new Date()).toISOString(), // sqlite stores as integer...
+      website: '',
+      remarks: '',
+      updated_by: 'someone',
+      updated_at: (new Date()).toISOString() 
+    }
+  })
+  await knex('student').insert(students)
 }
