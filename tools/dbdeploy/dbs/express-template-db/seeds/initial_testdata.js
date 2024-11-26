@@ -20,11 +20,11 @@ exports.seed = async function(knex) {
   await knex('country').insert( require('./icc.json') )
   await knex('state').insert( require('./state.json') )
   await knex('subject').insert( [
-    { code: 'EL1', name: 'English', passingGrade: 'D' },
-    { code: 'EM', name: 'E Math', passingGrade: 'C' },
-    { code: 'AM', name: 'A Math', passingGrade: 'C' },
-    { code: 'PHY', name: 'Physics', passingGrade: 'D' },
-    { code: 'CHEM', name: 'Chemistry', passingGrade: 'D' },
+    { code: 'EL1', name: 'English', passingGrade: 40 },
+    { code: 'EM', name: 'E Math', passingGrade: 41 },
+    { code: 'AM', name: 'A Math', passingGrade: 42 },
+    { code: 'PHY', name: 'Physics', passingGrade: 43 },
+    { code: 'CHEM', name: 'Chemistry', passingGrade: 44 },
   ])
   await knex('student_subject').insert( [ // studentId from insert above...
     { studentId: 1, subjectCode: 'EM', gradeFinal: 'A', gradeDate: '2024-10-01' },

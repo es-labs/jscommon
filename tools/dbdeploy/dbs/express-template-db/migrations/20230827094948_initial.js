@@ -77,7 +77,7 @@ exports.up = async function(knex) {
   await knex.schema.createTable('subject', (table) => { // part of composite table
     table.string('code').primary()
     table.string('name')
-    table.string('passingGrade')
+    table.integer('passingGrade')
   })
   await knex.schema.createTable('student_subject', (table) => { // test multy-key table as well as composite table
     table.integer('studentId').unsigned().references('student.id')
