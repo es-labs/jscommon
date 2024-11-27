@@ -68,7 +68,7 @@ exports.up = async function(knex) {
     table.string('country')
     table.string('state')
     table.datetime('dateTimeTz')
-    table.string('website')
+    table.string('secret')
     table.string('remarks')
     table.string('updated_by')
     table.datetime('updated_at')      

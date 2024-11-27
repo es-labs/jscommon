@@ -53,7 +53,7 @@ exports.seed = async function(knex) {
       country: 'SG',
       state: '',
       dateTimeTz: (new Date()).toISOString(), // sqlite stores as integer...
-      website: '',
+      secret: '1234',
       remarks: '',
       updated_by: 'someone',
       updated_at: (new Date()).toISOString() 
