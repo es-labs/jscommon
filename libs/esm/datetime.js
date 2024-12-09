@@ -81,3 +81,14 @@ export const getTzOffsetISO = (date) => {
   const tzOffset = -date.getTimezoneOffset();
   return (tzOffset >= 0 ? '+' : '-') + pad(tzOffset / 60) + ':' + pad(tzOffset % 60);
 };
+
+/**
+ * Get return current UTC timestamp YmdHms
+ * @param {Date|undefined} date - if undefined, will create a date object and use that timezone 
+ * @returns {string} YYYYMMDD_HHmmssZ
+ */
+export const getYmdhmsUtc = (date) => {
+  if (!date) date = new Date();
+  const d = date.toISOString();
+  return d.substring(0,4) + d.substring(5,7) + d.substring(8,10) + '_' + d.substring(11,13) + d.substring(14,16) + d.substring(17,19) + 'Z';
+}
