@@ -1,7 +1,7 @@
 'use strict'
 const path = require('path')
 module.exports = async function(app_path) {
-  process.env.NODE_ENV = process.env.NODE_ENV || '' // development, uat, production...
+  process.env.NODE_ENV = process.env.NODE_ENV || '' // development, dev, prd... (development is on local machine)
   const { NODE_ENV, VAULT } = process.env
   if (!NODE_ENV) {
     console.log('Exiting No Environment Specified')
@@ -17,7 +17,7 @@ module.exports = async function(app_path) {
       try {
         const vaultRes = await fetch(VAULT) // a GET with query parameters (protected)
         const vaultConfig = await vaultRes.json()
-        global.CONFIG = { ...CONFIG, ...vaultConfig }
+        process.env = { ...process.env, ...vaultConfig }
       } catch (e) {
         console.log('vault error', e.toString(), VAULT)
       }
