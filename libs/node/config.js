@@ -13,30 +13,15 @@ module.exports = async function(app_path) {
   process.env.APP_NAME = name
 
   if (NODE_ENV) {
-    // load defaults
     if (VAULT && VAULT !== 'unused') {
-      // let base64String = Buffer.from(originalString, 'utf8').toString('base64') // utf8 to base64
       try {
-        let decodedString = Buffer.from(VAULT, 'base64').toString('utf8') // base64 to utf8
-        const vault = JSON.parse(decodedString)
-        let vaultConfig = {} 
-        if (vault.secrets) {
-          // insecure and not a good way to get secrets
-          vaultConfig = vault.secrets 
-        } else if (vault.url) {
-          // Get from Hashicorp Vault, can replace with other secrets manager
-          // curl -s -H "X-Vault-Token: $token" $url
-          const vaultRes = await fetch(vault.url, { headers: { 'X-Vault-Token': vault.token } })
-          vaultConfig = vaultRes.data.data.data
-        } else {
-          console.log('environment unknown VAULT', VAULT)
-        }
+        const vaultRes = await fetch(VAULT) // a GET with query parameters (protected)
+        const vaultConfig = await vaultRes.json()
         global.CONFIG = { ...CONFIG, ...vaultConfig }
       } catch (e) {
-        console.log('environment vault response error', e.toString(), VAULT)
+        console.log('vault error', e.toString(), VAULT)
       }
     }
-
     const sleep = (milliseconds) => new Promise(resolve => setTimeout(resolve, milliseconds))
     await sleep(2000)
     console.log('CONFIG DONE!')
