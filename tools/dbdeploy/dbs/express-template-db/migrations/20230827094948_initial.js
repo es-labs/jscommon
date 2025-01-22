@@ -43,6 +43,7 @@ exports.up = async function(knex) {
     table.string('name')
     table.string('code')
     table.string('icc')
+    table.datetime('updated')
     table.unique('code')
     table.unique('name')
   })

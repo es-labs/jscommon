@@ -17,7 +17,11 @@ exports.seed = async function(knex) {
   await knex('country').del()
   await knex('state').del()
 
-  await knex('country').insert( require('./icc.json') )
+  let countries = require('./icc.json')
+  countries = countries.map(country => ({
+    ...country, updated: (new Date()).toISOString()
+  }))
+  await knex('country').insert( countries )
   await knex('state').insert( require('./state.json') )
   await knex('subject').insert( [
     { code: 'EL1', name: 'English', passingGrade: 40 },
