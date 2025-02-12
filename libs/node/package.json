@@ -20,8 +20,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.717.0",
-    "@google-cloud/storage": "^7.14.0",
+    "@aws-sdk/client-s3": "^3.744.0",
+    "@google-cloud/storage": "^7.15.1",
     "@node-saml/node-saml": "^5.0.0",
     "ali-oss": "^6.22.0",
     "bcryptjs": "^2.4.3",
@@ -30,7 +30,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "helmet": "^8.0.0",
-    "ioredis": "^5.4.2",
+    "ioredis": "^5.5.0",
     "jsonwebtoken": "^9.0.2",
     "keyv": "^5.2.3",
     "knex": "^3.1.0",

@@ -224,5 +224,6 @@ module.exports = {
   listObjects,
   getObject,
   putObject,
-  deleteObjects
+  deleteObjects,
+  getSignedUrl
 }
