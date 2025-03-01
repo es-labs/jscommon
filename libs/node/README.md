@@ -6,9 +6,20 @@ Common JS libraries for NodeJS applications
 - comms:  for communications
 - express: for express JS
 - services: various services
-  - db: databases
+  - db:
+    - mysql
+    - postgres
   - mq: TODO
-  - others gcp, keyv, redis, webpush, websocket
+  - others:
+    - keyv
+    - redis/valkey
+    - webpush
+    - websocket
+  - cloud:
+    - aliyun:
+      - bucket (oss)
+    - aws:
+      - bucket (s3)
 - utils: various utilities
   - aes: encrypt & decrypt
 - config.js: config loader
