@@ -28,7 +28,6 @@ const postRoute = (app, express) => {
       app.use(item.url, express.static(item.folder, item.options)) // { extensions: ['html'], index: false }
     })
   }
-  app.use("*", (req, res) => res.status(404).json({ Error: '404 Not Found...' }))
 
   return this
 }

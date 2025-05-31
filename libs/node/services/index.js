@@ -1,7 +1,7 @@
 'use strict'
 
 let servicesConfig = []
-const services = { }
+const services = {}
 
 const start = async (
   config = JSON.parse(process.env.SERVICES_CONFIG || null) || [], server = null, app = null
@@ -53,6 +53,6 @@ const stop = async () => {
 module.exports = {
   start,
   stop,
-  get: (service) => services[service].get(),
+  get: (service) => services[service]?.get() || null,
   list: () => servicesConfig
 }
