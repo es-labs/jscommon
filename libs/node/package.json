@@ -20,9 +20,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.802.0",
+    "@aws-sdk/client-s3": "^3.821.0",
     "@node-saml/node-saml": "^5.0.1",
-    "ali-oss": "^6.22.0",
+    "ali-oss": "^6.23.0",
     "bcryptjs": "^3.0.2",
     "connect-history-api-fallback": "^2.0.0",
     "cookie-parser": "^1.4.7",
@@ -34,7 +34,7 @@
     "keyv": "^5.3.3",
     "knex": "^3.1.0",
     "morgan": "^1.10.0",
-    "multer": "^1.4.5-lts.1",
+    "multer": "^2.0.0",
     "otplib": "^12.0.1",
     "serve-index": "^1.9.1",
     "web-push": "^3.6.7",
