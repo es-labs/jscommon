@@ -75,10 +75,10 @@ const preRoute = (app, express) => {
   // look out for... Unexpected token n in JSON at position 0 ... client request body must match request content-type, if applicaion/json, body cannot be null/undefined
   console.log('bodyparser setting up')
   console.table({ BODYPARSER_RAW_ROUTES, BODYPARSER_JSON, BODYPARSER_URLENCODED })
+  const p2r = require('path-to-regexp')
   try {
     app.use((req, res, next) => {
-      const p2r = require('path-to-regexp')
-      const rawMatch = BODYPARSER_RAW_ROUTES?.split(',').find(route => p2r(route).test(req.originalUrl))
+      const rawMatch = BODYPARSER_RAW_ROUTES?.split(',')?.find(route => p2r.match(route)(req.originalUrl))
       if (rawMatch) { // raw routes - ignore bodyparser json
         next()
       } else {
@@ -86,11 +86,11 @@ const preRoute = (app, express) => {
       }
     })
     app.use(express.urlencoded( JSON.parse(BODYPARSER_URLENCODED || null) || { extended: true, limit: '2mb' })) // https://stackoverflow.com/questions/29175465/body-parser-extended-option-qs-vs-querystring/29177740#29177740
-    console.info('bodyparser setup done')
   } catch (e) {
     console.error('[bodyparser setup error]', e.toString());
     throw(new Error())
   }
+  console.info('bodyparser setup done')
 
   const cookieParser = require('cookie-parser')
   console.log({ COOKIE_SECRET })
