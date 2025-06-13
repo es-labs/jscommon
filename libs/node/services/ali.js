@@ -151,6 +151,57 @@ const getSignedUrl = async (method, expires, key, headers = null, additional = n
   return signedUrl
 }
 
+/**
+ * get a signed URL to write a file to OSS.
+ * @param {string} directory - the directory in OSS.
+ * @param {string} filename - the filename
+ * @param {string} contentType - the content type of the file
+ * @param {string} [action='write'] - 'write' or 'read'
+ * @param {number} [expiration=7200] - the expiration time of the signed URL
+ * @param {object} [callbackConfig] - the callback config for write action, example: { callback_url: 'https://example.com', body: { foo: 'bar' } }
+ * @returns {{ url: string, error?: string }}
+ */
+const getUploadURL = async (directory, filename, contentType, action = 'write', expiration = 7200, callbackConfig) => {
+  if (!action || !filename) {
+    return { error: 'filename and action required' }
+  }
+
+  try {
+    let url
+
+    // write / new file action
+    if (action === 'write') {
+      let arr = filename.split('.')
+
+      arr[0] = crypto
+        .createHash('sha256')
+        .update(arr[0] + new Date().getTime())
+        .digest('hex')
+
+      let newFilename = arr.join('.')
+
+      const fullPath = directory ? `${directory}/${newFilename}` : newFilename
+
+      url = await store.signatureUrl(fullPath, {
+        expires: expiration,
+        method: 'PUT',
+        'Content-Type': contentType,
+        callback: {
+          url: callbackConfig?.callback_url,
+          body: JSON.stringify({...callbackConfig?.body, filename, filepath: fullPath}),
+          contentType: 'application/json'
+        }
+      })
+    } else {
+      url = await store.signatureUrl(filename)
+    }
+
+    return { url }
+  } catch (e) {
+    return { error: e.toString() }
+  }
+}
+
 const test = async () => {
   // [bucket count]
   // const bucketObjCount = await countBucketObjects('no-such-bucket') // non-existing bucket, also test with existing bucket
@@ -225,5 +276,6 @@ module.exports = {
   getObject,
   putObject,
   deleteObjects,
-  getSignedUrl
+  getSignedUrl,
+  getUploadURL
 }
