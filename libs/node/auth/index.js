@@ -35,10 +35,22 @@ const authFns = { // rename to authFns
   revokeRefreshToken: null
 }
 
+const keyv = require('./keyv.js')
+const knex = require('./knex.js')
+const redis = require('./redis.js')
+
+const store = {
+  keyv,
+  knex,
+  redis
+}
+
 const setup = (tokenService, userService) => {
   //NOSONAR ({ } = process.env);
-  ({ setRefreshToken, getRefreshToken, revokeRefreshToken, setRefreshTokenStoreName, setTokenService } = require('./' + JWT_REFRESH_STORE)); // keyv, redis, knex
-  ({ findUser, updateUser, setAuthUserStoreName, setUserService } = require('./' + AUTH_USER_STORE)); // knex
+  // ({ setRefreshToken, getRefreshToken, revokeRefreshToken, setRefreshTokenStoreName, setTokenService } = require('./' + JWT_REFRESH_STORE)); // keyv, redis, knex
+  // ({ findUser, updateUser, setAuthUserStoreName, setUserService } = require('./' + AUTH_USER_STORE)); // knex
+  ({ setRefreshToken, getRefreshToken, revokeRefreshToken, setRefreshTokenStoreName, setTokenService } = store[JWT_REFRESH_STORE]); // keyv, redis, knex
+  ({ findUser, updateUser, setAuthUserStoreName, setUserService } = store[AUTH_USER_STORE]); // knex
   authFns.findUser = findUser
   authFns.updateUser = updateUser
   authFns.revokeRefreshToken = revokeRefreshToken
