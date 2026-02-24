@@ -27,18 +27,20 @@ export const dateStrAddDayISO = (isoString, days = 0) => {
  * @param {Date|string} date - Date object or ISO datetime string
  * @returns {string} -  return string format: 2023-10-24 11:40:15 GMT+8
  */
-export const getLocaleDateTimeTzISO = (dt) => {
+export const getLocaleDateTimeTzISO = (dt, tz) => {
+  const opts = {
+    timeZoneName: 'short',
+    hour12: false,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  }
+  if (tz) opts.timeZone = tz;
   if (!(dt instanceof Date)) dt = new Date(dt);
-  return dt.toLocaleString('sv', {
-      timeZoneName: 'short',
-      hour12: false,
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-  });
+  return dt.toLocaleString('sv', opts);
 }
 
 /**
@@ -46,14 +48,14 @@ export const getLocaleDateTimeTzISO = (dt) => {
  * @param {Date} date
  * @returns {string}
  */
-export const getLocaleDateISO = (isoString) => getLocaleDateTimeTzISO(isoString).substring(0, 10);
+export const getLocaleDateISO = (isoString, tz) => getLocaleDateTimeTzISO(isoString, tz).substring(0, 10);
 
 /**
  * Get local date in ISO format
  * @param {Date} date
  * @returns {string}
  */
-export const getLocaleTimeISO = (isoString) => getLocaleDateTimeTzISO(isoString).substring(11, 19);
+export const getLocaleTimeISO = (isoString, tz) => getLocaleDateTimeTzISO(isoString, tz).substring(11, 19);
 
 /**
  * Get UTC TZ date in ISO format
