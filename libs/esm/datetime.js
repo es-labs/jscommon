@@ -4,7 +4,7 @@
  * @param {Number} days - ISO datetime string
  * @returns {string[]}} -  return array or YYYY, MM, DD strings - not so useful...
  */
-export function dateStrAddDay(dateStr, days = 0) {
+export const dateStrAddDay = (dateStr, days = 0) => {
   const d = new Date(Date.parse(dateStr) - new Date().getTimezoneOffset());
   d.setDate(d.getDate() + days); // add the days
   return [d.getFullYear().toString(), (d.getMonth() + 1).toString().padStart(2, 0), d.getDate().toString().padStart(2, 0)];
@@ -24,7 +24,8 @@ export const dateStrAddDayISO = (isoString, days = 0) => {
 
 /**
  * Get local,date time and TZ in ISO format
- * @param {Date|string} date - Date object or ISO datetime string
+ * @param {Date|string} dt - Date object or ISO datetime string
+ * @param {string} tz - IANA time zone name, e.g. 'Asia/Singapore'
  * @returns {string} -  return string format: 2023-10-24 11:40:15 GMT+8
  */
 export const getLocaleDateTimeTzISO = (dt, tz) => {
@@ -45,14 +46,16 @@ export const getLocaleDateTimeTzISO = (dt, tz) => {
 
 /**
  * Get local date in ISO format
- * @param {Date} date
+ * @param {string} isoString - ISO datetime string
+ * @param {string} tz - IANA time zone name, e.g. 'Asia/Singapore'
  * @returns {string}
  */
 export const getLocaleDateISO = (isoString, tz) => getLocaleDateTimeTzISO(isoString, tz).substring(0, 10);
 
 /**
  * Get local date in ISO format
- * @param {Date} date
+ * @param {string} isoString - ISO datetime string
+ * @param {string} tz - IANA time zone name, e.g. 'Asia/Singapore'
  * @returns {string}
  */
 export const getLocaleTimeISO = (isoString, tz) => getLocaleDateTimeTzISO(isoString, tz).substring(11, 19);
@@ -94,3 +97,19 @@ export const getYmdhmsUtc = (date) => {
   const d = date.toISOString();
   return d.substring(0,4) + d.substring(5,7) + d.substring(8,10) + '_' + d.substring(11,13) + d.substring(14,16) + d.substring(17,19) + 'Z';
 }
+
+/**
+ * Get day of week index (0-6) for a given date and timezone
+ * @param {Date|string} date - Date object or ISO datetime string
+ * @param {string} tz - IANA time zone name, e.g. 'Asia/Singapore'
+ * @returns {Number}
+ */
+export const getDayOfWeek = (date, tz) => {
+  if (!(date instanceof Date)) date = new Date(date)
+  const opts = { weekday: 'short' }
+  if (tz) opts.timeZone = tz
+  const shortDayName = new Intl.DateTimeFormat('en-US', opts).format(date) // Get short day name string for specified timezone  
+  const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] // Map the short name back to a numeric index
+  return daysOfWeek.indexOf(shortDayName);
+}
+
