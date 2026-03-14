@@ -5,8 +5,10 @@
   "main": "index.js",
   "author": "Aaron Gong",
   "license": "MIT",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test-reporter=spec --experimental-test-coverage --test __tests__/**/*.spec.js",
+    "cover": "node --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=lcov.info --test __tests__/**/*.spec.js"
   },
   "repository": {
     "type": "git",

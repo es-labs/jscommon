@@ -1,6 +1,10 @@
 // TODO add retry - https://dev.to/ycmjason/javascript-fetch-retry-upon-failure-3p6g
-
 class Fetch {
+  /**
+   * 
+   * @param {*} options 
+   * @param {*} tokens 
+   */
   constructor(options = {}, tokens = {}) {
     this.options = {
       baseUrl: '',
@@ -15,6 +19,13 @@ class Fetch {
     Object.assign(this.tokens, tokens)
   }
 
+  /**
+   * 
+   * @param {string} url 
+   * @param {string} baseUrl 
+   * @returns {object} { urlOrigin, urlPath, urlFull, urlSearch }
+   * @throws {Error} if URL is invalid
+   */
   static parseUrl (url, baseUrl = '') {
     let urlPath = url
     let urlOrigin = baseUrl
@@ -84,8 +95,9 @@ class Fetch {
       if (rv0.status >= 200 && rv0.status < 400) return rv0
       else if (rv0.status === 401) { // no longer needed urlPath !== '/api/auth/refresh'
         if (rv0.data.message === 'Token Expired Error' && this.options.refreshUrl) {
-          const rv1 = await this.http('POST', urlOrigin + this.options.refreshUrl, { refresh_token: this.tokens.refresh }) // rv1 JSON already processed
-          if (rv1.status === 200) {
+          try {
+            const rv1 = await this.http('POST', urlOrigin + this.options.refreshUrl, { refresh_token: this.tokens.refresh }) // rv1 JSON already processed
+            // status code should be < 400 here
             this.tokens.access = rv1.data.access_token
             this.tokens.refresh = rv1.data.refresh_token
             if (options.credentials !== 'include') { // include === HTTPONLY_TOKEN
@@ -95,8 +107,8 @@ class Fetch {
             const txt2 = await rv2.text()
             rv2.data = txt2.length ? JSON.parse(txt2) : {}
             return rv2
-          } else {
-            throw rv1 // error
+          } catch (e) {
+            throw e
           }
         }
       }

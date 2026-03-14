@@ -61,21 +61,6 @@ export const getLocaleDateISO = (isoString, tz) => getLocaleDateTimeTzISO(isoStr
 export const getLocaleTimeISO = (isoString, tz) => getLocaleDateTimeTzISO(isoString, tz).substring(11, 19);
 
 /**
- * Get UTC TZ date in ISO format
- * @param {Date} date
- * @returns {string}
- */
-export const dateISO = (date) => new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().substring(0, 10);
-
-/**
- * Get UTC TZ time in ISO format
- * @param {Date} date
- * @returns {string}
- */
-export const timeISO = (date) => new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().substring(11, 19);
-
-
-/**
  * Get timezone offset in ISO format (+hh:mm or -hh:mm)
  * @param {Date|undefined} date - if undefined, will create a date object and use that timezone 
  * @returns {string}
@@ -113,3 +98,6 @@ export const getDayOfWeek = (date, tz) => {
   return daysOfWeek.indexOf(shortDayName);
 }
 
+// Obsolete use getLocaleDateISO and getLocaleTimeISO instead
+// export const dateISO = (date) => new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().substring(0, 10);
+// export const timeISO = (date) => new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().substring(11, 19);

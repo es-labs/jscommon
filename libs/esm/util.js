@@ -1,3 +1,9 @@
+/**
+ * Downloads data as a file
+ * @param {*} content - file content to be downloaded
+ * @param {string} filename - name of file to be downloaded
+ * @param {string} type - MIME type, default is 'text/csv;charset=utf-8;' 
+ */
 // improved download function
 const downloadData = (content, filename, type = 'text/csv;charset=utf-8;') => {
   const blob = new Blob([content], { type })
@@ -82,6 +88,11 @@ const jsonToCsv = (items) => {
   ].join('\r\n')
 }
 
+/**
+ * convert object to query string
+ * @param {object} obj 
+ * @returns 
+ */
 const objectToQueryString = (obj) =>
   Object.keys(obj)
     .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(obj[key]))
