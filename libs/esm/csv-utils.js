@@ -1,49 +1,21 @@
 'use strict'
-// use csv-parse and @json2csv/plainjs instead
-
-// PROBLEMS
-// 1. what if columns are not same (use less or use more) ?
-// 2. what if row is missing
-
-// RFC 4180
+// RFC 4180 CSV parser and generator
 // https://stackoverflow.com/a/41563966
 // https://www.convertcsv.com/json-to-csv.htm
-// double quote only required if field contains newline characters
-// check if valid json key syntax
+// - instead of using npm libraries: csv-parse and @json2csv/plainjs
+// - use process.stdout.write(...) if piping output so no extra carraige return is added
+// - double quote only required if field contains newline characters
+// - check if valid json key syntax
+// - PROBLEMS
+//   1. what if columns are not same (use less or use more) ?
+//   2. what if row is missing
+
 const DELIM_ROW = "\n" // end of line \r\n for Windows \n for Linux
 const DELIM_COL = ','
-const ESCAPE_CHAR = '""'
+const ESCAPE_CHAR = '""' // this should remain as "" for RFC4180 compliance
 const QUOTE_CHAR = '"'
 const CHAR_CR = '\r'
 const CHAR_LF = '\n'
-
-/**
- * 
- * @param {string[][]} csvString - CSV parsed as array of rows, each row is an array of fields
- * @returns {object} - { valid: boolean, reason?: string, rows?: string[][] }
- * @throws {Error} - if CSV is invalid (e.g. unclosed quotes)
- */
-const parseAndValidateCsv = (csvString) => {
-  try {
-    const rows = parseCSV(csvString);
-    for (const row of rows) {
-      for (const field of row) {
-        // Catches objects {}, arrays [], strings "...", numbers, booleans, null
-        const looksLikeJSON = /^[[{"'\-\d]|^(true|false|null)$/.test(field.trim());
-        if (looksLikeJSON) {
-          try {
-            JSON.parse(field);
-          } catch {
-            return { valid: false, reason: `Corrupted JSON in field: ${field.slice(0, 50)}` };
-          }
-        }
-      }
-    }
-    return { valid: true, rows };
-  } catch (err) {
-    return { valid: false, reason: err.message };
-  }
-}
 
 /**
  * RFC 4180-compliant CSV parser (handles quoted fields with embedded commas/newlines)
@@ -109,6 +81,34 @@ const parseCSV = (str, delimCol=DELIM_COL) => {
 }
 
 /**
+ * Parse a string as CSV and also validate JSON if a field is a JSON field
+ * @param {string[][]} csvString - CSV parsed as array of rows, each row is an array of fields
+ * @returns {object} - { valid: boolean, reason?: string, rows?: string[][] }
+ * @throws {Error} - if CSV is invalid (e.g. unclosed quotes)
+ */
+const parseAndValidateCsv = (csvString) => {
+  try {
+    const rows = parseCSV(csvString);
+    for (const row of rows) {
+      for (const field of row) {
+        // Catches objects {}, arrays [], strings "...", numbers, booleans, null
+        const looksLikeJSON = /^[[{"'\-\d]|^(true|false|null)$/.test(field.trim());
+        if (looksLikeJSON) {
+          try {
+            JSON.parse(field);
+          } catch {
+            return { valid: false, reason: `Corrupted JSON in field: ${field.slice(0, 50)}` };
+          }
+        }
+      }
+    }
+    return { valid: true, rows };
+  } catch (err) {
+    return { valid: false, reason: err.message };
+  }
+}
+
+/**
  * convert CSV to array of JSON object
  * @param {object} input - conversion inputs
  * @param {string} input._text - CSV text to be converted to array
@@ -129,42 +129,6 @@ const csvToJson = ({ _text, delimCol = DELIM_COL, ignoreColumnMismatch = false})
   })
 }
 
-// const testString = [
-//   {
-//     a: 1, b: "n1,n2", c: true, d: new Date(),
-//     e: { e1: "Hello \"World\" 1", e2: [1, 2, "4"], tt: () => "22" },
-//     f: "bl,ah = 24\"", g: null
-//   },
-//   {
-//     a: 2, b: "k1,k2", d: new Date(), c: false,
-//     e: { e3: () => [1, 2, "4"] },
-//     f: "bl,aba,\"h = 24\"", h: () => '2', k: "\"2 [\n\\\\\]2\"", m: "dvs\r\n444\"55"
-//     // m: undefined // this will throw an error which is good
-//   }
-// ]
-
-// causing problems ( ", )
-// a,b,c
-// "asd","123",11
-// "a",sd","12,,"3",""\"=".\""3"
-
-// INPUT
-// { "aa": "123 456", "bb": "dvs\r\n444\"55", "cc": "aa\"b,b" }
-
-// OUTPUT
-// aa,bb,cc
-// 123 456,"dvs
-// 444""55","aa""b,b"
-
-// [
-//   { "a": "asd", "b": "123", "c": "11" },
-//   { "a": "a", "b": "sd\"", "c": "12,,\"3", "__parsed_extra": [ "\"\\\"=\".\\\"3" ] }
-// ]
-// { "abc": "11,22,33,\",\"44", "def": 456, "ghi": "hello, world" }
-//
-// abc,def,ghi
-// "11,22,33,"",""44",456,"hello, world" // now how to parse field delimiter
-
 /**
  * Converts an array of fields to a CSV row, escaping values as needed.
  * escape for Excel, Google Sheets, and RFC 4180-compliant parsers
@@ -177,12 +141,12 @@ const arrayToCSVRow = (fields, delimCol = DELIM_COL) =>{
   return fields.map(field => {
     if (field === null || field === undefined) return '';
     if (typeof field === 'object') {
-      const jsonStr = JSON.stringify(field).replace(/"/g, '""');
+      const jsonStr = JSON.stringify(field).replace(/"/g, ESCAPE_CHAR);
       return `"${jsonStr}"`;
     }
     // Wrap any plain string containing commas/quotes/newlines too
     if (typeof field === 'string' && /[",\n]/.test(field)) {
-      return `"${field.replace(/"/g, '""')}"`;
+      return `"${field.replace(/"/g, ESCAPE_CHAR)}"`;
     }
     return field;
   }).join(delimCol);
