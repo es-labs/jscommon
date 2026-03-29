@@ -1,3 +1,6 @@
+// ? set globals here
+// ? caution - avoid name clashes with native JS libraries, other libraries, other globals
+
 import morgan from 'morgan'
 import helmet from 'helmet'
 import cors from 'cors'
@@ -5,13 +8,17 @@ import pathToRegexp from 'path-to-regexp'
 import cookieParser from 'cookie-parser'
 
 const preRoute = (app, express) => {
+  const DEFAULT_STACK_TRACE_LIMIT = 3 // default limit error stack trace to 3 level
   const {
+    STACK_TRACE_LIMIT = DEFAULT_STACK_TRACE_LIMIT,
     ENABLE_LOGGER,
     CORS_OPTIONS, // CORS_ORIGINS no longer in use
     CORS_DEFAULTS,
     HELMET_OPTIONS,
     COOKIE_SECRET = (parseInt(Date.now() / 28800000) * 28800000).toString()
   } = process.env
+
+  Error.stackTraceLimit = Number(STACK_TRACE_LIMIT) || DEFAULT_STACK_TRACE_LIMIT
 
   // ------ LOGGING ------
   if (ENABLE_LOGGER) {
