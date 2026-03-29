@@ -8,17 +8,13 @@ import pathToRegexp from 'path-to-regexp'
 import cookieParser from 'cookie-parser'
 
 const preRoute = (app, express) => {
-  const DEFAULT_STACK_TRACE_LIMIT = 3 // default limit error stack trace to 3 level
   const {
-    STACK_TRACE_LIMIT = DEFAULT_STACK_TRACE_LIMIT,
     ENABLE_LOGGER,
     CORS_OPTIONS, // CORS_ORIGINS no longer in use
     CORS_DEFAULTS,
     HELMET_OPTIONS,
     COOKIE_SECRET = (parseInt(Date.now() / 28800000) * 28800000).toString()
   } = process.env
-
-  Error.stackTraceLimit = Number(STACK_TRACE_LIMIT) || DEFAULT_STACK_TRACE_LIMIT
 
   // ------ LOGGING ------
   if (ENABLE_LOGGER) {
@@ -28,10 +24,10 @@ const preRoute = (app, express) => {
 
   // ------ SECURITY ------
   console.log('helmet setting up')
-  console.table({ HELMET_OPTIONS })
   try {
     const helmetOptions = JSON.parse(HELMET_OPTIONS || null)
     if (helmetOptions) {
+      console.table(helmetOptions)
       if (helmetOptions.nosniff) app.use(helmet.noSniff())
       if (helmetOptions.xssfilter) app.use(helmet.xssFilter())
       if (helmetOptions.hideServer) app.use(helmet.hidePoweredBy())
@@ -39,13 +35,12 @@ const preRoute = (app, express) => {
     }
     // app.use(helmet.noCache())
     // csurf not needed at the moment  
-    console.log('helmet setup done')
   } catch (e) {
     console.error('[helmet setup error]', e.toString());
     throw(new Error())
   }
 
-    // -------- CORS --------
+  // -------- CORS --------
   // Set CORS headers so client is able to communicate with this server
   // Access-Control-Allow-Origin=*
   // Access-Control-Allow-Methods=GET,POST,PUT,PATCH,DELETE,OPTIONS
