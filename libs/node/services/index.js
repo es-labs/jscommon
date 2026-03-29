@@ -1,4 +1,9 @@
-'use strict'
+import StoreKeyV from './db/keyv.js'
+import StoreKnex from './db/knex.js'
+import StoreRedis from './db/redis.js'
+import Wss from './websocket.js'
+// import auth from '../auth/index.js'
+import '../auth/index.js'
 
 let servicesConfig = []
 const services = {}
@@ -7,16 +12,10 @@ const start = async (
   config = JSON.parse(process.env.SERVICES_CONFIG || null) || [], server = null, app = null
 ) => {
   const serviceTypesAvailable = process.env.SERVICES_TYPES_AVAILABLE.split(',')
-  const StoreKeyV = serviceTypesAvailable.includes('keyv') ? require('./db/keyv') : null
-  const StoreKnex = serviceTypesAvailable.includes('knex') ? require('./db/knex') : null
-  const StoreRedis = serviceTypesAvailable.includes('redis') ? require('./db/redis') : null
-  
-  // const agenda = require('./mq/agenda') // TDB new MQ  
+  // const agenda = await import('./mq/agenda.js') // TDB new MQ  
   // only one created
-  // const websocket = require('./websocket')
-  const Wss = serviceTypesAvailable.includes('ws') ? require('./websocket') : null
-  const auth = require('../auth')
-  
+  // const websocket = await import('./websocket.js')
+  // const auth = await import('../auth/index.js')
   try {
     servicesConfig = config
     servicesConfig.forEach(svc => {
@@ -50,9 +49,13 @@ const stop = async () => {
   // console.log('services - stop - end')
 }
 
-module.exports = {
+const get = (service) => services[service]?.get() || null;
+
+const list = () => servicesConfig;
+
+export {
   start,
   stop,
-  get: (service) => services[service]?.get() || null,
-  list: () => servicesConfig
+  get,
+  list
 }

@@ -1,4 +1,8 @@
-'use strict'
+import morgan from 'morgan'
+import helmet from 'helmet'
+import cors from 'cors'
+import pathToRegexp from 'path-to-regexp'
+import cookieParser from 'cookie-parser'
 
 const preRoute = (app, express) => {
   const {
@@ -11,13 +15,11 @@ const preRoute = (app, express) => {
 
   // ------ LOGGING ------
   if (ENABLE_LOGGER) {
-    const morgan = require('morgan')
     app.use(morgan('combined', { stream: process.stdout, skip: (req, res) => res.statusCode < 400 })) // errors
     app.use(morgan('combined', { stream: process.stderr, skip: (req, res) => res.statusCode >= 400 })) // ok
   }
 
   // ------ SECURITY ------
-  const helmet = require('helmet')
   console.log('helmet setting up')
   console.table({ HELMET_OPTIONS })
   try {
@@ -41,7 +43,6 @@ const preRoute = (app, express) => {
   // Access-Control-Allow-Origin=*
   // Access-Control-Allow-Methods=GET,POST,PUT,PATCH,DELETE,OPTIONS
   // Access-Control-Allow-Headers=Content-Type, Authorization
-  const cors = require('cors')
   console.log('cors setting up')
   console.table({ CORS_OPTIONS, CORS_DEFAULTS })
   try {
@@ -75,10 +76,9 @@ const preRoute = (app, express) => {
   // look out for... Unexpected token n in JSON at position 0 ... client request body must match request content-type, if applicaion/json, body cannot be null/undefined
   console.log('bodyparser setting up')
   console.table({ BODYPARSER_RAW_ROUTES, BODYPARSER_JSON, BODYPARSER_URLENCODED })
-  const p2r = require('path-to-regexp')
   try {
     app.use((req, res, next) => {
-      const rawMatch = BODYPARSER_RAW_ROUTES?.split(',')?.find(route => p2r.match(route)(req.originalUrl))
+      const rawMatch = BODYPARSER_RAW_ROUTES?.split(',')?.find(route => pathToRegexp.match(route)(req.originalUrl))
       if (rawMatch) { // raw routes - ignore bodyparser json
         next()
       } else {
@@ -92,11 +92,10 @@ const preRoute = (app, express) => {
   }
   console.info('bodyparser setup done')
 
-  const cookieParser = require('cookie-parser')
   console.log({ COOKIE_SECRET })
   app.use(cookieParser(COOKIE_SECRET))
 
   return this // this is undefined...
 }
 
-module.exports = preRoute
+export default preRoute

@@ -1,5 +1,4 @@
-'use strict'
-const { authFns, createToken, setTokensToHeader } = require('../../../auth/index')
+import { authFns, createToken, setTokensToHeader } from '../../../auth/index.js'
 
 const { AUTH_ERROR_URL } = process.env
 const OAUTH_OPTIONS = JSON.parse(process.env.OAUTH_OPTIONS || null) || {}
@@ -7,7 +6,7 @@ const OAUTH_OPTIONS = JSON.parse(process.env.OAUTH_OPTIONS || null) || {}
 // initiated from browser - window.location.replace('https://github.com/login/oauth/authorize?scope=user:email&client_id=XXXXXXXXXXXXXXXXXXXX')
 
 // /callback
-exports.callbackOAuth = async (req, res) => {
+export const callbackOAuth = async (req, res) => {
   try {
     const { code, state } = req.query
     const result = await fetch(OAUTH_OPTIONS.URL, {

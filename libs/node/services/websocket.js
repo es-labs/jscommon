@@ -1,9 +1,8 @@
-'use strict'
 // https://www.npmjs.com/package/ws
 // NOTE: if --forcedExit --detectOpenHandles in JEST test, will cause error
 // TODO: automated testing for websockets
-const WebSocket = require('ws')
-const https = require('https')
+import WebSocket from 'ws'
+import https from 'https'
 
 // NOSONAR
 // function heartbeat() {
@@ -25,7 +24,7 @@ const https = require('https')
 // let wss = new WSServer({ server })
 // server.on('request', app)
 
-module.exports = class Wss {
+export default class Wss {
   constructor(options = JSON.parse(process.env.WS_OPTIONS || null) || {}) {
     if (!Wss._instance) {
       Wss._instance = this

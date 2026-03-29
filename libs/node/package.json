@@ -15,7 +15,19 @@
     "javscript",
     "commonjs"
   ],
-  "description": "Reusable CJS code",
+  "description": "Reusable library",
+  "type": "module",
+  "exports": {
+    "./auth": "./auth/index.js",
+    "./auth/*": "./auth/*.js",
+    "./comms/*": "./comms/*.js",
+    "./express/controller/auth/*": "./express/controller/auth/*.js",
+    "./express/*": "./express/*.js",
+    "./services": "./services/index.js",
+    "./services/*": "./services/*.js",
+    "./utils/*": "./utils/*.js",
+    "./*": "./*.js"
+  },
   "scripts": {
     "test": "node --test-reporter=spec --experimental-test-coverage --test **/__tests__/*.spec.js",
     "cover": "node --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=lcov.info --test __tests__/**/*.spec.js"
@@ -37,6 +49,7 @@
     "morgan": "^1.10.1",
     "multer": "^2.1.1",
     "otplib": "^13.3.0",
+    "path-to-regexp": "^8.4.0",
     "serve-index": "^1.9.2",
     "web-push": "^3.6.7",
     "ws": "^8.19.0",

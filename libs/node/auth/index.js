@@ -1,11 +1,11 @@
-'use strict'
+import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
+import * as keyv from './keyv.js'
+import * as knex from './knex.js'
+import * as redis from './redis.js'
 
-const otplib = require('otplib')
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
-
-//NOSONAR const uuid = require('uuid/v4')
-//NOSONAR const qrcode = require('qrcode')
+//NOSONAR import uuid from 'uuid/v4'
+//NOSONAR import qrcode from 'qrcode'
 
 //TOREMOVE let COOKIE_HTTPONLY, COOKIE_SAMESITE, COOKIE_SECURE, COOKIE_MAXAGE, COOKIE_DOMAIN,
 //   AUTH_REFRESH_URL, AUTH_USER_FIELD_LOGIN, AUTH_USER_FIELD_PASSWORD, AUTH_USER_FIELD_GAKEY, AUTH_USER_FIELD_ID_FOR_JWT, AUTH_USER_FIELDS_JWT_PAYLOAD,
@@ -35,9 +35,8 @@ const authFns = { // rename to authFns
   revokeRefreshToken: null
 }
 
-const keyv = require('./keyv.js')
-const knex = require('./knex.js')
-const redis = require('./redis.js')
+// const services = (await import('@es-labs/node/services')).default;
+// const authService = (await import('@es-labs/node/auth')).default;
 
 const store = {
   keyv,
@@ -189,7 +188,7 @@ const authRefresh = async (req, res) => { // get refresh token
   }
 }
 
-module.exports = {
+export {
   setup,
   authFns,
   // findUser, updateUser,
@@ -198,8 +197,7 @@ module.exports = {
   setTokensToHeader,
   authUser,
   authRefresh,
-  bcrypt,
-  otplib
+  bcrypt
 }
 
 // do refresh token check from backend ?

@@ -1,5 +1,4 @@
-'use strict'
-// const path = require('path')
+// import path from 'path'
 // path.extname('index.html')
 // returns '.html'
 // req.file / req.files[index]
@@ -14,7 +13,7 @@
 //   size: 110
 // }
 
-const multer = require('multer')
+import multer from 'multer'
 
 const memoryUpload = (options) => multer( Object.assign({
   storage: multer.memoryStorage(),
@@ -43,7 +42,7 @@ const storageUpload = ({ folder, options }) => {
   }, options))
 }
 
-module.exports = {
+export {
   memoryUpload,
   storageUpload,
 }

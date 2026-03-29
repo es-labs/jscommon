@@ -1,11 +1,10 @@
-'use strict'
-
 // own authentication
-const jwt = require('jsonwebtoken')
-const bcrypt = require('bcryptjs')
-const otplib = require('otplib')
+import jwt from 'jsonwebtoken'
+import bcrypt from 'bcryptjs'
+import * as otplib from 'otplib';
+// import { authenticator } from 'otplib/authenticator';
 
-const { getSecret, createToken, setTokensToHeader, authFns } = require('../../../auth')
+import { getSecret, createToken, setTokensToHeader, authFns } from '../../../auth/index.js'
 const {
   COOKIE_HTTPONLY,
   AUTH_USER_FIELD_LOGIN,
@@ -79,7 +78,8 @@ const otp = async (req, res) => { // need to be authentication, body { id: '', p
     const user = await authFns.findUser({ id })
     if (user) {
       const gaKey = user[AUTH_USER_FIELD_GAKEY]
-      if (USE_OTP !== 'TEST' ? otplib.authenticator.check(pin, gaKey) : String(pin) === '111111') { // NOTE: expiry will be determined by authenticator itself
+      // if (USE_OTP !== 'TEST' ? otplib.authenticator.check(pin, gaKey) : String(pin) === '111111') { // NOTE: expiry will be determined by authenticator itself
+      if (USE_OTP !== 'TEST' ? authenticator.check(pin, gaKey) : String(pin) === '111111') { // NOTE: expiry will be determined by authenticator itself
         const tokens = await createToken(user)
         setTokensToHeader(res, tokens)
         return res.status(200).json(tokens)
@@ -92,7 +92,7 @@ const otp = async (req, res) => { // need to be authentication, body { id: '', p
 }
 
 
-module.exports = {
+export {
   logout,
   refresh,
   login,

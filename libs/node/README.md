@@ -20,6 +20,7 @@ Common JS libraries for NodeJS applications
       - bucket (oss)
     - aws:
       - bucket (s3)
+- t4t: table editor
 - utils: various utilities
   - aes: encrypt & decrypt
 - config.js: config loader

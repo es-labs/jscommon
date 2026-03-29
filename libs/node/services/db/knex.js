@@ -1,9 +1,6 @@
-'use strict'
+import Knex from 'knex'
 
-
-const Knex = require('knex')
-
-module.exports = class StoreKnex {
+export default class StoreKnex {
 	constructor(options = JSON.parse(process.env.KNEXFILE || null) || {}) {
     this._KNEXFILE = options
     this._knex = null

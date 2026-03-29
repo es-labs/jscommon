@@ -1,4 +1,4 @@
-module.exports = (signalFn, exceptionFn) => {
+export default (signalFn, exceptionFn) => {
   let defaultExceptionFn = async (e, type) => {
     console.log(type, e.toString())
     // process.emit("SIGTERM") // process.exit(0), process.kill(process.pid, type)
@@ -11,7 +11,7 @@ module.exports = (signalFn, exceptionFn) => {
   if (!signalFn) signalFn = defaultSignalFn
   const signals = ['SIGTERM', 'SIGINT', 'SIGUSR2'] // SIGINT now works on windows
   // if (process.platform === 'win32') {
-  //   require('readline').createInterface({ input: process.stdin, output: process.stdout }).on('SIGINT', () => process.emit('SIGINT'))
+  //   import('readline').then(readline => readline.createInterface({ input: process.stdin, output: process.stdout }).on('SIGINT', () => process.emit('SIGINT')))
   // }
   signals.forEach(type => process.once(type, async () => {
     const exitCode = await signalFn(type)

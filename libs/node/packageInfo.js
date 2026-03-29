@@ -1,6 +1,6 @@
-const packageJson = require('./package.json')
+import packageJson from './package.json' with { type: 'json' };
 
-const { name, version, dependencies } = packageJson
+const { name, version, dependencies } = packageJson;
 
 module.exports = {
   name,

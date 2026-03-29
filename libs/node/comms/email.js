@@ -1,6 +1,5 @@
-'use strict'
+import crypto from 'crypto'
 
-const crypto = require('crypto')
 const { SENDGRID_KEY, SENDGRID_SENDER_NAME, SENDGRID_SENDER_EMAIL, SENDGRID_TEMPLATE_ID, SENDGRID_URL = 'https://api.sendgrid.com/v3/mail/send' } = process.env
 
 // generate random hash to prevent duplicate emails
@@ -43,7 +42,7 @@ const sendMail = async (body) => {
  *
  * @example sendDynamicEmail('user@mail.com', 'Test Email', '<p>Hello world!</p>')
  */
-exports.sendEmail = async (to, subject, content) => {
+export const sendEmail = async (to, subject, content) => {
   try {
     if (!SENDGRID_KEY) throw new Error('SENDGRID_KEY is not defined')
     if (!SENDGRID_SENDER_NAME) throw new Error('SENDGRID_SENDER_NAME is not defined')
@@ -85,7 +84,7 @@ exports.sendEmail = async (to, subject, content) => {
  *
  * @example sendDynamicEmail('user@mail.com', 'Test Email', '<p>Hello world!</p>')
  */
-exports.sendDynamicEmail = async (to, subject, content) => {
+export const sendDynamicEmail = async (to, subject, content) => {
   try {
     if (!SENDGRID_KEY) throw new Error('SENDGRID_KEY is not defined')
     if (!SENDGRID_SENDER_NAME) throw new Error('SENDGRID_SENDER_NAME is not defined')

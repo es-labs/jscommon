@@ -6,9 +6,8 @@
 // res.statusMessage = 200
 // TDB signatureUrlV4 & usage
 
-const OSS = require('ali-oss')
-
-require('dotenv').config() // node --env-file .env
+import 'dotenv/config.js' // node --env-file .env
+import OSS from 'ali-oss'
 
 const { OSS_AK_ID, OSS_AK_SECRET, OSS_REGION, OSS_BUCKET } = process.env
 
@@ -269,12 +268,11 @@ const test = async () => {
 //   } while (nextContinuationToken)
 // }
 // listBucketInventory()
-
-module.exports = {
+export {
   countBucketObjects,
   listObjects,
-  getObject,
   putObject,
+  getObject,
   deleteObjects,
   getSignedUrl,
   getUploadURL

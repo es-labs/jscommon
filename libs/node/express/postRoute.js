@@ -1,4 +1,5 @@
-'use strict'
+import serveIndex from 'serve-index'
+import history from 'connect-history-api-fallback'
 
 const postRoute = (app, express) => {
   let  { UPLOAD_STATIC, WEB_STATIC } = process.env
@@ -6,8 +7,7 @@ const postRoute = (app, express) => {
 
   // Upload URL, Should use Signed URL and get from cloud storage instead
   UPLOAD_STATIC = JSON.parse(UPLOAD_STATIC || null)
-  if (UPLOAD_STATIC) {
-    const serveIndex = require('serve-index') // connect-history-api-fallback causes problems, so do upload first
+  if (UPLOAD_STATIC) {  // connect-history-api-fallback causes problems, so do upload first
 
     UPLOAD_STATIC.forEach(item => {
       const { url, folder, list, listOptions } = item
@@ -22,7 +22,6 @@ const postRoute = (app, express) => {
   WEB_STATIC = JSON.parse(WEB_STATIC || null)
   const hasWebStatic = WEB_STATIC && WEB_STATIC.length
   if (hasWebStatic) {
-    const history = require('connect-history-api-fallback')
     app.use(history()) // causes problems when using postman - set header accept application/json in postman
     WEB_STATIC.forEach(item => {
       app.use(item.url, express.static(item.folder, item.options)) // { extensions: ['html'], index: false }
@@ -32,4 +31,4 @@ const postRoute = (app, express) => {
   return this
 }
 
-module.exports = postRoute
+export default postRoute

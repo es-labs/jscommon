@@ -1,5 +1,3 @@
-'use strict'
-
 // {
 //   port: 6379,
 //   host: '127.0.0.1',
@@ -28,9 +26,9 @@
 //   preferredSlaves: preferredSlaves
 // })
 
-const Redis = require('ioredis')
+import Redis from 'ioredis'
 
-module.exports = class StoreRedis {
+export default class StoreRedis {
 	constructor(options = JSON.parse(process.env.REDIS_CONFIG || null) || {}) {
     this._REDIS_CONFIG = options
     this._redis = null

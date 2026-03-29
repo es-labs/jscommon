@@ -1,6 +1,4 @@
-'use strict'
-
-module.exports = () => {
+export default () => {
   // set globals here
   // caution - avoid name clashes with native JS libraries, other libraries, other globals
 

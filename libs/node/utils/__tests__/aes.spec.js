@@ -1,7 +1,7 @@
-const assert = require('node:assert/strict');
-const { describe, it } = require('node:test');
+import assert from 'node:assert/strict';
+import { describe, it } from 'node:test';
 
-const { genIv, genKey, encryptText, decryptText } = require('../aes');
+import { genIv, genKey, encryptText, decryptText } from '../aes.js';
 
 describe('utils/aes.js', () => {
   const algorithm = 'aes256';

@@ -1,6 +1,5 @@
-'use strict'
-const jwt = require('jsonwebtoken')
-const { createToken, setTokensToHeader } = require('../../../auth/index')
+import jwt from 'jsonwebtoken'
+import { createToken, setTokensToHeader } from '../../../auth/index.js'
 
 const { AUTH_ERROR_URL } = process.env
 const OIDC_OPTIONS = JSON.parse(process.env.OIDC_OPTIONS || null) || {}
@@ -19,7 +18,7 @@ const TOKEN_URL = OIDC_OPTIONS ? `${OIDC_OPTIONS.URL}/token` : ''
 // --data-urlencode 
 
 // GET /login
-exports.login = async (req, res) => {
+export const login = async (req, res) => {
   // &scope=openid%20offline_access // get id token and refresh token
   // &redirect_uri=ourApp%3A%2Fcallback
   // &state=237c671a-29d7-11eb-adc1-0242ac120002
@@ -34,7 +33,7 @@ exports.login = async (req, res) => {
  
 // GET /auth
 // grant_type=authorization_code for now
-exports.auth = async (req, res) => { // callback
+export const auth = async (req, res) => { // callback
   try {
     const { code, session_state } = req.query
     let payload = `grant_type=authorization_code&code=${code}`
@@ -68,7 +67,7 @@ exports.auth = async (req, res) => { // callback
 }
 
 // GET /refresh
-exports.refresh = async (req, res) => {
+export const refresh = async (req, res) => {
   const headers = { 'Content-Type': 'application/x-www-form-urlencoded' }
   const payload = new URLSearchParams()
   payload.append('grant_type', 'refresh_token')

@@ -1,6 +1,10 @@
-'use strict'
-const path = require('path')
-module.exports = async function(app_path) {
+import path from 'path'
+import { readFileSync } from 'fs'
+import { fileURLToPath } from 'url'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+
+export default async function(app_path) {
   process.env.NODE_ENV = process.env.NODE_ENV || '' // development, dev, prd... (development is on local machine)
   const { NODE_ENV, VAULT } = process.env
   if (!NODE_ENV) {
@@ -8,7 +12,9 @@ module.exports = async function(app_path) {
     process.exit(1)
   }
 
-  const { version, name } = require(path.join(app_path, 'package.json'))
+  const packageJsonPath = path.join(app_path, 'package.json')
+  const packageJsonContent = JSON.parse(readFileSync(packageJsonPath, 'utf8'))
+  const { version, name } = packageJsonContent
   process.env.APP_VERSION = version
   process.env.APP_NAME = name
 

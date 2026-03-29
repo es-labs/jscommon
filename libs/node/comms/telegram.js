@@ -1,5 +1,3 @@
-'use strict'
-
 // Setting up webhook: https://api.telegram.org/bot{my_bot_token}/setWebhook?url={url_to_send_updates_to}
 // Querying webhook: https://api.telegram.org/bot{my_bot_token}/getWebhookInfo
 /*
@@ -31,7 +29,7 @@
 
 const { TELEGRAM_API_KEY, TELEGRAM_CHANNEL_ID } = process.env
 
-exports.sendMsg = async (text, chatId = '') => {
+export const sendMsg = async (text, chatId = '') => {
   try {
     // console.log('text, chatId', text, chatId)
     //NOSONAR { id, date, pts, seq }
@@ -42,4 +40,4 @@ exports.sendMsg = async (text, chatId = '') => {
   }
 }
 
-exports.sendChannelMsg = async (text) => await sendMsg(text) // TODEPRECATE
+export const sendChannelMsg = async (text) => await sendMsg(text) // TODEPRECATE

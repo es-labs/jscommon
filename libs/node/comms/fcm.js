@@ -1,6 +1,4 @@
-'use strict'
-
-exports.send = async (to, title, body) => {
+const send = async (to, title, body) => {
   // send firebase push notification
   // console.log('FCM TEST @es-labs/node/fcm.js', to, body, title, key)
   try {
@@ -35,4 +33,8 @@ exports.send = async (to, title, body) => {
     console.error('Firebase Messaging Error', e.toString())
     return null
   }
+}
+
+export {
+  send
 }

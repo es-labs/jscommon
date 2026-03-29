@@ -1,9 +1,8 @@
-'use strict'
 // working SAML ADFS example
 // no refresh token, issue own OAuth2 like JWT server
 
-const { SAML } = require('@node-saml/node-saml')
-const { createToken, setTokensToHeader } = require('../../../auth/index')
+import { SAML } from '@node-saml/node-saml'
+import { createToken, setTokensToHeader } from '../../../auth/index.js'
 
 const { SAML_OPTIONS, SAML_JWT_MAP, SAML_CERTIFICATE, SAML_PRIVATE_KEY, AUTH_ERROR_URL } = process.env
 const samlJwtMap = JSON.parse(SAML_JWT_MAP || null)
@@ -20,7 +19,7 @@ if (samlOptions) {
 const saml = samlOptions ? new SAML(samlOptions) : null
 
 // /login
-exports.login = async (req, res) => {
+export const login = async (req, res) => {
   // return res.redirect('/' + token...) // for faking, bypass real callback
   // console.debug(req.header('referer'), req.query.RelayState)
   // getAuthorizeUrlAsync(RelayState: string, host: string | undefined, options: AuthOptions)
@@ -29,7 +28,7 @@ exports.login = async (req, res) => {
 }
 
 // POST /callback
-exports.auth = async (req, res) => {
+export const auth = async (req, res) => {
   try {
     const parsedResponse = await saml?.validatePostResponseAsync(req.body)
 
@@ -72,3 +71,4 @@ exports.auth = async (req, res) => {
   }
   res.send("ok");
 }
+
