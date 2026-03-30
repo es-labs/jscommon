@@ -9,7 +9,7 @@ let servicesConfig = []
 const services = {}
 
 const start = async (
-  config = JSON.parse(process.env.SERVICES_CONFIG || null) || [], server = null, app = null
+  app, server, config = JSON.parse(process.env.SERVICES_CONFIG || null) || []
 ) => {
   const serviceTypesAvailable = process.env.SERVICES_TYPES_AVAILABLE.split(',')
   try {

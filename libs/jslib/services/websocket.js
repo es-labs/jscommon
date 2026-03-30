@@ -94,6 +94,14 @@ export default class Wss {
         }
         if (app) server.on('request', app)
   
+        // new WebSocketServer({ server }) - no need to handle upgrade event, ws will handle it internally
+        // server.on('upgrade', (req, socket, head) => {
+        //   console.log('WS Upgrade Request Rexeived !!!')
+        //   this._wss.handleUpgrade(req, socket, head, (ws) => {
+        //     this._wss.emit('connection', ws, req);
+        //   });
+        // });
+
         console.log('WS API listening on port ' + this._port)
         if (this._wss) {
           this._wss.on('connection', (ws) => {
