@@ -12,6 +12,10 @@ const start = async (
   config = JSON.parse(process.env.SERVICES_CONFIG || null) || [], server = null, app = null
 ) => {
   const serviceTypesAvailable = process.env.SERVICES_TYPES_AVAILABLE.split(',')
+  // const agenda = await import('./mq/agenda.js') // TDB new MQ  
+  // only one created
+  // const websocket = await import('./websocket.js')
+  // const auth = await import('../auth/index.js')
   try {
     servicesConfig = config
     servicesConfig.forEach(svc => {

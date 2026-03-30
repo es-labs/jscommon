@@ -20,13 +20,6 @@
 - add aliyun OSS service
 - add aws S3 service
 
-### 0.0.55
-- convert to ESM
-- migrated @es-labs/esm into package
-- re-organize folders (iso, web, node)
-- remove express specific code
-
-### 0.0.56
-- further folder reorganization
-- add testing
-- s3/oss handling
+### TODO
+- add testing to...
+- add s3/oss handling

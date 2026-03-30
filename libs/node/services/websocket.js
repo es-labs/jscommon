@@ -1,7 +1,7 @@
 // https://www.npmjs.com/package/ws
 // NOTE: if --forcedExit --detectOpenHandles in JEST test, will cause error
 // TODO: automated testing for websockets
-import WebSocket, { WebSocketServer } from 'ws'
+import WebSocket from 'ws'
 import https from 'https'
 
 // NOSONAR
@@ -87,10 +87,10 @@ export default class Wss {
           if (!server) server = https.createServer({
             key: HTTPS_PRIVATE_KEY, cert: HTTPS_CERTIFICATE
           }).listen(this._port) // use same port, create server because of graphql subscriptions
-          this._wss = new WebSocketServer({ server })
+          this._wss = new WebSocket.Server({ server })
         } else {
-          if (!server) this._wss = new WebSocketServer({ port: this._port }) // use seperate port
-          else this._wss = new WebSocketServer({ server })
+          if (!server) this._wss = new WebSocket.Server({ port: this._port }) // use seperate port
+          else this._wss = new WebSocket.Server({ server })
         }
         if (app) server.on('request', app)
   

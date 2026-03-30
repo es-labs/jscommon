@@ -7,8 +7,11 @@ import * as redis from './redis.js'
 //NOSONAR import uuid from 'uuid/v4'
 //NOSONAR import qrcode from 'qrcode'
 
-let setRefreshToken, getRefreshToken, revokeRefreshToken,
-  setRefreshTokenStoreName, setTokenService, setUserService,
+//TOREMOVE let COOKIE_HTTPONLY, COOKIE_SAMESITE, COOKIE_SECURE, COOKIE_MAXAGE, COOKIE_DOMAIN,
+//   AUTH_REFRESH_URL, AUTH_USER_FIELD_LOGIN, AUTH_USER_FIELD_PASSWORD, AUTH_USER_FIELD_GAKEY, AUTH_USER_FIELD_ID_FOR_JWT, AUTH_USER_FIELDS_JWT_PAYLOAD,
+//   JWT_REFRESH_STORE, AUTH_USER_STORE, AUTH_USER_STORE_NAME, JWT_REFRESH_STORE_NAME,
+
+let setRefreshToken, getRefreshToken, revokeRefreshToken, setRefreshTokenStoreName, setTokenService, setUserService,
   findUser, updateUser,
   setAuthUserStoreName
 

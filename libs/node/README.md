@@ -1,11 +1,7 @@
 ## Description
 
-Shared Javascript ES Module library for Javascript applications (node, express, web, isomorphic)
+Common JS libraries for NodeJS applications
 
-- web
-- node
-- iso
-- express
 - auth: authorization
 - comms:  for communications
 - express: for express JS
