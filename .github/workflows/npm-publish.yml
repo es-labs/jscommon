@@ -7,8 +7,8 @@ on:
     # Inputs the workflow accepts.
     inputs:
       pkg:
-        description: 'Project To Publish (esm or node). Ensure version is updated & tagged'
-        default: 'node'
+        description: 'Project To Publish (jslib, esm or node). Ensure version is updated & tagged'
+        default: 'jslib'
         required: true
       tag:
         description: 'Branch or tag'
