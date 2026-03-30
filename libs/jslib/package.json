@@ -3,19 +3,19 @@
   "version": "0.0.1",
   "author": "Aaron Gong",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/es-labs/jscommon.git"
-  },
-  "bugs": {
-    "url": "https://github.com/es-labs/jscommon/issues"
-  },
-  "homepage": "https://github.com/es-labs/jscommon#readme",
+  "description": "Shareable JS library using ES modules",
   "keywords": [
     "javscript",
     "module"
   ],
-  "description": "Shareable JS library using ES modules",
+  "homepage": "https://github.com/es-labs/jscommon#readme",
+  "bugs": {
+    "url": "https://github.com/es-labs/jscommon/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/es-labs/jscommon.git"
+  },
   "type": "module",
   "exports": {
     "./auth": "./auth/index.js",
@@ -30,6 +30,7 @@
     "./web/*": "./web/*.js",
     "./*": "./*.js"
   },
+  "main": "index.js",
   "scripts": {
     "test": "node --test-reporter=spec --experimental-test-coverage --test **/__tests__/*.spec.js",
     "cover": "node --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=lcov.info --test __tests__/**/*.spec.js"
