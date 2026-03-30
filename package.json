@@ -14,14 +14,16 @@
   "homepage": "https://github.com/es-labs/jscommon#readme",
   "keywords": [
     "nodejs",
-    "esm",
+    "module",
     "common JS"
   ],
   "scripts": {
     "git:hash": "git rev-parse --verify --short HEAD",
     "git:branch": "git rev-parse --abbrev-ref HEAD",
+    "patch:jslib": "npm version patch --workspace=libs/jslib",
     "patch:node": "npm version patch --workspace=libs/node",
     "patch:esm": "npm version patch --workspace=libs/esm",
+    "pub:jslib": "npm publish --access public --workspace=libs/jslib",
     "pub:node": "npm publish --access public --workspace=libs/node",
     "pub:esm": "npm publish --access public --workspace=libs/esm",
     "lint": "eslint . --ext .js",

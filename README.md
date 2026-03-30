@@ -37,8 +37,9 @@ git pull upstream <branch or tag> --no-rebase
 This project contains reusable and shared JS code for use in JS projects.
 
 The following libraries are:
-- [node](libs/node/README.md) - Common JS reusables ![NPM Version](https://img.shields.io/npm/v/%40es-labs%2Fnode)
-- [esm](libs/esm/README.md) - ES Modules reusables ![NPM Version](https://img.shields.io/npm/v/%40es-labs%2Fesm)
+- **Use This** [jslib](libs/jslib/README.md) - Shareable JS using ES modules ![NPM Version](https://img.shields.io/npm/v/%40es-labs%2Fjslib)
+- **Maintenance Mode** [node](libs/node/README.md) - Common JS reusables ![NPM Version](https://img.shields.io/npm/v/%40es-labs%2Fnode)
+- **Maintenance Mode** [esm](libs/esm/README.md) - ES Modules reusables ![NPM Version](https://img.shields.io/npm/v/%40es-labs%2Fesm)
 
 The common tools are:
 - [tools/dbdeploy/README.md]() - deploying a database using the following suppored clients
@@ -70,6 +71,7 @@ npm update --save
 
 ```bash
 # see package.json on more info
+npm run patch:jslib # for libs/jslib
 npm run patch:node # for libs/node
 npm run patch:esm # for libs/esm
 ```
@@ -79,6 +81,7 @@ npm run patch:esm # for libs/esm
 ```bash
 # npm publish --access public --workspace=<workspace>
 # need to use --access public as it is scoped package on free plan
+npm run pub:jslib # for libs/jslib
 npm run pub:node # for libs/node
 npm run pub:esm # for libs/esm
 
