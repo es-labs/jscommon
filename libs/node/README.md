@@ -1,7 +1,10 @@
 ## Description
 
-Common JS libraries for NodeJS applications
+Share JS ESM module library for Javascript applications (node, web, isomorphic)
 
+- web
+- node
+- iso
 - auth: authorization
 - comms:  for communications
 - express: for express JS
