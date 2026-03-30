@@ -1,6 +1,6 @@
 {
   "name": "@es-labs/jslib",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Aaron Gong",
   "license": "MIT",
   "description": "Shareable JS library using ES modules",

@@ -92,7 +92,9 @@ export default class Wss {
           if (!server) this._wss = new WebSocketServer({ port: this._port }) // use seperate port
           else this._wss = new WebSocketServer({ server })
         }
-        if (app) server.on('request', app)
+
+        // This caused header to fire twice
+        // if (app) server.on('request', app)
   
         // new WebSocketServer({ server }) - no need to handle upgrade event, ws will handle it internally
         // server.on('upgrade', (req, socket, head) => {
