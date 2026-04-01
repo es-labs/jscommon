@@ -32,7 +32,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "test": "node --test-reporter=spec --experimental-test-coverage --test **/__tests__/*.spec.js",
+    "test": "node --test-reporter=spec --experimental-test-coverage --test **/__tests__/*.test.js",
     "cover": "node --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=lcov.info --test __tests__/**/*.spec.js"
   },
   "dependencies": {
